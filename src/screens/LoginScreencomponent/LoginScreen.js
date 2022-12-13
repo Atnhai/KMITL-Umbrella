@@ -28,10 +28,13 @@ const styles = StyleSheet.create({
     padding:80
   },
   logos:{
+    borderRadius: 10,
     resizeMode: "cover",
     height: 400,
     width: 300,
-    alignItems: 'center'
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#000000',
   },
   button_color:{
     borderRadius: 10,

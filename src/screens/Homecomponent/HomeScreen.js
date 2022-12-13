@@ -17,9 +17,9 @@ import {
 export default function HomeScreen(){
   return (
     <SafeAreaView >
-    {/* <LoginScreen></LoginScreen>  */}
+    <LoginScreen></LoginScreen> 
     {/* <SigninScreen></SigninScreen>  */}
-    <RegisterScreen></RegisterScreen>
+    {/* <RegisterScreen></RegisterScreen> */}
     </SafeAreaView>
   );
 }
