@@ -1,25 +1,27 @@
 import React , {Component} from 'react'
-import { Text, View,StyleSheet,TouchableOpacity,TextInput } from 'react-native'
+import { Text, View, Image,StyleSheet,TouchableOpacity,TextInput } from 'react-native'
+import Logo from '../../../assets/images/Google.png';
+// import Icon from 'react-native-vector-icons/FontAwesome'
 
 export default class SigninScreen extends Component {
   render() {
     return (
       <View style={styles.root}>
         <TouchableOpacity title="<" style={styles.buttons}>
-        <Text>Back</Text>
+        <Text>{'<'}</Text>
         </TouchableOpacity>
-        <Text style={styles.text}> Welcome back! Glad to see you, Again</Text>
-        <TextInput placeholder=" Enter your email " style={styles.inputlayout}></TextInput>
-        <TextInput placeholder=" Enter your password " style={styles.inputlayout}></TextInput>
-        <Text>Forgot Password?</Text>
+        <Text style={styles.text}>{'\n'}{'\n'} Welcome back! Glad to see you, Again!</Text>
+        <TextInput placeholder=" Enter your email " style={styles.inputlabel}></TextInput>
+        <TextInput placeholder=" Enter your password " style={styles.inputlabel}></TextInput>
+        <Text style={styles.text2}>Forgot Password? {'\n'}</Text>
         <TouchableOpacity style={styles.button2} >
         <Text >Login</Text>
         </TouchableOpacity >
-        <Text>or Login with</Text>
+        <Text>or Login with{'\n'}</Text>
         <TouchableOpacity style={styles.button3} >
-        <Text>google</Text>
+        <Image source={Logo} style={styles.logos} ></Image>
         </TouchableOpacity>
-        <Text>Don't have an account Register Now</Text>
+        <Text>{'\n'}{'\n'}{'\n'}{'\n'}{'\n'}{'\n'}{'\n'}{'\n'}{'\n'}Don't have an account? <Text style={styles.text3}>Register Now {'\n'}</Text></Text>
       </View>
     )
   }
@@ -27,45 +29,86 @@ export default class SigninScreen extends Component {
 const styles = StyleSheet.create({
   root:{
     alignItems:'center',
+    backgroundColor:"#FAC983",
+    // flex: 1,
+    // justifyContent: 'flex-end'
     // padding:100
   },
   buttons:{
-    justifycontent:'center',
-    alignItems:'center',
+    // position: 'relative',
+    // height: 50,
+    position: 'absolute',
+    top: 10,
+    left: 0,
+    borderRadius: 10,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical:12,
-    backgroundColor:"orange",
+    backgroundColor:"white",
     width:50,
     margin:20,
   },
   text:{
-    fontSize:40,
+    fontSize:38,
+    textAlign: 'center',
+    color: 'black',
     fontWeight:"bold"
   },
-  inputlayout:{
-    margin:20,
-    padding:40,
-    width:300,
-    // height:50,
+  text2:{
+    // fontSize:13,
+    // alignSelf: 'flex-start',
+    fontWeight:"bold",
+    left: 110,
+    textAlign: 'right'
+  },
+  text3:{
+    // fontSize:13,
+    // alignSelf: 'flex-start',
+    // left: 110,
+    textAlign: 'center',
+    color: '#35C2C1',
+    fontWeight:"bold"
+  },
+  inputlabel:{
+    borderRadius: 5,
+    margin:10,
+    padding:10,
+    width:320,
+    height:50,
+    position: 'relative',
+    height: 50,
     justifycontent:"center",
     alignItems:"center",
-    backgroundColor:"red"
+    backgroundColor:"white"
   },
   button2:{
+    borderRadius: 10,
     justifycontent:'center',
     alignItems:'center',
     paddingVertical:12,
-    backgroundColor:"orange",
+    textColor: 'black',
+    backgroundColor:"#E35205",
     width:200,
     margin:20,
   },
 
   button3:{
+    borderRadius: 10,
+    position: 'relative',
     justifycontent:'center',
     alignItems:'center',
-    paddingVertical:12,
-    backgroundColor:"grey",
-    width:50,
-    margin:20,
+    paddingVertical:5,
+    backgroundColor:"white",
+    width:60,
+    // height:50,
+    // margin:20,
+  },
+  logos:{
+    resizeMode: "cover",
+    height: 50,
+    width: 50,
+    alignItems: 'center'
   },
 
 })

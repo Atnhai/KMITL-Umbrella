@@ -5,14 +5,14 @@ import Logo from '../../../assets/images/Logo_1.png';
 export default class LoginScreen extends Component {
   render() {
     return (
-      <View>
+      <View style={styles.root}>
         <Image source={Logo} style={styles.logos} ></Image>
-        <Text></Text>
+        <Text>{'\n'}{'\n'}</Text>
         <TouchableOpacity title="Login" style={styles.button_color}>
-        <Text style={styles.text}>Logins</Text>
+        <Text style={styles.text}>Login</Text>
         </TouchableOpacity>
         <Text></Text>
-        <TouchableOpacity  style={styles.button_color} >
+        <TouchableOpacity  style={styles.button_color2} >
         <Text style={styles.text}>Register</Text>
         </TouchableOpacity>
       </View>
@@ -23,24 +23,33 @@ export default class LoginScreen extends Component {
 
 const styles = StyleSheet.create({
   root:{
-    // alignItems:'center',
-    // backgroundColor: ,
-
-    padding:100
+    alignItems:'center',
+    backgroundColor:"#FAC983",
+    padding:80
   },
   logos:{
     resizeMode: "cover",
-    height: 500,
-    width: 400,
+    height: 400,
+    width: 300,
     alignItems: 'center'
   },
   button_color:{
+    borderRadius: 10,
     justifycontent:'center',
     alignItems:'center',
     paddingVertical:12,
-    backgroundColor:"orange",
+    backgroundColor:"#E35205",
     width:300,
-    margin:20,
+    // margin:20,
+  },
+  button_color2:{
+    borderRadius: 10,
+    justifycontent:'center',
+    alignItems:'center',
+    paddingVertical:12,
+    backgroundColor:"white",
+    width:300,
+    // margin:20,
   },
   text:{
     fontsize:56,
