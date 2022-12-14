@@ -8,7 +8,7 @@ export default class RegisterScreen extends Component {
         
       <View style={styles.root}>
          <TouchableOpacity title="<"  style={styles.buttons} >
-         <Text>{'<'}</Text>
+         <Text style={styles.text0}>{'<'}</Text>
         </TouchableOpacity>
         <Text style={styles.text} >{'\n'}{'\n'}Hello! Register to get started</Text>
         <TextInput placeholder=" Username " style={styles.inputlabel} ></TextInput>
@@ -16,13 +16,13 @@ export default class RegisterScreen extends Component {
         <TextInput placeholder=" Password " style={styles.inputlabel}></TextInput>
         <TextInput placeholder=" Confirm password " style={styles.inputlabel}></TextInput>
         <TouchableOpacity style={styles.button2}>
-        <Text >Register</Text>
+        <Text style={styles.text4}>Register</Text>
         </TouchableOpacity >
-        <Text>or Register with{'\n'}</Text>
+        <Text>──────────   or Register with   ────────── {'\n'}</Text>
         <TouchableOpacity style={styles.button3} >
         <Image source={Logo} style={styles.logos} ></Image>
         </TouchableOpacity>
-        <Text>{'\n'}{'\n'}{'\n'}Already have an account?<Text style={styles.text3}> Login Now{'\n'}</Text></Text>
+        <Text>{'\n'}{'\n'}Already have an account?<Text style={styles.text3}> Login Now{'\n'}{'\n'}</Text></Text>
       </View>
     )
   }
@@ -44,14 +44,23 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       paddingVertical:12,
       backgroundColor:"white",
-      width:50,
+      width:30,
       margin:20,
+      },
+      text0:{
+        fontSize:17,
+        // alignSelf: 'flex-start',
+        // left: 110,
+        textAlign: 'center',
+        // color: 'white',
+        fontWeight:"bold"
       },
     text:{
       fontSize:38,
       textAlign: 'center',
       color: 'black',
-      fontWeight:"bold"
+      fontWeight:"bold",
+      // paddingBottom:50,
       },
       text3:{
         // fontSize:13,
@@ -59,6 +68,14 @@ const styles = StyleSheet.create({
         // left: 110,
         textAlign: 'center',
         color: '#35C2C1',
+        fontWeight:"bold"
+      },
+      text4:{
+        fontSize:17,
+        // alignSelf: 'flex-start',
+        // left: 110,
+        textAlign: 'center',
+        color: 'white',
         fontWeight:"bold"
       },
     inputlabel:{
@@ -72,7 +89,7 @@ const styles = StyleSheet.create({
         backgroundColor:"white"
     },
     button2:{
-      borderRadius: 10,
+      borderRadius: 12,
       justifycontent:'center',
       alignItems:'center',
       paddingVertical:12,
@@ -82,7 +99,7 @@ const styles = StyleSheet.create({
       margin:20,
     },
     button3:{
-      borderRadius: 10,
+      borderRadius: 12,
       position: 'relative',
       justifycontent:'center',
       alignItems:'center',
@@ -94,8 +111,8 @@ const styles = StyleSheet.create({
     },
     logos:{
       resizeMode: "cover",
-      height: 50,
-      width: 50,
+      height: 35,
+    width: 35,
       alignItems: 'center'
     },
 

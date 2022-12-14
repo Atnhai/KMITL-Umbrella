@@ -9,7 +9,7 @@ export default class LoginScreen extends Component {
         <Image source={Logo} style={styles.logos} ></Image>
         <Text>{'\n'}{'\n'}</Text>
         <TouchableOpacity title="Login" style={styles.button_color}>
-        <Text style={styles.text}>Login</Text>
+        <Text style={styles.text4}>Login</Text>
         </TouchableOpacity>
         <Text></Text>
         <TouchableOpacity  style={styles.button_color2} >
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     padding:80
   },
   logos:{
-    borderRadius: 10,
+    borderRadius: 20,
     resizeMode: "cover",
     height: 400,
     width: 300,
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     borderColor: '#000000',
   },
   button_color:{
-    borderRadius: 10,
+    borderRadius: 12,
     justifycontent:'center',
     alignItems:'center',
     paddingVertical:12,
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     // margin:20,
   },
   button_color2:{
-    borderRadius: 10,
+    borderRadius:12,
     justifycontent:'center',
     alignItems:'center',
     paddingVertical:12,
@@ -55,9 +55,19 @@ const styles = StyleSheet.create({
     // margin:20,
   },
   text:{
-    fontsize:56,
-    color:''
-  }
+    fontSize:17,
+    fontWeight:"bold",
+    color: 'black',
+    // color:''
+  },
+  text4:{
+    fontSize:17,
+    // alignSelf: 'flex-start',
+    // left: 110,
+    textAlign: 'center',
+    color: 'white',
+    fontWeight:"bold"
+  },
 });
 
 

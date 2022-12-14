@@ -8,20 +8,20 @@ export default class SigninScreen extends Component {
     return (
       <View style={styles.root}>
         <TouchableOpacity title="<" style={styles.buttons}>
-        <Text>{'<'}</Text>
+        <Text style={styles.text0}>{'<'}</Text>
         </TouchableOpacity>
-        <Text style={styles.text}>{'\n'}{'\n'} Welcome back! Glad to see you, Again!</Text>
+        <Text style={styles.text}>{'\n'}{'\n'} Welcome back! Glad to see you, Again!{'\n'}</Text>
         <TextInput placeholder=" Enter your email " style={styles.inputlabel}></TextInput>
         <TextInput placeholder=" Enter your password " style={styles.inputlabel}></TextInput>
         <Text style={styles.text2}>Forgot Password? {'\n'}</Text>
         <TouchableOpacity style={styles.button2} >
-        <Text >Login</Text>
+        <Text style={styles.text4}>Login</Text>
         </TouchableOpacity >
-        <Text>or Login with{'\n'}</Text>
+        <Text>──────────   or Login with   ────────── {'\n'}</Text>
         <TouchableOpacity style={styles.button3} >
         <Image source={Logo} style={styles.logos} ></Image>
         </TouchableOpacity>
-        <Text>{'\n'}{'\n'}{'\n'}{'\n'}{'\n'}{'\n'}{'\n'}{'\n'}{'\n'}Don't have an account? <Text style={styles.text3}>Register Now {'\n'}</Text></Text>
+        <Text>{'\n'}{'\n'}{'\n'}{'\n'}{'\n'}Don't have an account? <Text style={styles.text3}>Register Now {'\n'}{'\n'}</Text></Text>
       </View>
     )
   }
@@ -46,8 +46,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical:12,
     backgroundColor:"white",
-    width:50,
+    width:30,
     margin:20,
+  },
+  text0:{
+    fontSize:17,
+    // alignSelf: 'flex-start',
+    // left: 110,
+    textAlign: 'center',
+    // color: 'white',
+    fontWeight:"bold"
   },
   text:{
     fontSize:38,
@@ -70,6 +78,14 @@ const styles = StyleSheet.create({
     color: '#35C2C1',
     fontWeight:"bold"
   },
+  text4:{
+    fontSize:17,
+    // alignSelf: 'flex-start',
+    // left: 110,
+    textAlign: 'center',
+    color: 'white',
+    fontWeight:"bold"
+  },
   inputlabel:{
     borderRadius: 5,
     margin:10,
@@ -83,7 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor:"white"
   },
   button2:{
-    borderRadius: 10,
+    borderRadius: 12,
     justifycontent:'center',
     alignItems:'center',
     paddingVertical:12,
@@ -94,7 +110,7 @@ const styles = StyleSheet.create({
   },
 
   button3:{
-    borderRadius: 10,
+    borderRadius: 12,
     position: 'relative',
     justifycontent:'center',
     alignItems:'center',
@@ -106,8 +122,8 @@ const styles = StyleSheet.create({
   },
   logos:{
     resizeMode: "cover",
-    height: 50,
-    width: 50,
+    height: 35,
+    width: 35,
     alignItems: 'center'
   },
 
