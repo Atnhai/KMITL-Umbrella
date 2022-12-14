@@ -1,23 +1,31 @@
 import React ,{Component} from 'react';
-import { Text, View , Image , StyleSheet, Button , Pressable , TouchableOpacity} from 'react-native';
+import { Text, View , Image , StyleSheet, Button , Pressable , TouchableOpacity ,Alert} from 'react-native';
 import Logo from '../../../assets/images/Logo_1.png';
+import { useNavigation } from '@react-navigation/native';
+
+
 
 export default class LoginScreen extends Component {
+  // const navigation =  useNavigation();
+  
+  onLoginPressed = () => {
+  navigation.navigate('Signin');
+  }
   render() {
     return (
       <View style={styles.root}>
         <Image source={Logo} style={styles.logos} ></Image>
         <Text>{'\n'}{'\n'}</Text>
-        <TouchableOpacity title="Login" style={styles.button_color}>
+        <TouchableOpacity title="Login" style={styles.button_login} onPress={this.onLoginPressed}>
         <Text style={styles.text4}>Login</Text>
         </TouchableOpacity>
         <Text></Text>
-        <TouchableOpacity  style={styles.button_color2} >
+        <TouchableOpacity  style={styles.button_register} >
         <Text style={styles.text}>Register</Text>
         </TouchableOpacity>
       </View>
     )
-  }
+  };
 }
 
 
@@ -36,7 +44,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#000000',
   },
-  button_color:{
+  button_login:{
     borderRadius: 12,
     justifycontent:'center',
     alignItems:'center',
@@ -45,7 +53,7 @@ const styles = StyleSheet.create({
     width:300,
     // margin:20,
   },
-  button_color2:{
+  button_register:{
     borderRadius:12,
     justifycontent:'center',
     alignItems:'center',

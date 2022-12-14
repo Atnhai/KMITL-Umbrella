@@ -15,6 +15,12 @@ public class MainActivity extends ReactActivity {
     return "teamapp";
   }
 
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+  // Make sure your import android.os.Bundle
+  super.onCreate(null);
+  }
+
   /**
    * Returns the instance of the {@link ReactActivityDelegate}. There the RootView is created and
    * you can specify the renderer you wish to use - the new renderer (Fabric) or the old renderer
