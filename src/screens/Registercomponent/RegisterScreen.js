@@ -45,7 +45,7 @@ export default function RegisterScreen({navigation}) {
         <Text style={styles.text0}>{'<'}</Text>
       </TouchableOpacity>
       <Text style={styles.text}>
-        {'\n'}
+        
         {'\n'}Hello! Register to get started
       </Text>
       <TextInput
@@ -79,7 +79,7 @@ export default function RegisterScreen({navigation}) {
         <Image source={Logo} style={styles.logos}></Image>
       </TouchableOpacity>
       <Text>
-        {'\n'}
+        
         {'\n'}Already have an account?
         <Text style={styles.text3}>
           {' '}

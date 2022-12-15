@@ -51,7 +51,7 @@ export default function SigninScreen({navigation}) {
       </TouchableOpacity>
 
       <Text style={styles.text}>
-        {'\n'}
+        
         {'\n'} Welcome back! Glad to see you, Again!{'\n'}
       </Text>
 

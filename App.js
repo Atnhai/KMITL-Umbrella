@@ -32,6 +32,7 @@ const App: () => Node = () => {
     //   {/* <Navigation> </Navigation> */}
     //   {/* <ProfileScreen></ProfileScreen> */}
     //   {/* <MapScreen></MapScreen> */}
+    //   <ProfileScreen></ProfileScreen>
     // </SafeAreaView>
   );
 };

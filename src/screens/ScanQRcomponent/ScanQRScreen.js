@@ -1,39 +1,59 @@
-import React, {Component} from 'react';
-import {
-  Text,
-  View,
-  Image,
-  StyleSheet,
-  Button,
-  Pressable,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
-import Logo from '../../../assets/images/Logo_1.png';
-import {useNavigation} from '@react-navigation/native';
+import * as React from 'react';
+
+import {StyleSheet, Text} from 'react-native';
+import {useCameraDevices} from 'react-native-vision-camera';
+import {Camera} from 'react-native-vision-camera';
+import {useScanBarcodes, BarcodeFormat} from 'vision-camera-code-scanner';
 
 export default function ScanQRScreen({navigation}) {
-  // const navigation =  useNavigation();
+  const [hasPermission, setHasPermission] = React.useState(false);
+  const devices = useCameraDevices();
+  const device = devices.back;
 
-  // onLoginPressed = () => {
-  // navigation.navigate('Signin');
-  //   };
+  const [frameProcessor, barcodes] = useScanBarcodes([BarcodeFormat.QR_CODE], {
+    checkInverted: true,
+  });
+
+  // Alternatively you can use the underlying function:
+  //
+  // const frameProcessor = useFrameProcessor((frame) => {
+  //   'worklet';
+  //   const detectedBarcodes = scanBarcodes(frame, [BarcodeFormat.QR_CODE], { checkInverted: true });
+  //   runOnJS(setBarcodes)(detectedBarcodes);
+  // }, []);
+
+  React.useEffect(() => {
+    (async () => {
+      const status = await Camera.requestCameraPermission();
+      setHasPermission(status === 'authorized');
+    })();
+  }, []);
+
   return (
-    <View style={styles.views}>
-      <Text
-      //   onPress={() => navigation.navigate('main')}
-      >
-        Peem test this is Scan QR
-      </Text>
-    </View>
+    device != null &&
+    hasPermission && (
+      <>
+        <Camera
+          style={StyleSheet.absoluteFill}
+          device={device}
+          isActive={true}
+          frameProcessor={frameProcessor}
+          frameProcessorFps={5}
+        />
+        {barcodes.map((barcode, idx) => (
+          <Text key={idx} style={styles.barcodeTextURL}>
+            {barcode.displayValue}
+          </Text>
+        ))}
+      </>
+    )
   );
 }
 
 const styles = StyleSheet.create({
-  views: {
-    alignItems: 'center',
-    backgroundColor: '#FAC983',
-    padding: 80,
-    justifyContent: 'center',
+  barcodeTextURL: {
+    fontSize: 20,
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
