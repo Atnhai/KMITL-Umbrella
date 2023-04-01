@@ -1,4 +1,2 @@
-��#� �t�e�a�m�a�p�p�
-�
-�
-npx react-native run-android
+Open terminal in vs code (after opening the project in vs code)
+Run command : npx react-native run-android
