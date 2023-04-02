@@ -12,6 +12,7 @@ import {useState} from 'react';
 // import {auth} from '../../../firebase';
 import {authentication} from '../../../firebase';
 import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {Link} from '@react-navigation/native';
 
 export default function RegisterScreen({navigation}) {
   const [username, setUsername] = useState('');
@@ -44,10 +45,7 @@ export default function RegisterScreen({navigation}) {
         onPress={() => navigation.navigate('Login')}>
         <Text style={styles.text0}>{'<'}</Text>
       </TouchableOpacity>
-      <Text style={styles.text}>
-        
-        {'\n'}Hello! Register to get started
-      </Text>
+      <Text style={styles.text}>{'\n'}Hello! Register to get started</Text>
       <TextInput
         placeholder=" Username "
         style={styles.inputlabel}
@@ -79,13 +77,12 @@ export default function RegisterScreen({navigation}) {
         <Image source={Logo} style={styles.logos}></Image>
       </TouchableOpacity>
       <Text>
-        
         {'\n'}Already have an account?
-        <Text style={styles.text3}>
+        <Link to={{screen: 'Signin'}} style={styles.text3}>
           {' '}
           Login Now{'\n'}
           {'\n'}
-        </Text>
+        </Link>
       </Text>
     </View>
   );
@@ -120,10 +117,10 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 38,
-    textAlign: 'center',
+    textAlign: 'left',
     color: 'black',
     fontWeight: 'bold',
-    // paddingBottom:50,
+    paddingLeft: 30,
   },
   text3: {
     // fontSize:13,
@@ -158,7 +155,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     textColor: 'black',
     backgroundColor: '#E35205',
-    width: 200,
+    width: 320,
     margin: 20,
   },
   button3: {

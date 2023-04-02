@@ -14,15 +14,11 @@ import Logo from '../../../assets/images/search.png';
 import {useNavigation} from '@react-navigation/native';
 import {Searchbar} from 'react-native-paper';
 export default function MapScreen({navigation}) {
-  // const navigation =  useNavigation();
-
-  // onLoginPressed = () => {
-  // navigation.navigate('Signin');
-  //   };
   return (
     <View style={styles.views}>
       <Searchbar placeholder="Search" style={styles.search}></Searchbar>
       <Text style={styles.text1}>10 KM </Text>
+      <Text style={styles.text2}>10 minutes </Text>
     </View>
   );
 }
@@ -39,12 +35,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   text1: {
-    fontsize: 10,
+    fontsize: 20,
     fontWeight: 'bold',
     padding: 50,
     position: 'absolute',
     top: 70,
-    left: 10,
+    left: 5,
+  },
+  text2: {
+    fontsize: 20,
+    fontWeight: 'bold',
+    padding: 50,
+    position: 'absolute',
+    top: 70,
+    right: 5,
   },
   search: {
     //right: 100,

@@ -1,4 +1,9 @@
-import {onAuthStateChanged, signInWithEmailAndPassword} from 'firebase/auth';
+import {Link} from '@react-navigation/native';
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from 'firebase/auth';
 import React, {Component} from 'react';
 import {useEffect} from 'react';
 import {useState} from 'react';
@@ -12,20 +17,10 @@ import {
 } from 'react-native';
 import Logo from '../../../assets/images/Google.png';
 import {authentication} from '../../../firebase';
-// import Icon from 'react-native-vector-icons/FontAwesome'
 
 export default function SigninScreen({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(user => {
-  //     if (user) {
-  //       navigation.navigate('Main');
-  //     }
-  //   });
-  //   return unsubscribe;
-  // }, []);
 
   const handleLogin = () => {
     signInWithEmailAndPassword(authentication, email, password)
@@ -46,13 +41,12 @@ export default function SigninScreen({navigation}) {
 
       <TouchableOpacity
         style={styles.buttons}
-        onPress={() => navigation.navigate('Login')}>
+        onPress={() => navigation.goBack()}>
         <Text style={styles.text0}>{'<'}</Text>
       </TouchableOpacity>
 
       <Text style={styles.text}>
-        
-        {'\n'} Welcome back! Glad to see you, Again!{'\n'}
+        {'\n'}Welcome back! Glad to see you, Again!{'\n'}
       </Text>
 
       <TextInput
@@ -68,7 +62,9 @@ export default function SigninScreen({navigation}) {
         onChangeText={text => setPassword(text)}
         secureTextEntry></TextInput>
 
-      <Text style={styles.text2}>Forgot Password? {'\n'}</Text>
+      <Link to={{screen: 'Forgetpassword'}} style={styles.text2}>
+        Forgot Password? {'\n'}
+      </Link>
 
       <TouchableOpacity
         style={styles.button2}
@@ -92,10 +88,10 @@ export default function SigninScreen({navigation}) {
         {'\n'}
         {'\n'}
         {'\n'}Don't have an account?{' '}
-        <Text style={styles.text3}>
+        <Link to={{screen: 'Register'}} style={styles.text3}>
           Register Now {'\n'}
           {'\n'}
-        </Text>
+        </Link>
       </Text>
     </View>
   );
@@ -133,15 +129,16 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 38,
-    textAlign: 'center',
+    textAlign: 'left',
     color: 'black',
     fontWeight: 'bold',
+    paddingLeft: 30,
   },
   text2: {
     // fontSize:13,
     // alignSelf: 'flex-start',
     fontWeight: 'bold',
-    left: 110,
+    left: 102,
     textAlign: 'right',
   },
   text3: {
@@ -179,7 +176,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     textColor: 'black',
     backgroundColor: '#E35205',
-    width: 200,
+    width: 300,
     margin: 20,
   },
 

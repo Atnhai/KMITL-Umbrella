@@ -11,6 +11,11 @@ import MainScreen from './src/screens/Maincomponent';
 import MapScreen from './src/screens/Mapcomponent';
 import ScanQRScreen from './src/screens/ScanQRcomponent';
 import ProfileScreen from './src/screens/Profilecomponent';
+import HelpScreen from './src/screens/Helpcomponent';
+import AboutusScreen from './src/screens/Aboutuscomponent';
+import HistoryScreen from './src/screens/Historycomponent';
+import ForgetpasswordScreen from './src/screens/Forgetpasswordcomponent/ForgetpasswordScreen';
+
 //  const {Navigator,screen} = createStackNavigator();
 // const Stack =createStackNavigator();
 const Stack = createNativeStackNavigator();
@@ -25,6 +30,10 @@ const App: () => Node = () => {
         <Stack.Screen name="Map" component={MapScreen} />
         <Stack.Screen name="Scan" component={ScanQRScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="Help" component={HelpScreen} />
+        <Stack.Screen name="Aboutus" component={AboutusScreen} />
+        <Stack.Screen name="History" component={HistoryScreen} />
+        <Stack.Screen name="Forgetpassword" component={ForgetpasswordScreen} />
       </Stack.Navigator>
     </NavigationContainer>
 

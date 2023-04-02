@@ -20,6 +20,7 @@ import go from '../../../assets/images/go.png';
 import setting from '../../../assets/images/setting.png';
 import {useNavigation} from '@react-navigation/native';
 import {Ionic} from 'react-native-vector-icons/Ionicons';
+import HelpScreen from '../Helpcomponent';
 
 export default function ProfileScreen({navigation}) {
   //   const iconName = 'human';
@@ -40,11 +41,35 @@ export default function ProfileScreen({navigation}) {
       </Text>
       <Text style={styles.texts1}>Email:****************** </Text>
 
-      <TouchableOpacity style={styles.buttons}>
+      <TouchableOpacity
+        style={styles.buttons}
+        onPress={() => navigation.navigate('History')}>
         <Text style={styles.texts2}>
           {' '}
-          <Image source={Logo} style={styles.logos1}></Image>         History {'\t'}
-          {'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}
+          <Image source={Logo} style={styles.logos1}></Image> History {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
           <Text style={styles.space}></Text>
           <Image source={go} style={styles.go}></Image>{' '}
         </Text>
@@ -53,32 +78,98 @@ export default function ProfileScreen({navigation}) {
       <TouchableOpacity style={styles.buttons}>
         <Text style={styles.texts2}>
           {' '}
-          <Image source={editcards} style={styles.editcards}></Image>        Edit bank
-          Account 
-          {'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}
+          <Image source={editcards} style={styles.editcards}></Image> Edit bank
+          Account
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
           <Image source={go} style={styles.go}></Image>
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttons}>
+      <TouchableOpacity
+        style={styles.buttons}
+        onPress={() => navigation.navigate('Help')}>
         <Text style={styles.texts2}>
           {' '}
-          <Image source={help} style={styles.help}></Image>         Help{' '}
-          {'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}
+          <Image source={help} style={styles.help}></Image> Help {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
           <Image source={go} style={styles.go}></Image>
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttons}>
+      <TouchableOpacity
+        style={styles.buttons}
+        onPress={() => navigation.navigate('Aboutus')}>
         <Text style={styles.texts2}>
           {' '}
-          <Image source={aboutus} style={styles.aboutus}></Image>        About us{' '}
-          {'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}
+          <Image source={aboutus} style={styles.aboutus}></Image> About us{' '}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
           <Image source={go} style={styles.go}></Image>{' '}
         </Text>
       </TouchableOpacity>
       <Text style={styles.texts}></Text>
-      <TouchableOpacity style={styles.button_logout}>
+      <TouchableOpacity
+        style={styles.button_logout}
+        onPress={() => navigation.navigate('Login')}>
         <Text style={styles.text4}>Log out</Text>
       </TouchableOpacity>
       <Text style={styles.texts}>
