@@ -10,6 +10,7 @@ import MainScreen from '../screens/Maincomponent';
 import MapScreen from '../screens/Mapcomponent';
 import ScanQRScreen from '../screens/ScanQRcomponent';
 import ProfileScreen from '../screens/Profilecomponent';
+import HistoryScreen from '../screens/Historycomponent';
 
 const Stack = createNativeStackNavigator();
 
