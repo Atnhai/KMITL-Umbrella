@@ -1,76 +1,189 @@
-import React, {Component} from 'react';
-import {
-  Text,
-  View,
-  Image,
-  StyleSheet,
-  Button,
-  Pressable,
-  TouchableOpacity,
-  Alert,
-  TextInput,
-} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {Searchbar} from 'react-native-paper';
+import React from 'react';
+import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
 
-export default function HistoryScreen({navigation}) {
+const historyData = [
+  { 
+    id: 1,
+    place: 'ABC Restaurant',
+    date: 'March 2023',
+    time: '7:00 PM',
+    number: '2 persons',
+    price: '$50',
+    //image: require('./images/history_image_1.png')
+  },
+  { 
+    id: 2,
+    place: 'XYZ Cafe',
+    date: 'February 2023',
+    time: '2:00 PM',
+    number: '1 person',
+    price: '$15',
+    //image: require('./images/history_image_2.png')
+  },
+  { 
+    id: 2,
+    place: 'XYZ Cafe',
+    date: 'February 2023',
+    time: '2:00 PM',
+    number: '1 person',
+    price: '$15',
+    //image: require('./images/history_image_2.png')
+  },
+  { 
+    id: 2,
+    place: 'XYZ Cafe',
+    date: 'February 2023',
+    time: '2:00 PM',
+    number: '1 person',
+    price: '$15',
+    //image: require('./images/history_image_2.png')
+  },
+  { 
+    id: 2,
+    place: 'XYZ Cafe',
+    date: 'February 2023',
+    time: '2:00 PM',
+    number: '1 person',
+    price: '$15',
+    //image: require('./images/history_image_2.png')
+  },
+  { 
+    id: 2,
+    place: 'XYZ Cafe',
+    date: 'February 2023',
+    time: '2:00 PM',
+    number: '1 person',
+    price: '$15',
+    //image: require('./images/history_image_2.png')
+  },
+  { 
+    id: 2,
+    place: 'XYZ Cafe',
+    date: 'February 2023',
+    time: '2:00 PM',
+    number: '1 person',
+    price: '$15',
+    //image: require('./images/history_image_2.png')
+  },
+  { 
+    id: 2,
+    place: 'XYZ Cafe',
+    date: 'February 2023',
+    time: '2:00 PM',
+    number: '1 person',
+    price: '$15',
+    //image: require('./images/history_image_2.png')
+  },
+  { 
+    id: 2,
+    place: 'XYZ Cafe',
+    date: 'February 2023',
+    time: '2:00 PM',
+    number: '1 person',
+    price: '$15',
+    //image: require('./images/history_image_2.png')
+  },
+  { 
+    id: 2,
+    place: 'XYZ Cafe',
+    date: 'February 2023',
+    time: '2:00 PM',
+    number: '1 person',
+    price: '$15',
+    //image: require('./images/history_image_2.png')
+  },
+  // Add more data here...
+];
+
+const HistoryPage = () => {
   return (
-    <View style={styles.views}>
-      <View style={styles.rectangle} />
-      <TouchableOpacity
-        style={styles.buttons}
-        onPress={() => navigation.goBack()}>
-        <Text style={styles.text0}>{'<'}</Text>
-      </TouchableOpacity>
-      <Text style={styles.text1}>Back</Text>
-      <Text>Hi This is History Screen</Text>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.backButton}>Back</Text>
+        <View style={{ width: 80 }}></View> {/* empty view to center the title */}
+      </View>
+      <ScrollView>
+        {historyData.slice().reverse().map((item) => (
+          <View style={styles.historyItem} key={item.id}>
+            <Image source={item.image} style={styles.image} />
+            <View style={styles.infoContainer}>
+              <View style={styles.infoBox}>
+                <Text style={styles.place}>{item.place}</Text>
+                <Text style={styles.date}>{item.date}</Text>
+                <Text style={styles.time}>{item.time}</Text>
+              </View>
+              <View style={styles.infoBox}>
+                <Text style={styles.number}>{item.number}</Text>
+                <Text style={styles.price}>{item.price}</Text>
+              </View>
+            </View>
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  buttons: {
-    // position: 'relative',
-    // height: 50,
-    position: 'absolute',
-    top: 5,
-    left: 0,
-    borderRadius: 10,
-    textAlign: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // paddingVertical: 12,
-    backgroundColor: 'white',
-    margin: 20,
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
   },
-  text0: {
-    fontsize: 20,
-    fontWeight: 'bold',
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: '#f2f2f2',
     padding: 10,
   },
-  rectangle: {
-    position: 'absolute',
-    top: 0,
-    borderBottomRightRadius: 80,
-    width: 410,
-    height: 80,
-    marginBottom: 20,
-    backgroundColor: '#E35205',
-  },
-  views: {
-    alignItems: 'center',
-    backgroundColor: '#FAC983',
-    padding: 80,
-    justifyContent: 'center',
-    flex: 1,
-  },
-  text1: {
+  title: {
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  backButton: {
+    color: '#333',
+  },
+  historyItem: {
+    flexDirection: 'row',
     padding: 10,
-    paddingLeft: 30,
-    position: 'absolute',
-    top: 20,
-    left: 40,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f2f2f2',
+  },
+  image: {
+    width: 80,
+    height: 80,
+    marginRight: 10,
+  },
+  infoContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  infoBox: {
+    flex: 1,
+  },
+  place: {
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  date: {
+    marginTop: 5,
+    fontSize: 16,
+  },
+  time: {
+    marginTop: 5,
+    fontSize: 16,
+  },
+  number: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  price: {
+    marginTop: 5,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
+
+export default HistoryPage;
+

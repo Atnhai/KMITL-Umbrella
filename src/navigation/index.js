@@ -1,16 +1,16 @@
-// import {View, Text} from 'react-native';
-// import React from 'react';
-// import {NavigationContainer} from '@react-navigation/native';
-// import {createNativeStackNavigator} from '@react-navigation/native-stack';
-// import LoginScreen from '../screens/LoginScreencomponent';
-// import SigninScreen from '../screens/SigninScreencomponent';
-// import RegisterScreen from '../screens/Registercomponent';
-// import HomeScreen from '../screens/Homecomponent';
-// import MainScreen from '../screens/Maincomponent';
-// import MapScreen from '../screens/Mapcomponent';
-// import ScanQRScreen from '../screens/ScanQRcomponent';
-// import ProfileScreen from '../screens/Profilecomponent';
-// import HelpScreen from '../screens/Helpcomponent';
+import {View, Text} from 'react-native';
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import LoginScreen from '../screens/LoginScreencomponent';
+import SigninScreen from '../screens/SigninScreencomponent';
+import RegisterScreen from '../screens/Registercomponent';
+import HomeScreen from '../screens/Homecomponent';
+import MainScreen from '../screens/Maincomponent';
+import MapScreen from '../screens/Mapcomponent';
+import ScanQRScreen from '../screens/ScanQRcomponent';
+import ProfileScreen from '../screens/Profilecomponent';
+import HistoryScreen from '../screens/Historycomponent';
 
 // const Stack = createNativeStackNavigator();
 
