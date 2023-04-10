@@ -3,6 +3,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signInAnonymously,
 } from 'firebase/auth';
 import React, {Component} from 'react';
 import {useEffect} from 'react';
@@ -16,11 +17,12 @@ import {
   TextInput,
 } from 'react-native';
 import Logo from '../../../assets/images/Google.png';
-import {authentication} from '../../../firebase';
-
+import {authentication, provider} from '../../../firebase';
+import Ionic from 'react-native-vector-icons/Ionicons';
 export default function SigninScreen({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const anonymous = 'person';
 
   const handleLogin = () => {
     signInWithEmailAndPassword(authentication, email, password)
@@ -77,12 +79,11 @@ export default function SigninScreen({navigation}) {
         <Text style={styles.text4}>Login</Text>
       </TouchableOpacity>
 
-      <Text>────────── or Login with ────────── {'\n'}</Text>
-
-      <TouchableOpacity style={styles.button3}>
-        <Image source={Logo} style={styles.logos}></Image>
-      </TouchableOpacity>
       <Text>
+        {'\n'}
+        {'\n'}
+        {'\n'}
+        {'\n'}
         {'\n'}
         {'\n'}
         {'\n'}
@@ -192,9 +193,11 @@ const styles = StyleSheet.create({
     // margin:20,
   },
   logos: {
-    resizeMode: 'cover',
+    // resizeMode: 'cover',
     height: 35,
     width: 35,
     alignItems: 'center',
+    fontSize: 30,
+    paddingLeft: 3.5,
   },
 });

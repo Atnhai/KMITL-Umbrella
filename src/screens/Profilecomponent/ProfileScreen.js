@@ -10,7 +10,7 @@ import {
   Alert,
   SafeAreaView,
 } from 'react-native';
-
+import {authentication} from '../../../firebase';
 import Logo from '../../../assets/images/history.png';
 import editcards from '../../../assets/images/editcards.png';
 import help from '../../../assets/images/help.png';
@@ -23,10 +23,24 @@ import {Ionic} from 'react-native-vector-icons/Ionicons';
 import HelpScreen from '../Helpcomponent';
 
 export default function ProfileScreen({navigation}) {
-  //   const iconName = 'human';
+  // const rendercheckanonymous = () => {
+  //   if (!authentication.currentUser.isAnonymous) {
+  //     return (
+  //       <View>
+  //         <View style={styles.rectangle} />
+  //       </View>
+  //     );
+  //   } else {
+  //     return (
+  //       <View>
+  //         <Text>You are signed in anonymously</Text>
+  //       </View>
+  //     );
+  //   }
+  // };
   return (
     <View style={styles.views}>
-      {/* <Ionic name={iconName}></Ionic> */}
+      {/* {rendercheckanonymous()} */}
       <View style={styles.rectangle} />
       <Image source={user} style={styles.user}></Image>
       <Image source={setting} style={styles.setting}></Image>
@@ -36,10 +50,11 @@ export default function ProfileScreen({navigation}) {
         {'\n'}
         {'\n'}
         {'\n'}
-        {'\n'}
-        {'\n'}Username:**************
+        username:**********
       </Text>
-      <Text style={styles.texts1}>Email:****************** </Text>
+      <Text style={styles.texts1}>
+        Email:{authentication.currentUser.email}{' '}
+      </Text>
 
       <TouchableOpacity
         style={styles.buttons}
@@ -72,30 +87,6 @@ export default function ProfileScreen({navigation}) {
           {'\t'}
           <Text style={styles.space}></Text>
           <Image source={go} style={styles.go}></Image>{' '}
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.buttons}>
-        <Text style={styles.texts2}>
-          {' '}
-          <Image source={editcards} style={styles.editcards}></Image> Edit bank
-          Account
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          <Image source={go} style={styles.go}></Image>
         </Text>
       </TouchableOpacity>
 

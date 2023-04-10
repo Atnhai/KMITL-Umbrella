@@ -13,9 +13,25 @@ import {
 import {Link, useNavigation} from '@react-navigation/native';
 import {Searchbar} from 'react-native-paper';
 import {useState} from 'react';
+import {sendPasswordResetEmail} from 'firebase/auth';
+import {authentication} from '../../../firebase';
 
 export default function ForgetpasswordScreen({navigation}) {
   const [email, setEmail] = useState('');
+
+  const resetPassword = () => {
+    if (email != null) {
+      sendPasswordResetEmail(authentication, email)
+        .then(() => {
+          alert('password have sent to your email');
+        })
+        .catch(error => {
+          const errorcode = error.code;
+          const errorMessage = error.message;
+          // alert(errorMessage);
+        });
+    }
+  };
   return (
     <View style={styles.root}>
       <Text style={styles.text}></Text>
@@ -35,7 +51,7 @@ export default function ForgetpasswordScreen({navigation}) {
         style={styles.inputlabel}
         value={email}
         onChangeText={text => setEmail(text)}></TextInput>
-      <TouchableOpacity style={styles.button2}>
+      <TouchableOpacity style={styles.button2} onPress={resetPassword()}>
         <Text style={styles.text4}>Send Code</Text>
       </TouchableOpacity>
       <Text>
@@ -54,7 +70,7 @@ export default function ForgetpasswordScreen({navigation}) {
         {'\n'}
         {'\n'}
         {'\n'}
-        {'\n'}   
+        {'\n'}
         {'\n'}Remember Password?
         <Link to={{screen: 'Signin'}} style={styles.text3}>
           {' '}
@@ -82,10 +98,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   text1: {
-  fontSize: 17,
-  color: 'grey',
-  paddingLeft:11,
-  paddingRight:4,
+    fontSize: 17,
+    color: 'grey',
+    paddingLeft: 11,
+    paddingRight: 4,
   },
   text: {
     fontSize: 38,
@@ -135,7 +151,7 @@ const styles = StyleSheet.create({
   },
   inputlabel: {
     borderRadius: 5,
-    margin:8,
+    margin: 8,
     padding: 10,
     width: 340,
     height: 50,

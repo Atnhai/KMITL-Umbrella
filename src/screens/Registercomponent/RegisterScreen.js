@@ -9,16 +9,19 @@ import {
 import React, {Component} from 'react';
 import Logo from '../../../assets/images/Google.png';
 import {useState} from 'react';
-// import {auth} from '../../../firebase';
-import {authentication} from '../../../firebase';
-import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {authentication, provider} from '../../../firebase';
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from 'firebase/auth';
 import {Link} from '@react-navigation/native';
-
+import Ionic from 'react-native-vector-icons/Ionicons';
 export default function RegisterScreen({navigation}) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const phone = 'call-outline';
   const handleSignUp = () => {
     createUserWithEmailAndPassword(authentication, email, password)
       .then(re => {
@@ -72,11 +75,12 @@ export default function RegisterScreen({navigation}) {
         }}>
         <Text style={styles.text4}>Register</Text>
       </TouchableOpacity>
-      <Text>────────── or Register with ────────── {'\n'}</Text>
-      <TouchableOpacity style={styles.button3}>
-        <Image source={Logo} style={styles.logos}></Image>
-      </TouchableOpacity>
       <Text>
+        {'\n'}
+        {'\n'}
+        {'\n'}
+        {'\n'}
+        {'\n'}
         {'\n'}Already have an account?
         <Link to={{screen: 'Signin'}} style={styles.text3}>
           {' '}
@@ -173,6 +177,7 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     height: 35,
     width: 35,
-    alignItems: 'center',
+    fontSize: 30,
+    paddingLeft: 2,
   },
 });
