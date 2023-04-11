@@ -1,106 +1,40 @@
-import React from 'react';
-import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
+import React, { Component } from 'react';
+import {
+  Text,
+  View,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Button,
+  Pressable,
+  TouchableOpacity,
+  Alert,
+  TextInput,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-const historyData = [
-  { 
-    id: 1,
-    place: 'ABC Restaurant',
-    date: 'March 2023',
-    time: '7:00 PM',
-    number: '2 persons',
-    price: '$50',
-    //image: require('./images/history_image_1.png')
-  },
-  { 
-    id: 2,
-    place: 'XYZ Cafe',
-    date: 'February 2023',
-    time: '2:00 PM',
-    number: '1 person',
-    price: '$15',
-    //image: require('./images/history_image_2.png')
-  },
-  { 
-    id: 2,
-    place: 'XYZ Cafe',
-    date: 'February 2023',
-    time: '2:00 PM',
-    number: '1 person',
-    price: '$15',
-    //image: require('./images/history_image_2.png')
-  },
-  { 
-    id: 2,
-    place: 'XYZ Cafe',
-    date: 'February 2023',
-    time: '2:00 PM',
-    number: '1 person',
-    price: '$15',
-    //image: require('./images/history_image_2.png')
-  },
-  { 
-    id: 2,
-    place: 'XYZ Cafe',
-    date: 'February 2023',
-    time: '2:00 PM',
-    number: '1 person',
-    price: '$15',
-    //image: require('./images/history_image_2.png')
-  },
-  { 
-    id: 2,
-    place: 'XYZ Cafe',
-    date: 'February 2023',
-    time: '2:00 PM',
-    number: '1 person',
-    price: '$15',
-    //image: require('./images/history_image_2.png')
-  },
-  { 
-    id: 2,
-    place: 'XYZ Cafe',
-    date: 'February 2023',
-    time: '2:00 PM',
-    number: '1 person',
-    price: '$15',
-    //image: require('./images/history_image_2.png')
-  },
-  { 
-    id: 2,
-    place: 'XYZ Cafe',
-    date: 'February 2023',
-    time: '2:00 PM',
-    number: '1 person',
-    price: '$15',
-    //image: require('./images/history_image_2.png')
-  },
-  { 
-    id: 2,
-    place: 'XYZ Cafe',
-    date: 'February 2023',
-    time: '2:00 PM',
-    number: '1 person',
-    price: '$15',
-    //image: require('./images/history_image_2.png')
-  },
-  { 
-    id: 2,
-    place: 'XYZ Cafe',
-    date: 'February 2023',
-    time: '2:00 PM',
-    number: '1 person',
-    price: '$15',
-    //image: require('./images/history_image_2.png')
-  },
+export default function HistoryScreen({ navigation }) {
   // Add more data here...
-];
+  const historyData = [
+    {
+      id: 1,
+      place: 'ABC Restaurant',
+      date: 'March 2023',
+      time: '7:00 PM',
+      number: '2 persons',
+      price: '$50',
+      //image: require('./images/history_image_1.png')
+    },
+    // More items...
+  ];
 
-const HistoryPage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.backButton}>Back</Text>
-        <View style={{ width: 80 }}></View> {/* empty view to center the title */}
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Text style={styles.backButton}>Back</Text>
+        </TouchableOpacity>
+        <View style={{ width: 80 }}></View>
       </View>
       <ScrollView>
         {historyData.slice().reverse().map((item) => (
@@ -122,7 +56,7 @@ const HistoryPage = () => {
       </ScrollView>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -184,6 +118,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-export default HistoryPage;
-
