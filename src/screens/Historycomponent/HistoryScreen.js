@@ -17,98 +17,66 @@ export default function HistoryScreen({ navigation }) {
   const historyData = [
     {
       id: 1,
-      place: 'XYZ Cafe',
-      date: '2023-04-1',
-      time: '2:00 PM',
-      number: '1 person',
-      price: '$15',
+      place: 'HM Building',
+      date: '2023-04-01',
+      time: '13:00',
+      number: '001',
+      price: '฿20',
       month: 'April 2023',
-      image: require('../../../assets/images/placeA.png')
+      image: require('../../../assets/images/hm.jpg'),
     },
     {
       id: 2,
-      place: 'ABC Restaurant',
-      date: '2023-03-21',
-      time: '7:00 PM',
-      number: '2 persons',
-      price: '$50',
+      place: 'ECC Building',
+      date: '2023-03-20',
+      time: '14:00',
+      number: '002',
+      price: '฿20',
       month: 'March 2023',
-      image: require('../../../assets/images/placeB.png')
+      image: require('../../../assets/images/ecc.jpg'),
     },
     {
       id: 3,
-      place: 'XYZ Cafe',
-      date: '2023-02-15',
-      time: '2:00 PM',
-      number: '1 person',
-      price: '$15',
-      month: 'February 2023',
-      image: require('../../../assets/images/placeC.png')
+      place: 'ECC Building',
+      date: '2023-03-21',
+      time: '15:00',
+      number: '002',
+      price: '฿20',
+      month: 'March 2023',
+      image: require('../../../assets/images/ecc.jpg'),
     },
     {
-      id: 3,
-      place: 'XYZ Cafe',
-      date: '2023-02-15',
-      time: '2:00 PM',
-      number: '1 person',
-      price: '$15',
-      month: 'February 2023',
-      //image: require('./images/history_image_2.png')
+      id: 4,
+      place: 'ECC Building',
+      date: '2023-04-15',
+      time: '16:00',
+      number: '002',
+      price: '฿20',
+      month: 'April 2023',
+      image: require('../../../assets/images/ecc.jpg'),
     },
     {
-      id: 3,
-      place: 'XYZ Cafe',
-      date: '2023-02-15',
-      time: '2:00 PM',
-      number: '1 person',
-      price: '$15',
-      month: 'February 2023',
-      //image: require('./images/history_image_2.png')
-    },
-    {
-      id: 3,
-      place: 'XYZ Cafe',
-      date: '2023-02-15',
-      time: '2:00 PM',
-      number: '1 person',
-      price: '$15',
-      month: 'February 2023',
-      //image: require('./images/history_image_2.png')
-    },
-    {
-      id: 3,
-      place: 'XYZ Cafe',
-      date: '2023-02-15',
-      time: '2:00 PM',
-      number: '1 person',
-      price: '$15',
-      month: 'February 2023',
-      //image: require('./images/history_image_2.png')
-    },
-    {
-      id: 3,
-      place: 'XYZ Cafe',
-      date: '2023-02-15',
-      time: '2:00 PM',
-      number: '1 person',
-      price: '$15',
-      month: 'February 2023',
-      //image: require('./images/history_image_2.png')
-    },
-    {
-      id: 3,
-      place: 'XYZ Cafe',
-      date: '2023-02-15',
-      time: '2:00 PM',
-      number: '1 person',
-      price: '$15',
-      month: 'February 2023',
-      //image: require('./images/history_image_2.png')
+      id: 5,
+      place: 'HM Building',
+      date: '2023-04-01',
+      time: '10:00',
+      number: '001',
+      price: '฿20',
+      month: 'April 2023',
+      image: require('../../../assets/images/hm.jpg'),
     },
     // Add more data here...
   ];
+  
 
-  const groupedData = historyData.reduce((acc, cur) => {
+  const sortedHistoryData = historyData.sort((a, b) => {
+    const aDateTime = new Date(a.date + 'T' + a.time); // Combine date and time for comparison
+    const bDateTime = new Date(b.date + 'T' + b.time);
+  
+    return bDateTime - aDateTime; // Sort in descending order
+  });
+  
+  const groupedData = sortedHistoryData.reduce((acc, cur) => {
     if (!acc[cur.month]) {
       acc[cur.month] = [];
     }
@@ -118,14 +86,14 @@ export default function HistoryScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-  <View style={styles.header}>
-    <View style={styles.rectangle} />
-    <TouchableOpacity
-      style={styles.buttons}
-      onPress={() => navigation.goBack()}>
-      <Text style={styles.text0}>{'<'}</Text>
-    </TouchableOpacity>
-    <Text style={styles.text1}>Back</Text>
+      <View style={styles.header}>
+      <View style={styles.rectangle} />
+      <TouchableOpacity
+        style={styles.buttons}
+        onPress={() => navigation.goBack()}>
+        <Text style={styles.text0}>{'<'}</Text>
+      </TouchableOpacity>
+      <Text style={styles.text1}>Back</Text>
   </View>
       <ScrollView>
         {Object.entries(groupedData).map(([month, items]) => (
@@ -137,9 +105,9 @@ export default function HistoryScreen({ navigation }) {
                 <View style={styles.infoContainer}>
                   <View style={styles.infoBox}>
                     <Text style={styles.place}>{item.place}</Text>
-                    <Text style={styles.date}>{item.date}</Text>
-                    <Text style={styles.time}>{item.time}</Text>
-                    <Text style={styles.number}>{item.number}</Text>
+                    <Text style={styles.date}>Date:{item.date}</Text>
+                    <Text style={styles.time}>Time:{item.time}</Text>
+                    <Text style={styles.number}>Umbrella No:{item.number}</Text>
                   </View>
                   <View style={styles.infoBox}>
                     <Text style={styles.price}>{item.price}</Text>
@@ -160,34 +128,59 @@ const styles = StyleSheet.create({
     backgroundColor: '#FAC983',
     padding: 10,
   },
+
   rectangle: {
     position: 'absolute',
     left: -10, // Reduce the left value
     top: -10,
     //borderTopRightRadius: 80,
     borderBottomRightRadius: 80,
-    width: 400,
+    width: 410,
     height: 80,
     backgroundColor: '#E35205',
   },
   
+  text0: {
+    fontsize: 20,
+    fontWeight: 'bold',
+    padding: 10,
+  },
+  text1: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    padding: 10,
+    paddingLeft: 30,
+    position: 'absolute',
+    top: 10,
+    left: 40,
+  },
+
   header: {
     flexDirection: 'row',
-    alignItems: 'center',
     paddingHorizontal: 10,
     paddingTop: 40,
     paddingBottom: 20,
     zIndex: 1, // Add this to keep the header text and button above the rectangle
   },
-  
-  backButton: {
-    color: '#333',
-    marginBottom: 5,
+  buttons: {
+    // position: 'relative',
+    // height: 50,
+    position: 'absolute',
+    top: -3,
+    left: 0,
+    borderRadius: 10,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // paddingVertical: 12,
+    backgroundColor: 'white',
+    margin: 20,
   },
   month: {
     fontWeight: 'bold',
     fontSize: 18,
     marginBottom: 5,
+    marginTop: 20,
   },
   historyItem: {
     flexDirection: 'row',
@@ -211,6 +204,7 @@ const styles = StyleSheet.create({
   },
   place: {
     fontSize: 18,
+    fontWeight: 'bold',
   },
   date: {
     marginTop: 5,
@@ -226,6 +220,7 @@ const styles = StyleSheet.create({
   price: {
     marginTop: 5,
     fontSize: 16,
+    marginLeft: 50,
   },
 });
 
