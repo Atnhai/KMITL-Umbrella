@@ -23,6 +23,8 @@ export default function MapScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [rentModalVisible, setRentModalVisible] = useState(false);
+  const [imageModalVisible, setImageModalVisible] = useState(false);
+  const [successModalVisible, setSuccessModalVisible] = useState(false);
 
   const showModal = (item) => {
     setSelectedItem(item);
@@ -34,6 +36,16 @@ export default function MapScreen({ navigation }) {
     setRentModalVisible(true);
   };
 
+  const showImageModal = () => {
+    setRentModalVisible(false);
+    setImageModalVisible(true);
+  };
+
+  const showSuccessModal = () => {
+    setImageModalVisible(false);
+    setSuccessModalVisible(true);
+  };
+
   const item = [
     {
       id: 1,
@@ -42,7 +54,7 @@ export default function MapScreen({ navigation }) {
       place: 'ECC Building',
       availableUmbrellas: 5,
       image: require('../../../assets/images/ecc.jpg'),
-      price: 5.99,
+      price: 20.00,
     },
     {
       id: 2,
@@ -51,7 +63,7 @@ export default function MapScreen({ navigation }) {
       place: 'HM Building',
       availableUmbrellas: 3,
       image: require('../../../assets/images/hm.jpg'),
-      price: 7.99,
+      price: 20.00,
     },
   ];
 
@@ -98,146 +110,206 @@ export default function MapScreen({ navigation }) {
              source={selectedItem ? selectedItem.image : null}
           />
           <Text style={styles.modalText}>
-            Umbrellas available: {selectedItem?.availableUmbrellas}
-          </Text>
-          <Button title="Rent" onPress={() => showRentModal()} />
-          <TouchableOpacity
-            style={{ ...styles.modalCloseButton }}
-            onPress={() => setModalVisible(!modalVisible)}>
-            <Text style={styles.modalCloseButtonText}>Back</Text>
-          </TouchableOpacity>
-        </View>
-        </Modal>
-        <Modal
-      animationType="slide"
-      transparent={true}
-      visible={rentModalVisible}
-      onRequestClose={() => {
-        setRentModalVisible(!rentModalVisible);
-      }}>
-      <View style={styles.modalView}>
-        <TouchableOpacity
-          style={{ ...styles.modalCloseButton }}
-          onPress={() => setRentModalVisible(!rentModalVisible)}>
-          <Text style={styles.modalCloseButtonText}>Back</Text>
-        </TouchableOpacity>
-        <Text style={styles.modalText}>{selectedItem?.place}</Text>
-        <Image
-           style={styles.modalImage}
-           source={selectedItem ? selectedItem.image : null}
-        />
-        <Text style={styles.modalText}>
-          Umbrella ID: {Math.floor(Math.random() * 100000)}
-        </Text>
-        <Text style={styles.modalText}>
-          Price: ${selectedItem?.price.toFixed(2)}
-        </Text>
-        <TouchableOpacity
-          style={{ ...styles.modalConfirmButton }}
-          onPress={() => setRentModalVisible(!rentModalVisible)}>
-          <Text style={styles.modalConfirmButtonText}>Confirm</Text>
-        </TouchableOpacity>
-      </View>
-    </Modal>
-  </View>
+          Umbrellas available: {selectedItem?.availableUmbrellas}
+      </Text>
+      <Button title="Rent" onPress={() => showRentModal()} />
+      <TouchableOpacity
+        style={{ ...styles.modalCloseButton }}
+        onPress={() => setModalVisible(!modalVisible)}>
+        <Text style={styles.modalCloseButtonText}>Close</Text>
+      </TouchableOpacity>
+    </View>
+  </Modal>
+  <Modal
+    animationType="slide"
+    transparent={true}
+    visible={rentModalVisible}
+    onRequestClose={() => {
+      setRentModalVisible(!rentModalVisible);
+    }}>
+    <View style={styles.modalView}>
+      <TouchableOpacity
+        style={{ ...styles.modalCloseButton }}
+        onPress={() => setRentModalVisible(!rentModalVisible)}>
+        <Text style={styles.modalCloseButtonText}>Close</Text>
+      </TouchableOpacity>
+      <Text style={styles.modalText}>{selectedItem?.place}</Text>
+      <Image
+         style={styles.modalImage}
+         source={selectedItem ? selectedItem.image : null}
+      />
+      <Text style={styles.modalText}>
+        Umbrella ID: {Math.floor(Math.random() * 100000)}
+      </Text>
+      <Text style={styles.modalText}>
+        Price: ฿{selectedItem?.price.toFixed(2)}
+      </Text>
+      <TouchableOpacity
+        style={{ ...styles.modalConfirmButton }}
+        onPress={() => showImageModal()}>
+        <Text style={styles.modalConfirmButtonText}>Confirm</Text>
+      </TouchableOpacity>
+    </View>
+  </Modal>
+  <Modal
+    animationType="slide"
+    transparent={true}
+    visible={imageModalVisible}
+    onRequestClose={() => {
+      setImageModalVisible(!imageModalVisible);
+    }}>
+    <View style={styles.modalView}>
+      <TouchableOpacity
+        style={{ ...styles.modalCloseButton }}
+        onPress={() => setImageModalVisible(!imageModalVisible)}>
+        <Text style={styles.modalCloseButtonText}>Close</Text>
+      </TouchableOpacity>
+      <Text style={styles.modalText}>Please save the image below to pay</Text>
+      <Image
+        style={styles.modalImageQR}
+        source={require('../../../assets/images/qr.jpg')}
+      />
+      <TouchableOpacity
+        style={{ ...styles.modalConfirmButton }}
+        onPress={() => showSuccessModal()}>
+        <Text style={styles.modalConfirmButtonText}>Save QR code</Text>
+      </TouchableOpacity>
+    </View>
+  </Modal>
+  <Modal
+    animationType="slide"
+    transparent={true}
+    visible={successModalVisible}
+    onRequestClose={() => {
+      setSuccessModalVisible(!successModalVisible);
+    }}>
+    <View style={styles.modalView}>
+      <TouchableOpacity
+        style={{ ...styles.modalCloseButton }}
+        onPress={() => setSuccessModalVisible(!successModalVisible)}>
+        <Text style={styles.modalCloseButtonText}>Close</Text>
+      </TouchableOpacity>
+      <Text style={styles.successText}>Successfully Rented!</Text>
+      <Text style={styles.detailsText}>Place: {selectedItem?.place}</Text>
+      <Text style={styles.detailsText}>Date: {new Date().toLocaleDateString()}</Text>
+      <Text style={styles.detailsText}>Time: {new Date().toLocaleTimeString()}</Text>
+      <Text style={styles.detailsText}>Umbrella ID: {Math.floor(Math.random() * 100000)}</Text>
+      <Text style={styles.detailsText}>Price: ฿{selectedItem?.price.toFixed(2)}</Text>
+    </View>
+  </Modal>
+</View>
 );
 }
-    
-    const styles = StyleSheet.create({
-    container: {
-    flex: 1,
-    },
-    map: {
-    ...StyleSheet.absoluteFill,
-    },
-    views: {
-    alignItems: 'center',
-    backgroundColor: '#FAC983',
-    padding: 80,
-    justifyContent: 'center',
-    },
-    views2: {
-    alignItems: 'center',
-    backgroundColor: '#FAC983',
-    padding: 80,
-    justifyContent: 'center',
-    height: 500,
-    },
-    texts: {
-    fontSize: 100,
-    fontWeight: 'bold',
-    },
-    text1: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    padding: 50,
-    position: 'absolute',
-    top: 70,
-    left: 5,
-    },
-    text2: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    padding: 50,
-    position: 'absolute',
-    top: 70,
-    right: 5,
-    },
-    search: {
-    alignItems: 'center',
-    width: 350,
-    position: 'absolute',
-    top: 40,
-    },
-    modalView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#FAC983',
-    width: '90%',
-    alignSelf: 'center',
-    },
-    modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-    fontSize: 18,
-    },
-    modalImage: {
-    width: '100%',
-    height: 200,
-    resizeMode: 'cover',
-    marginBottom: 15,
-    },
-    modalCloseButton: {
-    backgroundColor: '#FAC983',
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    position: 'absolute',
-    top: 10,
-    left: 10,
-    },
-    modalCloseButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    },
-    modalConfirmButton: {
-      backgroundColor: 'green',
-      borderRadius: 0,
-      padding: 10,
-      elevation: 2,
-      marginTop: 15,
-      paddingHorizontal: 30,
-    },
-    modalConfirmButtonText: {
-      color: 'white',
-      fontWeight: 'bold',
-      textAlign: 'center',
-    },
-    });
+
+const styles = StyleSheet.create({
+container: {
+flex: 1,
+},
+map: {
+...StyleSheet.absoluteFill,
+},
+views: {
+alignItems: 'center',
+backgroundColor: '#FAC983',
+padding: 80,
+justifyContent: 'center',
+},
+views2: {
+alignItems: 'center',
+backgroundColor: '#FAC983',
+padding: 80,
+justifyContent: 'center',
+height: 500,
+},
+text1: {
+fontSize: 20,
+fontWeight: 'bold',
+padding: 50,
+position: 'absolute',
+top: 70,
+left: 5,
+},
+text2: {
+fontSize: 20,
+fontWeight: 'bold',
+padding: 50,
+position: 'absolute',
+top: 70,
+right: 5,
+},
+search: {
+alignItems: 'center',
+width: 350,
+position: 'absolute',
+top: 40,
+},
+modalView: {
+flex: 1,
+justifyContent: 'center',
+alignItems: 'center',
+marginTop: 22,
+backgroundColor: 'white',
+padding: 20,
+borderRadius: 10,
+borderWidth: 1,
+borderColor: '#FAC983',
+width: '90%',
+alignSelf: 'center',
+},
+modalText: {
+marginBottom: 15,
+textAlign: 'center',
+fontSize: 18,
+},
+modalImage: {
+width: '100%',
+height: 200,
+resizeMode: 'cover',
+marginBottom: 15,
+},
+modalImageQR: {
+  width: '100%',
+  height: 300,
+  resizeMode: 'cover',
+  marginBottom: 15,
+  },
+modalCloseButton: {
+backgroundColor: '#FAC983',
+borderRadius: 20,
+padding: 10,
+elevation: 2,
+position: 'absolute',
+top: 10,
+left: 10,
+},
+modalCloseButtonText: {
+color: 'white',
+fontWeight: 'bold',
+textAlign: 'center',
+},
+modalConfirmButton: {
+backgroundColor: 'green',
+borderRadius: 0,
+padding: 10,
+elevation: 2,
+marginTop: 15,
+paddingHorizontal: 30,
+},
+modalConfirmButtonText: {
+color: 'white',
+fontWeight: 'bold',
+textAlign: 'center',
+},
+successText: {
+fontWeight: 'bold',
+fontSize: 24,
+marginBottom: 20,
+color: 'green',
+},
+detailsText: {
+fontSize: 18,
+marginBottom: 10,
+textAlign: 'center',
+},
+});
+           
