@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     top: 0,
     borderBottomRightRadius: 80,
     width: 410,
-    height: 220,
+    height: 250,
     marginBottom: 20,
     backgroundColor: '#E35205',
   },
