@@ -23,7 +23,6 @@ export default function MapScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [rentModalVisible, setRentModalVisible] = useState(false);
-  const [qrCodeModalVisible, setQrCodeModalVisible] = useState(false);
 
   const showModal = (item) => {
     setSelectedItem(item);
@@ -34,16 +33,6 @@ export default function MapScreen({ navigation }) {
     setModalVisible(false);
     setRentModalVisible(true);
   };
-  const saveQRCodeToGallery = () => {
-    // TODO: Implement saving QR code to the gallery
-    Alert.alert('QR Code saved to gallery (placeholder)');
-  };
-  const handleConfirm = () => {
-    setModalVisible(!modalVisible);
-    setQrCodeModalVisible(true);
-  };
-  
-
 
   const item = [
     {
@@ -115,69 +104,44 @@ export default function MapScreen({ navigation }) {
           <TouchableOpacity
             style={{ ...styles.modalCloseButton }}
             onPress={() => setModalVisible(!modalVisible)}>
-            <Text style={styles.modalCloseButtonText}>Close</Text>
+            <Text style={styles.modalCloseButtonText}>Back</Text>
           </TouchableOpacity>
         </View>
         </Modal>
-  <Modal
-    animationType="slide"
-    transparent={true}
-    visible={ rentModalVisible}
-    onRequestClose={() => {
-    setRentModalVisible(!rentModalVisible);
-    }}>
-    <View style={styles.modalView}>
-    <TouchableOpacity
-    style={{ ...styles.modalCloseButton }}
-    onPress={() => setRentModalVisible(!rentModalVisible)}>
-    <Text style={styles.modalCloseButtonText}>Close</Text>
-    </TouchableOpacity>
-    <Text style={styles.modalText}>{selectedItem?.place}</Text>
-    <Image
-    style={styles.modalImage}
-    source={selectedItem ? selectedItem.image : null}
-    />
-    <Text style={styles.modalText}>
-    Umbrella ID: {Math.floor(Math.random() * 100000)}
-    </Text>
-    <Text style={styles.modalText}>
-    Price: ${selectedItem?.price.toFixed(2)}
-    </Text>
-    <TouchableOpacity
-    style={{ ...styles.modalConfirmButton }}
-    onPress={() => setRentModalVisible(!rentModalVisible)}>
-    <Text style={styles.modalConfirmButtonText}>Confirm</Text>
-    </TouchableOpacity>
-    </View>
-    </Modal>
-    <Modal
+        <Modal
       animationType="slide"
       transparent={true}
-      visible={qrCodeModalVisible}
+      visible={rentModalVisible}
       onRequestClose={() => {
-        setQrCodeModalVisible(!qrCodeModalVisible);
+        setRentModalVisible(!rentModalVisible);
       }}>
       <View style={styles.modalView}>
         <TouchableOpacity
           style={{ ...styles.modalCloseButton }}
-          onPress={() => setQrCodeModalVisible(!qrCodeModalVisible)}>
-          <Text style={styles.modalCloseButtonText}>Close</Text>
+          onPress={() => setRentModalVisible(!rentModalVisible)}>
+          <Text style={styles.modalCloseButtonText}>Back</Text>
         </TouchableOpacity>
-        <Text style={styles.modalText}>Your QR Code:</Text>
+        <Text style={styles.modalText}>{selectedItem?.place}</Text>
         <Image
-          style={styles.qrCodeImage}
-          source={require('../../../assets/images/qr.jpg')} // Replace with your QR code image
+           style={styles.modalImage}
+           source={selectedItem ? selectedItem.image : null}
         />
+        <Text style={styles.modalText}>
+          Umbrella ID: {Math.floor(Math.random() * 100000)}
+        </Text>
+        <Text style={styles.modalText}>
+          Price: ${selectedItem?.price.toFixed(2)}
+        </Text>
         <TouchableOpacity
-          style={{ ...styles.modalSaveButton }}
-          onPress={saveQRCodeToGallery}>
-          <Text style={styles.modalSaveButtonText}>Save</Text>
+          style={{ ...styles.modalConfirmButton }}
+          onPress={() => setRentModalVisible(!rentModalVisible)}>
+          <Text style={styles.modalConfirmButtonText}>Confirm</Text>
         </TouchableOpacity>
       </View>
     </Modal>
-    </View>
-    );
-    }
+  </View>
+);
+}
     
     const styles = StyleSheet.create({
     container: {
@@ -272,24 +236,6 @@ export default function MapScreen({ navigation }) {
       paddingHorizontal: 30,
     },
     modalConfirmButtonText: {
-      color: 'white',
-      fontWeight: 'bold',
-      textAlign: 'center',
-    },
-    qrCodeImage: {
-      width: 200,
-      height: 200,
-      resizeMode: 'cover',
-      marginBottom: 15,
-    },
-    modalSaveButton: {
-      backgroundColor: '#FAC983',
-      borderRadius: 20,
-      padding: 10,
-      elevation: 2,
-      marginTop: 15,
-    },
-    modalSaveButtonText: {
       color: 'white',
       fontWeight: 'bold',
       textAlign: 'center',
