@@ -22,11 +22,28 @@ enableLatestRenderer();
 export default function MapScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [rentModalVisible, setRentModalVisible] = useState(false);
+  const [qrCodeModalVisible, setQrCodeModalVisible] = useState(false);
 
   const showModal = (item) => {
     setSelectedItem(item);
     setModalVisible(true);
   };
+
+  const showRentModal = () => {
+    setModalVisible(false);
+    setRentModalVisible(true);
+  };
+  const saveQRCodeToGallery = () => {
+    // TODO: Implement saving QR code to the gallery
+    Alert.alert('QR Code saved to gallery (placeholder)');
+  };
+  const handleConfirm = () => {
+    setModalVisible(!modalVisible);
+    setQrCodeModalVisible(true);
+  };
+  
+
 
   const item = [
     {
@@ -36,6 +53,7 @@ export default function MapScreen({ navigation }) {
       place: 'ECC Building',
       availableUmbrellas: 5,
       image: require('../../../assets/images/ecc.jpg'),
+      price: 5.99,
     },
     {
       id: 2,
@@ -44,6 +62,7 @@ export default function MapScreen({ navigation }) {
       place: 'HM Building',
       availableUmbrellas: 3,
       image: require('../../../assets/images/hm.jpg'),
+      price: 7.99,
     },
   ];
 
@@ -92,64 +111,121 @@ export default function MapScreen({ navigation }) {
           <Text style={styles.modalText}>
             Umbrellas available: {selectedItem?.availableUmbrellas}
           </Text>
-          <Button title="Rent" onPress={() => Alert.alert('Rent clicked')} />
+          <Button title="Rent" onPress={() => showRentModal()} />
           <TouchableOpacity
             style={{ ...styles.modalCloseButton }}
             onPress={() => setModalVisible(!modalVisible)}>
-            <Text style={styles.modalCloseButtonText}>Back</Text>
+            <Text style={styles.modalCloseButtonText}>Close</Text>
           </TouchableOpacity>
         </View>
-      </Modal>
+        </Modal>
+  <Modal
+    animationType="slide"
+    transparent={true}
+    visible={ rentModalVisible}
+    onRequestClose={() => {
+    setRentModalVisible(!rentModalVisible);
+    }}>
+    <View style={styles.modalView}>
+    <TouchableOpacity
+    style={{ ...styles.modalCloseButton }}
+    onPress={() => setRentModalVisible(!rentModalVisible)}>
+    <Text style={styles.modalCloseButtonText}>Close</Text>
+    </TouchableOpacity>
+    <Text style={styles.modalText}>{selectedItem?.place}</Text>
+    <Image
+    style={styles.modalImage}
+    source={selectedItem ? selectedItem.image : null}
+    />
+    <Text style={styles.modalText}>
+    Umbrella ID: {Math.floor(Math.random() * 100000)}
+    </Text>
+    <Text style={styles.modalText}>
+    Price: ${selectedItem?.price.toFixed(2)}
+    </Text>
+    <TouchableOpacity
+    style={{ ...styles.modalConfirmButton }}
+    onPress={() => setRentModalVisible(!rentModalVisible)}>
+    <Text style={styles.modalConfirmButtonText}>Confirm</Text>
+    </TouchableOpacity>
     </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  map: {
+    </Modal>
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={qrCodeModalVisible}
+      onRequestClose={() => {
+        setQrCodeModalVisible(!qrCodeModalVisible);
+      }}>
+      <View style={styles.modalView}>
+        <TouchableOpacity
+          style={{ ...styles.modalCloseButton }}
+          onPress={() => setQrCodeModalVisible(!qrCodeModalVisible)}>
+          <Text style={styles.modalCloseButtonText}>Close</Text>
+        </TouchableOpacity>
+        <Text style={styles.modalText}>Your QR Code:</Text>
+        <Image
+          style={styles.qrCodeImage}
+          source={require('../../../assets/images/qr.jpg')} // Replace with your QR code image
+        />
+        <TouchableOpacity
+          style={{ ...styles.modalSaveButton }}
+          onPress={saveQRCodeToGallery}>
+          <Text style={styles.modalSaveButtonText}>Save</Text>
+        </TouchableOpacity>
+      </View>
+    </Modal>
+    </View>
+    );
+    }
+    
+    const styles = StyleSheet.create({
+    container: {
+    flex: 1,
+    },
+    map: {
     ...StyleSheet.absoluteFill,
-  },
-  views: {
+    },
+    views: {
     alignItems: 'center',
     backgroundColor: '#FAC983',
     padding: 80,
     justifyContent: 'center',
-  },
-  views2: {
+    },
+    views2: {
     alignItems: 'center',
     backgroundColor: '#FAC983',
     padding: 80,
     justifyContent: 'center',
     height: 500,
-  },
-  texts: {
+    },
+    texts: {
     fontsize: 100,
     fontWeight: 'bold',
-  },
-  text1: {
+    },
+    text1: {
     fontsize: 20,
     fontWeight: 'bold',
     padding: 50,
     position: 'absolute',
     top: 70,
     left: 5,
-  },
-  text2: {
+    },
+    text2: {
     fontsize: 20,
     fontWeight: 'bold',
     padding: 50,
     position: 'absolute',
     top: 70,
     right: 5,
-  },
-  search: {
-    //right: 100,
+    },
+    search: {
     alignItems: 'center',
     width: 350,
     position: 'absolute',
     top: 40,
-    //justifycontent: 'flex-end',
-  },
-  modalView: {
+    },
+    modalView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -161,19 +237,19 @@ const styles = StyleSheet.create({
     borderColor: '#FAC983',
     width: '90%',
     alignSelf: 'center',
-  },
-  modalText: {
+    },
+    modalText: {
     marginBottom: 15,
     textAlign: 'center',
     fontSize: 18,
-  },
-  modalImage: {
+    },
+    modalImage: {
     width: '100%',
     height: 200,
     resizeMode: 'cover',
     marginBottom: 15,
-  },
-  modalCloseButton: {
+    },
+    modalCloseButton: {
     backgroundColor: '#FAC983',
     borderRadius: 20,
     padding: 10,
@@ -181,10 +257,41 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     left: 10,
-  },
-  modalCloseButtonText: {
+    },
+    modalCloseButtonText: {
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-  },
-});
+    },
+    modalConfirmButton: {
+      backgroundColor: 'green',
+      borderRadius: 0,
+      padding: 10,
+      elevation: 2,
+      marginTop: 15,
+      paddingHorizontal: 30,
+    },
+    modalConfirmButtonText: {
+      color: 'white',
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
+    qrCodeImage: {
+      width: 200,
+      height: 200,
+      resizeMode: 'cover',
+      marginBottom: 15,
+    },
+    modalSaveButton: {
+      backgroundColor: '#FAC983',
+      borderRadius: 20,
+      padding: 10,
+      elevation: 2,
+      marginTop: 15,
+    },
+    modalSaveButtonText: {
+      color: 'white',
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
+    });
