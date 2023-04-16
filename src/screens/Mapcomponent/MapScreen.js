@@ -164,11 +164,11 @@ export default function MapScreen({ navigation }) {
     height: 500,
     },
     texts: {
-    fontsize: 100,
+    fontSize: 100,
     fontWeight: 'bold',
     },
     text1: {
-    fontsize: 20,
+    fontSize: 20,
     fontWeight: 'bold',
     padding: 50,
     position: 'absolute',
@@ -176,7 +176,7 @@ export default function MapScreen({ navigation }) {
     left: 5,
     },
     text2: {
-    fontsize: 20,
+    fontSize: 20,
     fontWeight: 'bold',
     padding: 50,
     position: 'absolute',
