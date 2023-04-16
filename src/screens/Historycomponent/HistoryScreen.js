@@ -1,8 +1,8 @@
-import React from 'react';
-import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
-
+import React, {Component} from 'react';
+import {View, Text, Image, ScrollView, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 const historyData = [
-  { 
+  {
     id: 1,
     place: 'ABC Restaurant',
     date: 'March 2023',
@@ -11,7 +11,7 @@ const historyData = [
     price: '$50',
     //image: require('./images/history_image_1.png')
   },
-  { 
+  {
     id: 2,
     place: 'XYZ Cafe',
     date: 'February 2023',
@@ -20,7 +20,7 @@ const historyData = [
     price: '$15',
     //image: require('./images/history_image_2.png')
   },
-  { 
+  {
     id: 2,
     place: 'XYZ Cafe',
     date: 'February 2023',
@@ -29,7 +29,7 @@ const historyData = [
     price: '$15',
     //image: require('./images/history_image_2.png')
   },
-  { 
+  {
     id: 2,
     place: 'XYZ Cafe',
     date: 'February 2023',
@@ -38,7 +38,7 @@ const historyData = [
     price: '$15',
     //image: require('./images/history_image_2.png')
   },
-  { 
+  {
     id: 2,
     place: 'XYZ Cafe',
     date: 'February 2023',
@@ -47,7 +47,7 @@ const historyData = [
     price: '$15',
     //image: require('./images/history_image_2.png')
   },
-  { 
+  {
     id: 2,
     place: 'XYZ Cafe',
     date: 'February 2023',
@@ -56,7 +56,7 @@ const historyData = [
     price: '$15',
     //image: require('./images/history_image_2.png')
   },
-  { 
+  {
     id: 2,
     place: 'XYZ Cafe',
     date: 'February 2023',
@@ -65,7 +65,7 @@ const historyData = [
     price: '$15',
     //image: require('./images/history_image_2.png')
   },
-  { 
+  {
     id: 2,
     place: 'XYZ Cafe',
     date: 'February 2023',
@@ -74,7 +74,7 @@ const historyData = [
     price: '$15',
     //image: require('./images/history_image_2.png')
   },
-  { 
+  {
     id: 2,
     place: 'XYZ Cafe',
     date: 'February 2023',
@@ -83,7 +83,7 @@ const historyData = [
     price: '$15',
     //image: require('./images/history_image_2.png')
   },
-  { 
+  {
     id: 2,
     place: 'XYZ Cafe',
     date: 'February 2023',
@@ -95,34 +95,37 @@ const historyData = [
   // Add more data here...
 ];
 
-const HistoryPage = () => {
+export default function HistoryScreen({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.backButton}>Back</Text>
-        <View style={{ width: 80 }}></View> {/* empty view to center the title */}
+        <View style={{width: 80}}></View> {/* empty view to center the title */}
       </View>
       <ScrollView>
-        {historyData.slice().reverse().map((item) => (
-          <View style={styles.historyItem} key={item.id}>
-            <Image source={item.image} style={styles.image} />
-            <View style={styles.infoContainer}>
-              <View style={styles.infoBox}>
-                <Text style={styles.place}>{item.place}</Text>
-                <Text style={styles.date}>{item.date}</Text>
-                <Text style={styles.time}>{item.time}</Text>
-              </View>
-              <View style={styles.infoBox}>
-                <Text style={styles.number}>{item.number}</Text>
-                <Text style={styles.price}>{item.price}</Text>
+        {historyData
+          .slice()
+          .reverse()
+          .map(item => (
+            <View style={styles.historyItem} key={item.id}>
+              <Image source={item.image} style={styles.image} />
+              <View style={styles.infoContainer}>
+                <View style={styles.infoBox}>
+                  <Text style={styles.place}>{item.place}</Text>
+                  <Text style={styles.date}>{item.date}</Text>
+                  <Text style={styles.time}>{item.time}</Text>
+                </View>
+                <View style={styles.infoBox}>
+                  <Text style={styles.number}>{item.number}</Text>
+                  <Text style={styles.price}>{item.price}</Text>
+                </View>
               </View>
             </View>
-          </View>
-        ))}
+          ))}
       </ScrollView>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -184,6 +187,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-export default HistoryPage;
-
