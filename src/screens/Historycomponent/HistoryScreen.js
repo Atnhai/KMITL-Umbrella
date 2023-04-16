@@ -223,7 +223,3 @@ const styles = StyleSheet.create({
     marginLeft: 50,
   },
 });
-<<<<<<< HEAD
-=======
-
->>>>>>> a62c1ed4f9d5b88c5521a5c2be8f791001040e15
