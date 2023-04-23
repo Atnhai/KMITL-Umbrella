@@ -15,7 +15,7 @@ import Logo from '../../../assets/images/history.png';
 import editcards from '../../../assets/images/editcards.png';
 import help from '../../../assets/images/help.png';
 import aboutus from '../../../assets/images/aboutus.png';
-import user from '../../../assets/images/user.png';
+import user from '../../../assets/images/profile.png';
 import go from '../../../assets/images/go.png';
 import setting from '../../../assets/images/setting.png';
 import {useNavigation} from '@react-navigation/native';
@@ -240,10 +240,10 @@ const styles = StyleSheet.create({
   user: {
     position: 'absolute',
     top: 30,
-    left: 50,
+    left: 20,
     resizeMode: 'cover',
-    height: 100,
-    width: 100,
+    height: 130,
+    width: 130,
     alignItems: 'center',
   },
   go: {
