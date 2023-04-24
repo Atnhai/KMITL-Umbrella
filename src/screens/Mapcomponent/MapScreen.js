@@ -49,14 +49,46 @@ export default function MapScreen({ navigation }) {
     setImageModalVisible(false);
     setSuccessModalVisible(true);
   };
-
-  const umbrellaData = [
-    { id: 'A001', status: 'Available' },
-    { id: 'A002', status: 'Unavailable' },
-    { id: 'A003', status: 'Available' },
-    // ... add more umbrellas as needed
-  ];
-
+  const umbrellasData = {
+    eccBuilding: [
+      {
+        lockId: '001',
+        umbrellaId: '01',
+        status: 'Available',
+      },
+      {
+        lockId: '002',
+        umbrellaId: '02',
+        status: 'Unavailable',
+      },
+      {
+        lockId: '003',
+        umbrellaId: '03',
+        status: 'Unavailable',
+      },
+      // Add more umbrellas for ECC Building here...
+    ],
+    hmBuilding: [
+      {
+        lockId: '001',
+        umbrellaId: '04',
+        status: 'Available',
+      },
+      {
+        lockId: '002',
+        umbrellaId: '05',
+        status: 'Available',
+      },
+      {
+        lockId: '003',
+        umbrellaId: '06',
+        status: 'Unavailable',
+      },
+      // Add more umbrellas for HM Building here...
+    ],
+  };
+  
+  
   const BlackLine = () => {
     return <View style={styles.blackLine} />;
   };
@@ -128,24 +160,21 @@ export default function MapScreen({ navigation }) {
     <Text style={styles.modalText}>
       Umbrellas available: {selectedItem?.availableUmbrellas}
     </Text>
-    {Array(selectedItem?.availableUmbrellas)
-      .fill(null)
-      .map((_, index) => {
-        const isAvailable = index % 2 === 0; // Modify this according to your logic
-        const lockId = `00${index + 1}`;
-        const umbrellaId = isAvailable ? `0${index + 1}` : '-';
+    {(selectedItem?.place === 'ECC Building' ? umbrellasData.eccBuilding : umbrellasData.hmBuilding).map(
+      (umbrella, index) => {
+        const isAvailable = umbrella.status === 'Available';
         return (
           <View key={index} style={styles.umbrellaBox}>
             <Image source={ProfileImage} style={styles.profileImage} />
             <View style={styles.umbrellaInfo}>
-              <Text style={styles.lockId}>
-                Lock ID: {lockId}
+              <Text style={styles.umbrellaId}>
+                Lock ID: {umbrella.lockId}
               </Text>
               <Text style={styles.umbrellaId}>
-                Umbrella ID: {umbrellaId}
+                Umbrella ID: {umbrella.umbrellaId}
               </Text>
               <Text style={styles.umbrellaStatus}>
-                Status: {isAvailable ? 'Available' : 'Unavailable'}
+                Status: {umbrella.status}
               </Text>
             </View>
             <Button
@@ -156,7 +185,8 @@ export default function MapScreen({ navigation }) {
             />
           </View>
         );
-      })}
+      }
+    )}
     <TouchableOpacity
       style={{ ...styles.modalCloseButton }}
       onPress={() => setModalVisible(!modalVisible)}
@@ -165,7 +195,6 @@ export default function MapScreen({ navigation }) {
     </TouchableOpacity>
   </ScrollView>
 </Modal>
-
 
 
 <Modal
@@ -445,6 +474,27 @@ umbrellaBox: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
+  },
+  lockIdInput: {
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    padding: 5,
+    width: 100,
+  },
+  umbrellaIdInput: {
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    padding: 5,
+    width: 100,
+  },
+  umbrellaStatusInput: {
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    padding: 5,
+    width: 150,
   },
 });
            
