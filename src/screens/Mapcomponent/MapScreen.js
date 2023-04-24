@@ -67,7 +67,7 @@ export default function MapScreen({ navigation }) {
       latitude: 13.729249840361328,
       longitude: 100.77563323749371,
       place: 'ECC Building',
-      availableUmbrellas: 10,
+      availableUmbrellas: 3,
       image: require('../../../assets/images/ecc.jpg'),
       price: 20.00,
     },
@@ -131,13 +131,18 @@ export default function MapScreen({ navigation }) {
     {Array(selectedItem?.availableUmbrellas)
       .fill(null)
       .map((_, index) => {
-        const isAvailable = true; // Set this according to your logic
+        const isAvailable = index % 2 === 0; // Modify this according to your logic
+        const lockId = `00${index + 1}`;
+        const umbrellaId = isAvailable ? `0${index + 1}` : '-';
         return (
           <View key={index} style={styles.umbrellaBox}>
             <Image source={ProfileImage} style={styles.profileImage} />
             <View style={styles.umbrellaInfo}>
+              <Text style={styles.lockId}>
+                Lock ID: {lockId}
+              </Text>
               <Text style={styles.umbrellaId}>
-                Umbrella ID: {Math.floor(Math.random() * 100000)}
+                Umbrella ID: {umbrellaId}
               </Text>
               <Text style={styles.umbrellaStatus}>
                 Status: {isAvailable ? 'Available' : 'Unavailable'}
@@ -160,6 +165,8 @@ export default function MapScreen({ navigation }) {
     </TouchableOpacity>
   </ScrollView>
 </Modal>
+
+
 
 <Modal
   animationType="slide"
@@ -434,7 +441,10 @@ umbrellaBox: {
     resizeMode: 'contain',
     marginTop: 15,
   },
-  
-  
+  lockId: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
 });
            
