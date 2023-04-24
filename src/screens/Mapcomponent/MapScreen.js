@@ -67,7 +67,7 @@ export default function MapScreen({ navigation }) {
       latitude: 13.729249840361328,
       longitude: 100.77563323749371,
       place: 'ECC Building',
-      availableUmbrellas: 10,
+      availableUmbrellas: 3,
       image: require('../../../assets/images/ecc.jpg'),
       price: 20.00,
     },

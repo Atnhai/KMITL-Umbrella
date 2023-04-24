@@ -15,6 +15,7 @@ import {Searchbar} from 'react-native-paper';
 import {useState} from 'react';
 import {sendPasswordResetEmail} from 'firebase/auth';
 import {authentication} from '../../../firebase';
+import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
 
 export default function ForgetpasswordScreen({navigation}) {
   const [email, setEmail] = useState('');
@@ -33,26 +34,30 @@ export default function ForgetpasswordScreen({navigation}) {
     }
   };
   return (
-    <View style={styles.root}>
-      <Text style={styles.text}></Text>
+    <View style={Stylecomponent.root_signin}>
+      <Text style={Stylecomponent.text_padding}></Text>
+
       <TouchableOpacity
         title="<"
-        style={styles.buttons}
+        style={Stylecomponent.buttons_goback}
         onPress={() => navigation.navigate('Signin')}>
-        <Text style={styles.text0}>{'<'}</Text>
+        <Text style={Stylecomponent.text_black}>{'<'}</Text>
       </TouchableOpacity>
-      <Text style={styles.text}>{'\n'}Forgot Password?</Text>
-      <Text style={styles.text1}>
+      <Text style={Stylecomponent.header_text}>{'\n'}Forgot Password?</Text>
+      <Text style={Stylecomponent.text_grey}>
         {'\n'}Don't worry it occurs. Please enter the email address linked to
         your account.{'\n'}
       </Text>
       <TextInput
         placeholder=" Enter your email "
-        style={styles.inputlabel}
+        style={Stylecomponent.inputsignin_label}
         value={email}
         onChangeText={text => setEmail(text)}></TextInput>
-      <TouchableOpacity style={styles.button2} onPress={resetPassword()}>
-        <Text style={styles.text4}>Send Code</Text>
+      <Text style={Stylecomponent.text_padding}></Text>
+      <TouchableOpacity
+        style={Stylecomponent.button_login}
+        onPress={resetPassword()}>
+        <Text style={Stylecomponent.text_white}>Send Code</Text>
       </TouchableOpacity>
       <Text>
         {'\n'}
@@ -72,7 +77,7 @@ export default function ForgetpasswordScreen({navigation}) {
         {'\n'}
         {'\n'}
         {'\n'}Remember Password?
-        <Link to={{screen: 'Signin'}} style={styles.text3}>
+        <Link to={{screen: 'Signin'}} style={Stylecomponent.text_blue}>
           {' '}
           Login{'\n'}
           {'\n'}
@@ -81,82 +86,3 @@ export default function ForgetpasswordScreen({navigation}) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  root: {
-    alignItems: 'center',
-    // margin:5,
-    backgroundColor: '#FAC983',
-    // padding:100
-  },
-  text0: {
-    fontSize: 17,
-    // alignSelf: 'flex-start',
-    // left: 110,
-    textAlign: 'center',
-    // color: 'white',
-    fontWeight: 'bold',
-  },
-  text1: {
-    fontSize: 17,
-    color: 'grey',
-    paddingLeft: 11,
-    paddingRight: 4,
-  },
-  text: {
-    fontSize: 38,
-    // textAlign: 'center',
-    color: 'black',
-    fontWeight: 'bold',
-    paddingRight: 20,
-  },
-  buttons: {
-    position: 'absolute',
-    top: 10,
-    left: 0,
-    borderRadius: 10,
-    textAlign: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    backgroundColor: 'white',
-    width: 30,
-    margin: 20,
-  },
-  button2: {
-    borderRadius: 12,
-    justifycontent: 'center',
-    alignItems: 'center',
-    paddingVertical: 12,
-    textColor: 'black',
-    backgroundColor: '#E35205',
-    width: 340,
-    margin: 20,
-  },
-  text3: {
-    // fontSize:13,
-    // alignSelf: 'flex-start',
-    // left: 110,
-    textAlign: 'center',
-    color: '#35C2C1',
-    fontWeight: 'bold',
-  },
-  text4: {
-    fontSize: 17,
-    // alignSelf: 'flex-start',
-    // left: 110,
-    textAlign: 'center',
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  inputlabel: {
-    borderRadius: 5,
-    margin: 8,
-    padding: 10,
-    width: 340,
-    height: 50,
-    justifycontent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-});
