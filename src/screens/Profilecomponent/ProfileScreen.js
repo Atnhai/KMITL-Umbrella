@@ -54,6 +54,9 @@ export default function ProfileScreen({navigation}) {
       </Text>
       <Text style={styles.texts1}>
         Email:{authentication.currentUser.email}{' '}
+        {'\n'}
+        {'\n'}
+        
       </Text>
 
       <TouchableOpacity

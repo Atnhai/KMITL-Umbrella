@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-export default function HistoryScreen({ navigation }) {
+export default function HistoryScreen({navigation}) {
   const historyData = [
     {
       id: 1,
@@ -67,15 +67,14 @@ export default function HistoryScreen({ navigation }) {
     },
     // Add more data here...
   ];
-  
 
   const sortedHistoryData = historyData.sort((a, b) => {
     const aDateTime = new Date(a.date + 'T' + a.time); // Combine date and time for comparison
     const bDateTime = new Date(b.date + 'T' + b.time);
-  
+
     return bDateTime - aDateTime; // Sort in descending order
   });
-  
+
   const groupedData = sortedHistoryData.reduce((acc, cur) => {
     if (!acc[cur.month]) {
       acc[cur.month] = [];
@@ -87,19 +86,19 @@ export default function HistoryScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-      <View style={styles.rectangle} />
-      <TouchableOpacity
-        style={styles.buttons}
-        onPress={() => navigation.goBack()}>
-        <Text style={styles.text0}>{'<'}</Text>
-      </TouchableOpacity>
-      <Text style={styles.text1}>Back</Text>
-  </View>
+        <View style={styles.rectangle} />
+        <TouchableOpacity
+          style={styles.buttons}
+          onPress={() => navigation.goBack()}>
+          <Text style={styles.text0}>{'<'}</Text>
+        </TouchableOpacity>
+        <Text style={styles.text1}>Back</Text>
+      </View>
       <ScrollView>
         {Object.entries(groupedData).map(([month, items]) => (
           <View key={month}>
             <Text style={styles.month}>{month}</Text>
-            {items.map((item) => (
+            {items.map(item => (
               <View style={styles.historyItem} key={item.id}>
                 <Image source={item.image} style={styles.image} />
                 <View style={styles.infoContainer}>
@@ -139,7 +138,7 @@ const styles = StyleSheet.create({
     height: 80,
     backgroundColor: '#E35205',
   },
-  
+
   text0: {
     fontsize: 20,
     fontWeight: 'bold',
