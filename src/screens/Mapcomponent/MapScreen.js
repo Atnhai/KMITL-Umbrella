@@ -26,6 +26,7 @@ enableLatestRenderer();
 export default function MapScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedUmbrella, setSelectedUmbrella] = useState({ id: null, rentDate: null, rentTime: null });
   const [rentModalVisible, setRentModalVisible] = useState(false);
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
@@ -35,11 +36,16 @@ export default function MapScreen({ navigation }) {
     setModalVisible(true);
   };
 
-  const showRentModal = () => {
-    setModalVisible(false);
+  const showRentModal = (umbrella) => {
+    const rentDate = new Date();
+    setSelectedUmbrella({
+      ...umbrella,
+      rentDate: rentDate.toLocaleDateString(),
+      rentTime: rentDate.toLocaleTimeString(),
+    });
     setRentModalVisible(true);
   };
-
+  
   const showImageModal = () => {
     setRentModalVisible(false);
     setImageModalVisible(true);
@@ -114,6 +120,21 @@ export default function MapScreen({ navigation }) {
     },
   ];
 
+  const calculateUmbrellaStats = (umbrellas) => {
+    let availableCount = 0;
+    let unavailableCount = 0;
+
+    umbrellas.forEach((umbrella) => {
+      if (umbrella.status === 'Available') {
+        availableCount++;
+      } else {
+        unavailableCount++;
+      }
+    });
+
+    return { availableCount, unavailableCount };
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.views}>
@@ -158,7 +179,13 @@ export default function MapScreen({ navigation }) {
       source={selectedItem ? selectedItem.image : null}
     />
     <Text style={styles.modalText}>
-      Umbrellas available: {selectedItem?.availableUmbrellas}
+      Umbrellas available:{" "}
+      {
+        (selectedItem?.place === "ECC Building"
+          ? umbrellasData.eccBuilding
+          : umbrellasData.hmBuilding
+        ).filter((umbrella) => umbrella.status === "Available").length
+      }
     </Text>
     {(selectedItem?.place === 'ECC Building' ? umbrellasData.eccBuilding : umbrellasData.hmBuilding).map(
       (umbrella, index) => {
@@ -174,12 +201,15 @@ export default function MapScreen({ navigation }) {
                 Umbrella ID: {umbrella.umbrellaId}
               </Text>
               <Text style={styles.umbrellaStatus}>
-                Status: {umbrella.status}
+                Status:{" "}
+                <Text style={{ color: isAvailable ? "green" : "red" }}>
+                  {umbrella.status}
+                </Text>
               </Text>
             </View>
             <Button
               title="Rent"
-              onPress={() => showRentModal()}
+              onPress={() => showRentModal(umbrella)}
               color={isAvailable ? 'green' : 'grey'}
               disabled={!isAvailable}
             />
@@ -197,6 +227,7 @@ export default function MapScreen({ navigation }) {
 </Modal>
 
 
+
 <Modal
   animationType="slide"
   transparent={true}
@@ -208,7 +239,7 @@ export default function MapScreen({ navigation }) {
     <TouchableOpacity
       style={{ ...styles.modalCloseButton }}
       onPress={() => setRentModalVisible(!rentModalVisible)}>
-      <Text style={styles.modalCloseButtonText}>Close</Text>
+      <Text style={styles.modalCloseButtonText}>Back</Text>
     </TouchableOpacity>
     <View style={{ width: '100%' }}>
       <Text style={styles.modalTextLeft}>Place: {selectedItem?.place}</Text>
@@ -216,19 +247,25 @@ export default function MapScreen({ navigation }) {
     </View>
     <View style={{ width: '100%' }}>
       <Text style={styles.modalTextLeft}>
-        Date: {new Date().toLocaleDateString()}
+        Date: {selectedUmbrella?.rentDate}
       </Text>
       <BlackLine />
     </View>
     <View style={{ width: '100%' }}>
       <Text style={styles.modalTextLeft}>
-        Time: {new Date().toLocaleTimeString()}
+        Time: {selectedUmbrella?.rentTime}
       </Text>
       <BlackLine />
     </View>
     <View style={{ width: '100%' }}>
       <Text style={styles.modalTextLeft}>
-        Umbrella ID: {Math.floor(Math.random() * 100000)}
+        Lock ID: {selectedUmbrella?.lockId}
+      </Text>
+      <BlackLine />
+      </View>
+    <View style={{ width: '100%' }}>
+      <Text style={styles.modalTextLeft}>
+        Umbrella ID: {selectedUmbrella?.umbrellaId}
       </Text>
       <BlackLine />
     </View>
@@ -246,6 +283,7 @@ export default function MapScreen({ navigation }) {
   </View>
 </Modal>
 
+
   <Modal
     animationType="slide"
     transparent={true}
@@ -257,7 +295,7 @@ export default function MapScreen({ navigation }) {
       <TouchableOpacity
         style={{ ...styles.modalCloseButton }}
         onPress={() => setImageModalVisible(!imageModalVisible)}>
-        <Text style={styles.modalCloseButtonText}>Close</Text>
+        <Text style={styles.modalCloseButtonText}>Back</Text>
       </TouchableOpacity>
       <Text style={styles.modalText}>Please save the image below to pay</Text>
       <Image
@@ -282,14 +320,19 @@ export default function MapScreen({ navigation }) {
     <TouchableOpacity
       style={{ ...styles.modalCloseButton }}
       onPress={() => setSuccessModalVisible(!successModalVisible)}>
-      <Text style={styles.modalCloseButtonText}>Close</Text>
+      <Text style={styles.modalCloseButtonText}>Back</Text>
     </TouchableOpacity>
     <Image source={profileImage2} style={styles.profileImage2} />
     <Text style={styles.successText}>Successfully Rented!</Text>
     <Text style={styles.detailsText}>Place: {selectedItem?.place}</Text>
     <Text style={styles.detailsText}>Date: {new Date().toLocaleDateString()}</Text>
     <Text style={styles.detailsText}>Time: {new Date().toLocaleTimeString()}</Text>
-    <Text style={styles.detailsText}>Umbrella ID: {Math.floor(Math.random() * 100000)}</Text>
+    <Text style={styles.detailsText}>
+                Lock ID: {selectedUmbrella?.lockId}
+              </Text>
+    <Text style={styles.detailsText}>
+        Umbrella ID: {selectedUmbrella?.umbrellaId}
+      </Text>
     <Text style={styles.detailsText}>Price: ฿{selectedItem?.price.toFixed(2)}</Text>
     <Image source={correctImage} style={styles.correctImage} />
   </View>
@@ -372,7 +415,7 @@ modalImageQR: {
   marginBottom: 15,
   },
 modalCloseButton: {
-backgroundColor: '#FAC983',
+backgroundColor: '#E35205',
 borderRadius: 20,
 padding: 10,
 elevation: 2,

@@ -49,6 +49,7 @@ export default function SigninScreen({navigation}) {
 
       <Text style={Stylecomponent.header_text}>
         {'\n'}
+        
         {'\n'}Welcome back! Glad to see you, Again!{'\n'}
       </Text>
 
