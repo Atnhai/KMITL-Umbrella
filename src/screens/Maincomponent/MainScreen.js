@@ -44,13 +44,7 @@ export default function MainScreen({navigation}) {
             } else if (rn === profileName) {
               iconName = focused ? 'man' : 'man-outline';
             }
-            return (
-              <Ionic
-                name={iconName}
-                size={size}
-                color={color}
-                style={styles.icons}></Ionic>
-            );
+            return <Ionic name={iconName} size={size} color={color}></Ionic>;
           },
         })}
         tabBarOptions={{
@@ -79,14 +73,3 @@ export default function MainScreen({navigation}) {
     </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  views: {
-    alignItems: 'center',
-    backgroundColor: '#FAC983',
-    padding: 80,
-  },
-  icons: {
-    // bottom: 0,
-  },
-});

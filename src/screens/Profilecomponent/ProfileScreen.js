@@ -21,7 +21,7 @@ import setting from '../../../assets/images/setting.png';
 import {useNavigation} from '@react-navigation/native';
 import {Ionic} from 'react-native-vector-icons/Ionicons';
 import HelpScreen from '../Helpcomponent';
-
+import StyleMaincomponent from '../../StyleSheet/StyleMaincomponent';
 export default function ProfileScreen({navigation}) {
   // const rendercheckanonymous = () => {
   //   if (!authentication.currentUser.isAnonymous) {
@@ -39,7 +39,7 @@ export default function ProfileScreen({navigation}) {
   //   }
   // };
   return (
-    <View style={styles.views}>
+    <View style={StyleMaincomponent.background_views}>
       {/* {rendercheckanonymous()} */}
       <View style={styles.rectangle} />
       <Image source={user} style={styles.user}></Image>
@@ -53,10 +53,8 @@ export default function ProfileScreen({navigation}) {
         username:**********
       </Text>
       <Text style={styles.texts1}>
-        Email:{authentication.currentUser.email}{' '}
+        Email:{authentication.currentUser.email} {'\n'}
         {'\n'}
-        {'\n'}
-        
       </Text>
 
       <TouchableOpacity
