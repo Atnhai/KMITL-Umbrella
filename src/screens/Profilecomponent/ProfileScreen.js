@@ -22,6 +22,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Ionic} from 'react-native-vector-icons/Ionicons';
 import HelpScreen from '../Helpcomponent';
 import StyleMaincomponent from '../../StyleSheet/StyleMaincomponent';
+import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
 export default function ProfileScreen({navigation}) {
   // const rendercheckanonymous = () => {
   //   if (!authentication.currentUser.isAnonymous) {
@@ -40,11 +41,10 @@ export default function ProfileScreen({navigation}) {
   // };
   return (
     <View style={StyleMaincomponent.background_views}>
-      {/* {rendercheckanonymous()} */}
-      <View style={styles.rectangle} />
-      <Image source={user} style={styles.user}></Image>
-      <Image source={setting} style={styles.setting}></Image>
-      <Text style={styles.texts1}>
+      <View style={StyleMaincomponent.rectangle} />
+      <Image source={user} style={StyleMaincomponent.logo_umbrella}></Image>
+      <Image source={setting} style={StyleMaincomponent.setting_icon}></Image>
+      <Text style={StyleMaincomponent.texts_profile_white}>
         {'\n'}
         {'\n'}
         {'\n'}
@@ -52,17 +52,20 @@ export default function ProfileScreen({navigation}) {
         {'\n'}
         username:**********
       </Text>
-      <Text style={styles.texts1}>
+      <Text style={StyleMaincomponent.texts_profile_white}>
         Email:{authentication.currentUser.email} {'\n'}
         {'\n'}
       </Text>
 
       <TouchableOpacity
-        style={styles.buttons}
+        style={StyleMaincomponent.buttons_white}
         onPress={() => navigation.navigate('History')}>
-        <Text style={styles.texts2}>
+        <Text style={StyleMaincomponent.texts_menu}>
           {' '}
-          <Image source={Logo} style={styles.logos1}></Image> History {'\t'}
+          <Image
+            source={Logo}
+            style={StyleMaincomponent.logo_history}></Image>{' '}
+          History {'\t'}
           {'\t'}
           {'\t'}
           {'\t'}
@@ -86,17 +89,21 @@ export default function ProfileScreen({navigation}) {
           {'\t'}
           {'\t'}
           {'\t'}
-          <Text style={styles.space}></Text>
-          <Image source={go} style={styles.go}></Image>{' '}
+          <Image
+            source={go}
+            style={StyleMaincomponent.navigate_icon}></Image>{' '}
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.buttons}
+        style={StyleMaincomponent.buttons_white}
         onPress={() => navigation.navigate('Help')}>
-        <Text style={styles.texts2}>
+        <Text style={StyleMaincomponent.texts_menu}>
           {' '}
-          <Image source={help} style={styles.help}></Image> Help {'\t'}
+          <Image
+            source={help}
+            style={StyleMaincomponent.logo_history}></Image>{' '}
+          Help {'\t'}
           {'\t'}
           {'\t'}
           {'\t'}
@@ -122,16 +129,19 @@ export default function ProfileScreen({navigation}) {
           {'\t'}
           {'\t'}
           {'\t'}
-          <Image source={go} style={styles.go}></Image>
+          <Image source={go} style={StyleMaincomponent.navigate_icon}></Image>
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={styles.buttons}
+        style={StyleMaincomponent.buttons_white}
         onPress={() => navigation.navigate('Aboutus')}>
-        <Text style={styles.texts2}>
+        <Text style={StyleMaincomponent.texts_menu}>
           {' '}
-          <Image source={aboutus} style={styles.aboutus}></Image> About us{' '}
+          <Image
+            source={aboutus}
+            style={StyleMaincomponent.logo_history}></Image>{' '}
+          About us {'\t'}
           {'\t'}
           {'\t'}
           {'\t'}
@@ -153,18 +163,18 @@ export default function ProfileScreen({navigation}) {
           {'\t'}
           {'\t'}
           {'\t'}
-          {'\t'}
-          {'\t'}
-          <Image source={go} style={styles.go}></Image>{' '}
+          <Image
+            source={go}
+            style={StyleMaincomponent.navigate_icon}></Image>{' '}
         </Text>
       </TouchableOpacity>
-      <Text style={styles.texts}></Text>
+      {/* <Text style={Stylecomponent.text_padding}></Text> */}
       <TouchableOpacity
-        style={styles.button_logout}
+        style={Stylecomponent.button_login}
         onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.text4}>Log out</Text>
+        <Text style={Stylecomponent.text_white}>Log out</Text>
       </TouchableOpacity>
-      <Text style={styles.texts}>
+      <Text>
         {'\n'}
         {'\n'}
         {'\n'}
@@ -173,123 +183,3 @@ export default function ProfileScreen({navigation}) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  views: {
-    alignItems: 'center',
-    backgroundColor: '#FAC983',
-    padding: 80,
-    justifyContent: 'center',
-    flex: 1,
-  },
-  texts: {
-    alignContent: 'center',
-    right: 80,
-  },
-  texts2: {
-    paddingTop: 10,
-    fontSize: 15,
-    paddingLeft: 30,
-  },
-  space: {
-    marginVertical: 100,
-  },
-  buttons: {
-    borderRadius: 10,
-    marginBottom: 10,
-    backgroundColor: 'white',
-    width: 350,
-    height: 50,
-    // justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  button_logout: {
-    borderRadius: 12,
-    justifycontent: 'center',
-    alignItems: 'center',
-    paddingVertical: 12,
-    backgroundColor: '#E35205',
-    width: 300,
-    //padding: 100,
-    // margin:20,
-  },
-  logos1: {
-    height: 20,
-    width: 20,
-    alignItems: 'center',
-    resizeMode: 'stretch',
-    marginRight: 40,
-  },
-  editcards: {
-    height: 20,
-    width: 25,
-    alignItems: 'center',
-    justifycontent: 'space-between',
-  },
-  help: {
-    resizeMode: 'cover',
-    height: 20,
-    width: 20,
-    alignItems: 'center',
-  },
-  aboutus: {
-    resizeMode: 'cover',
-    height: 20,
-    width: 20,
-    alignItems: 'center',
-  },
-  user: {
-    position: 'absolute',
-    top: 30,
-    left: 20,
-    resizeMode: 'cover',
-    height: 130,
-    width: 130,
-    alignItems: 'center',
-  },
-  go: {
-    //right: 100,
-    height: 10,
-    width: 10,
-    alignItems: 'center',
-    justifycontent: 'flex-end',
-    position: 'absolute',
-    right: 4,
-  },
-  setting: {
-    position: 'absolute',
-    top: 40,
-    right: 30,
-    height: 40,
-    width: 40,
-    alignItems: 'center',
-  },
-  text4: {
-    fontSize: 17,
-    // alignSelf: 'flex-start',
-    // left: 110,
-    textAlign: 'center',
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  texts1: {
-    alignContent: 'center',
-    paddingBottom: 30,
-    right: 80,
-    //fontSize: 15,
-    // alignSelf: 'flex-start',
-    // left: 110,
-    //textAlign: 'center',
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  rectangle: {
-    position: 'absolute',
-    top: 0,
-    borderBottomRightRadius: 80,
-    width: 410,
-    height: 250,
-    marginBottom: 20,
-    backgroundColor: '#E35205',
-  },
-});
