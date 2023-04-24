@@ -12,8 +12,9 @@ import {
   Modal,
 } from 'react-native';
 import Logo from '../../../assets/images/search.png';
-import ProfileImage from '../../../assets/images/profile.png';
-import profileImage2 from '../../../assets/images/profile.png';
+import ProfileImage from '../../../assets/images/locker.png';
+import profileImage2 from '../../../assets/images/profileNew.png';
+import bill from '../../../assets/images/bill.png';
 import correctImage from '../../../assets/images/correct.png';
 import {useNavigation} from '@react-navigation/native';
 import {Searchbar} from 'react-native-paper';
@@ -198,7 +199,7 @@ export default function MapScreen({ navigation }) {
                 Lock ID: {umbrella.lockId}
               </Text>
               <Text style={styles.umbrellaId}>
-                Umbrella ID: {umbrella.umbrellaId}
+                Umbrella ID: {isAvailable ? umbrella.umbrellaId : '-'}
               </Text>
               <Text style={styles.umbrellaStatus}>
                 Status:{" "}
@@ -207,12 +208,16 @@ export default function MapScreen({ navigation }) {
                 </Text>
               </Text>
             </View>
-            <Button
-              title="Rent"
+            <TouchableOpacity
+              style={{
+                ...styles.rentButton,
+                backgroundColor: isAvailable ? '#E35205' : 'grey',
+              }}
               onPress={() => showRentModal(umbrella)}
-              color={isAvailable ? 'green' : 'grey'}
               disabled={!isAvailable}
-            />
+            >
+              <Text style={styles.rentButtonText}>Rent</Text>
+            </TouchableOpacity>
           </View>
         );
       }
@@ -225,6 +230,7 @@ export default function MapScreen({ navigation }) {
     </TouchableOpacity>
   </ScrollView>
 </Modal>
+
 
 
 
@@ -241,6 +247,7 @@ export default function MapScreen({ navigation }) {
       onPress={() => setRentModalVisible(!rentModalVisible)}>
       <Text style={styles.modalCloseButtonText}>Back</Text>
     </TouchableOpacity>
+    <Image source={bill} style={styles.profileImage2} />
     <View style={{ width: '100%' }}>
       <Text style={styles.modalTextLeft}>Place: {selectedItem?.place}</Text>
       <BlackLine />
@@ -415,7 +422,7 @@ modalImageQR: {
   marginBottom: 15,
   },
 modalCloseButton: {
-backgroundColor: '#E35205',
+backgroundColor: 'black',
 borderRadius: 20,
 padding: 10,
 elevation: 2,
@@ -429,8 +436,8 @@ fontWeight: 'bold',
 textAlign: 'center',
 },
 modalConfirmButton: {
-backgroundColor: 'green',
-borderRadius: 0,
+backgroundColor: '#E35205',
+borderRadius: 20,
 padding: 10,
 elevation: 2,
 marginTop: 15,
@@ -463,8 +470,8 @@ umbrellaBox: {
   padding: 10,
   },
   profileImage: {
-  width: 40,
-  height: 40,
+  width: 70,
+  height: 70,
   resizeMode: 'cover',
   marginRight: 10,
   },
@@ -492,7 +499,7 @@ umbrellaBox: {
   },
   blackLine: {
     height: 1,
-    backgroundColor: 'black',
+    backgroundColor: '#FAC983',
     marginVertical: 8,
     width: '100%', // Add this line to set the width
   },
@@ -538,6 +545,17 @@ umbrellaBox: {
     borderRadius: 5,
     padding: 5,
     width: 150,
+  },
+  rentButton: {
+    borderRadius: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  rentButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
            

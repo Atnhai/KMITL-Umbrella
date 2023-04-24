@@ -20,7 +20,8 @@ export default function HistoryScreen({navigation}) {
       place: 'HM Building',
       date: '2023-04-01',
       time: '13:00',
-      number: '001',
+      lockId: '001',
+      number: '01',
       price: '฿20',
       month: 'April 2023',
       image: require('../../../assets/images/hm.jpg'),
@@ -30,6 +31,7 @@ export default function HistoryScreen({navigation}) {
       place: 'ECC Building',
       date: '2023-03-20',
       time: '14:00',
+      lockId: '001',
       number: '002',
       price: '฿20',
       month: 'March 2023',
@@ -40,6 +42,7 @@ export default function HistoryScreen({navigation}) {
       place: 'ECC Building',
       date: '2023-03-21',
       time: '15:00',
+      lockId: '001',
       number: '002',
       price: '฿20',
       month: 'March 2023',
@@ -50,6 +53,7 @@ export default function HistoryScreen({navigation}) {
       place: 'ECC Building',
       date: '2023-04-15',
       time: '16:00',
+      lockId: '001',
       number: '002',
       price: '฿20',
       month: 'April 2023',
@@ -60,6 +64,7 @@ export default function HistoryScreen({navigation}) {
       place: 'HM Building',
       date: '2023-04-01',
       time: '10:00',
+      lockId: '001',
       number: '001',
       price: '฿20',
       month: 'April 2023',
@@ -106,7 +111,8 @@ export default function HistoryScreen({navigation}) {
                     <Text style={styles.place}>{item.place}</Text>
                     <Text style={styles.date}>Date:{item.date}</Text>
                     <Text style={styles.time}>Time:{item.time}</Text>
-                    <Text style={styles.number}>Umbrella No:{item.number}</Text>
+                    <Text style={styles.lockId}>Lock ID:{item.lockId}</Text>
+                    <Text style={styles.number}>Umbrella ID:{item.number}</Text>
                   </View>
                   <View style={styles.infoBox}>
                     <Text style={styles.price}>{item.price}</Text>
@@ -221,4 +227,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 50,
   },
+  lockId: {
+    marginTop: 5,
+    fontSize: 16,
+  },
+  lockId: {
+    marginTop: 5,
+    fontSize: 16,
+  },
+  
 });
