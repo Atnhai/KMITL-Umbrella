@@ -8,19 +8,12 @@ const StyleMaincomponent = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
   },
-  texts: {
-    alignContent: 'center',
-    right: 80,
-  },
-  texts2: {
+  texts_menu: {
     paddingTop: 10,
     fontSize: 15,
     paddingLeft: 30,
   },
-  space: {
-    marginVertical: 100,
-  },
-  buttons: {
+  buttons_white: {
     borderRadius: 10,
     marginBottom: 10,
     backgroundColor: 'white',
@@ -29,42 +22,26 @@ const StyleMaincomponent = StyleSheet.create({
     // justifyContent: 'center',
     flexDirection: 'row',
   },
-  button_logout: {
-    borderRadius: 12,
-    justifycontent: 'center',
-    alignItems: 'center',
-    paddingVertical: 12,
-    backgroundColor: '#E35205',
-    width: 300,
-    //padding: 100,
-    // margin:20,
-  },
-  logos1: {
+  logo_history: {
     height: 20,
     width: 20,
     alignItems: 'center',
     resizeMode: 'stretch',
     marginRight: 40,
   },
-  editcards: {
-    height: 20,
-    width: 25,
-    alignItems: 'center',
-    justifycontent: 'space-between',
-  },
-  help: {
+  logo_help: {
     resizeMode: 'cover',
     height: 20,
     width: 20,
     alignItems: 'center',
   },
-  aboutus: {
+  logo_aboutus: {
     resizeMode: 'cover',
     height: 20,
     width: 20,
     alignItems: 'center',
   },
-  user: {
+  logo_umbrella: {
     position: 'absolute',
     top: 30,
     left: 20,
@@ -73,7 +50,7 @@ const StyleMaincomponent = StyleSheet.create({
     width: 130,
     alignItems: 'center',
   },
-  go: {
+  navigate_icon: {
     //right: 100,
     height: 10,
     width: 10,
@@ -82,7 +59,7 @@ const StyleMaincomponent = StyleSheet.create({
     position: 'absolute',
     right: 4,
   },
-  setting: {
+  setting_icon: {
     position: 'absolute',
     top: 40,
     right: 30,
@@ -90,22 +67,10 @@ const StyleMaincomponent = StyleSheet.create({
     width: 40,
     alignItems: 'center',
   },
-  text4: {
-    fontSize: 17,
-    // alignSelf: 'flex-start',
-    // left: 110,
-    textAlign: 'center',
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  texts1: {
+  texts_profile_white: {
     alignContent: 'center',
     paddingBottom: 30,
     right: 80,
-    //fontSize: 15,
-    // alignSelf: 'flex-start',
-    // left: 110,
-    //textAlign: 'center',
     color: 'white',
     fontWeight: 'bold',
   },
@@ -117,6 +82,65 @@ const StyleMaincomponent = StyleSheet.create({
     height: 250,
     marginBottom: 20,
     backgroundColor: '#E35205',
+  },
+  rectangle_small: {
+    position: 'absolute',
+    top: 0,
+    borderBottomRightRadius: 80,
+    width: 410,
+    height: 80,
+    marginBottom: 20,
+    backgroundColor: '#E35205',
+  },
+  button_goback: {
+    position: 'absolute',
+    top: 5,
+    left: 0,
+    borderRadius: 10,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    margin: 20,
+  },
+  text_navigation: {
+    fontsize: 20,
+    fontWeight: 'bold',
+    padding: 10,
+  },
+  text_name: {
+    fontSize: 17,
+    fontWeight: 'bold',
+  },
+  text_back: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    padding: 10,
+    paddingLeft: 30,
+    position: 'absolute',
+    top: 20,
+    left: 40,
+  },
+  rectangle_square: {
+    position: 'absolute',
+    top: 480,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    width: 330,
+    height: 140,
+    backgroundColor: 'white',
+  },
+  logo_umbrella_profile: {
+    borderRadius: 20,
+    resizeMode: 'cover',
+    height: 350,
+    width: 300,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#000000',
+    marginBottom: 100,
   },
 });
 
