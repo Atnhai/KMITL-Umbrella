@@ -13,7 +13,7 @@ import Logo from '../../../assets/images/Logo_1.png';
 import {useNavigation} from '@react-navigation/native';
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import {useState} from 'react';
-import Stylecomponent from '../../StyleSheet/Stylecomponent';
+import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
 
 export default function LoginScreen({navigation}) {
   const [email, setEmail] = useState('');
