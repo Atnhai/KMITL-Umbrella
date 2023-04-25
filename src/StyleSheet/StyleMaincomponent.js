@@ -51,7 +51,6 @@ const StyleMaincomponent = StyleSheet.create({
     alignItems: 'center',
   },
   navigate_icon: {
-    //right: 100,
     height: 10,
     width: 10,
     alignItems: 'center',
