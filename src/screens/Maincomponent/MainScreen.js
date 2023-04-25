@@ -23,7 +23,7 @@ import ProfileScreen from '../Profilecomponent';
 export default function MainScreen({navigation}) {
   //Screen names
   const mapName = 'Map';
-  const scanName = 'ScanQR';
+  const scanName = 'Umbrella';
   const profileName = 'Profile';
 
   const Tab = createBottomTabNavigator();
@@ -40,7 +40,7 @@ export default function MainScreen({navigation}) {
             if (rn === mapName) {
               iconName = focused ? 'map' : 'map-outline';
             } else if (rn === scanName) {
-              iconName = focused ? 'camera' : 'camera-outline';
+              iconName = focused ? 'umbrella' : 'umbrella-outline';
             } else if (rn === profileName) {
               iconName = focused ? 'man' : 'man-outline';
             }
@@ -60,7 +60,7 @@ export default function MainScreen({navigation}) {
           options={{headerShown: false}}
         />
         <Tab.Screen
-          name="ScanQR"
+          name="Umbrella"
           component={ScanQRScreen}
           options={{headerShown: false}}
         />

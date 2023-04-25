@@ -12,17 +12,18 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Searchbar} from 'react-native-paper';
+import StyleMaincomponent from '../../StyleSheet/StyleMaincomponent';
 
 export default function HelpScreen({navigation}) {
   return (
-    <View style={styles.views}>
-      <View style={styles.rectangle} />
+    <View style={StyleMaincomponent.background_views}>
+      <View style={StyleMaincomponent.rectangle_small} />
       <TouchableOpacity
-        style={styles.buttons}
+        style={StyleMaincomponent.button_goback}
         onPress={() => navigation.goBack()}>
-        <Text style={styles.text0}>{'<'}</Text>
+        <Text style={StyleMaincomponent.text_navigation}>{'<'}</Text>
       </TouchableOpacity>
-      <Text style={styles.text1}>Back</Text>
+      <Text style={StyleMaincomponent.text_back}>Back</Text>
       <Text style={styles.text2}>Please Contract Us</Text>
       <View style={styles.rectangle2}>
         <Text style={styles.text4}>0917219691</Text>
@@ -35,29 +36,6 @@ export default function HelpScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
-  buttons: {
-    // position: 'relative',
-    // height: 50,
-    position: 'absolute',
-    top: 5,
-    left: 0,
-    borderRadius: 10,
-    textAlign: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // paddingVertical: 12,
-    backgroundColor: 'white',
-    margin: 20,
-  },
-  rectangle: {
-    position: 'absolute',
-    top: 0,
-    borderBottomRightRadius: 80,
-    width: 410,
-    height: 80,
-    marginBottom: 20,
-    backgroundColor: '#E35205',
-  },
   rectangle2: {
     position: 'absolute',
     top: 160,
@@ -81,27 +59,6 @@ const styles = StyleSheet.create({
     height: 60,
     marginBottom: 20,
     backgroundColor: 'white',
-  },
-  views: {
-    alignItems: 'center',
-    backgroundColor: '#FAC983',
-    padding: 80,
-    justifyContent: 'center',
-    flex: 1,
-  },
-  text0: {
-    fontsize: 20,
-    fontWeight: 'bold',
-    padding: 10,
-  },
-  text1: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    padding: 10,
-    paddingLeft: 30,
-    position: 'absolute',
-    top: 20,
-    left: 40,
   },
   text2: {
     fontSize: 20,
