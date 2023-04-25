@@ -71,7 +71,7 @@ export default function MapScreen({ navigation }) {
       {
         lockId: '003',
         umbrellaId: '03',
-        status: 'Unavailable',
+        status: 'Available',
       },
       // Add more umbrellas for ECC Building here...
     ],
