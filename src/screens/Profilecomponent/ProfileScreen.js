@@ -15,7 +15,7 @@ import Logo from '../../../assets/images/history.png';
 import editcards from '../../../assets/images/editcards.png';
 import help from '../../../assets/images/help.png';
 import aboutus from '../../../assets/images/aboutus.png';
-import user from '../../../assets/images/profile.png';
+import user from '../../../assets/images/profileNew.png';
 import go from '../../../assets/images/go.png';
 import setting from '../../../assets/images/setting.png';
 import {useNavigation} from '@react-navigation/native';

@@ -12,8 +12,9 @@ import {
   Modal,
 } from 'react-native';
 import Logo from '../../../assets/images/search.png';
-import ProfileImage from '../../../assets/images/profile.png';
-import profileImage2 from '../../../assets/images/profile.png';
+import ProfileImage from '../../../assets/images/locker.png';
+import profileImage2 from '../../../assets/images/profileNew.png';
+import bill from '../../../assets/images/bill.png';
 import correctImage from '../../../assets/images/correct.png';
 import {useNavigation} from '@react-navigation/native';
 import {Searchbar} from 'react-native-paper';
@@ -169,65 +170,129 @@ export default function MapScreen({navigation}) {
         </MapView>
       </View>
       <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <ScrollView contentContainerStyle={styles.modalView}>
-          <Text style={styles.modalText}>{selectedItem?.place}</Text>
-          <Image
-            style={styles.modalImage}
-            source={selectedItem ? selectedItem.image : null}
-          />
-          <Text style={styles.modalText}>
-            Umbrellas available:{' '}
-            {
-              (selectedItem?.place === 'ECC Building'
-                ? umbrellasData.eccBuilding
-                : umbrellasData.hmBuilding
-              ).filter(umbrella => umbrella.status === 'Available').length
-            }
-          </Text>
-          {(selectedItem?.place === 'ECC Building'
-            ? umbrellasData.eccBuilding
-            : umbrellasData.hmBuilding
-          ).map((umbrella, index) => {
-            const isAvailable = umbrella.status === 'Available';
-            return (
-              <View key={index} style={styles.umbrellaBox}>
-                <Image source={ProfileImage} style={styles.profileImage} />
-                <View style={styles.umbrellaInfo}>
-                  <Text style={styles.umbrellaId}>
-                    Lock ID: {umbrella.lockId}
-                  </Text>
-                  <Text style={styles.umbrellaId}>
-                    Umbrella ID: {umbrella.umbrellaId}
-                  </Text>
-                  <Text style={styles.umbrellaStatus}>
-                    Status:{' '}
-                    <Text style={{color: isAvailable ? 'green' : 'red'}}>
-                      {umbrella.status}
-                    </Text>
-                  </Text>
-                </View>
-                <Button
-                  title="Rent"
-                  onPress={() => showRentModal(umbrella)}
-                  color={isAvailable ? 'green' : 'grey'}
-                  disabled={!isAvailable}
-                />
-              </View>
-            );
-          })}
-          <TouchableOpacity
-            style={{...styles.modalCloseButton}}
-            onPress={() => setModalVisible(!modalVisible)}>
-            <Text style={styles.modalCloseButtonText}>Back</Text>
-          </TouchableOpacity>
-        </ScrollView>
-      </Modal>
+  animationType="slide"
+  transparent={true}
+  visible={modalVisible}
+  onRequestClose={() => {
+    setModalVisible(!modalVisible);
+  }}
+>
+  <ScrollView contentContainerStyle={styles.modalView}>
+    <Text style={styles.modalText}>{selectedItem?.place}</Text>
+    <Image
+      style={styles.modalImage}
+      source={selectedItem ? selectedItem.image : null}
+    />
+    <Text style={styles.modalText}>
+      Umbrellas available:{" "}
+      {
+        (selectedItem?.place === "ECC Building"
+          ? umbrellasData.eccBuilding
+          : umbrellasData.hmBuilding
+        ).filter((umbrella) => umbrella.status === "Available").length
+      }
+    </Text>
+    {(selectedItem?.place === 'ECC Building' ? umbrellasData.eccBuilding : umbrellasData.hmBuilding).map(
+      (umbrella, index) => {
+        const isAvailable = umbrella.status === 'Available';
+        return (
+          <View key={index} style={styles.umbrellaBox}>
+            <Image source={ProfileImage} style={styles.profileImage} />
+            <View style={styles.umbrellaInfo}>
+              <Text style={styles.umbrellaId}>
+                Lock ID: {umbrella.lockId}
+              </Text>
+              <Text style={styles.umbrellaId}>
+                Umbrella ID: {isAvailable ? umbrella.umbrellaId : '-'}
+              </Text>
+              <Text style={styles.umbrellaStatus}>
+                Status:{" "}
+                <Text style={{ color: isAvailable ? "green" : "red" }}>
+                  {umbrella.status}
+                </Text>
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={{
+                ...styles.rentButton,
+                backgroundColor: isAvailable ? '#E35205' : 'grey',
+              }}
+              onPress={() => showRentModal(umbrella)}
+              disabled={!isAvailable}
+            >
+              <Text style={styles.rentButtonText}>Rent</Text>
+            </TouchableOpacity>
+          </View>
+        );
+      }
+    )}
+    <TouchableOpacity
+      style={{ ...styles.modalCloseButton }}
+      onPress={() => setModalVisible(!modalVisible)}
+    >
+      <Text style={styles.modalCloseButtonText}>Back</Text>
+    </TouchableOpacity>
+  </ScrollView>
+</Modal>
+
+
+
+
+<Modal
+  animationType="slide"
+  transparent={true}
+  visible={rentModalVisible}
+  onRequestClose={() => {
+    setRentModalVisible(!rentModalVisible);
+  }}>
+  <View style={styles.modalView}>
+    <TouchableOpacity
+      style={{ ...styles.modalCloseButton }}
+      onPress={() => setRentModalVisible(!rentModalVisible)}>
+      <Text style={styles.modalCloseButtonText}>Back</Text>
+    </TouchableOpacity>
+    <Image source={bill} style={styles.profileImage2} />
+    <View style={{ width: '100%' }}>
+      <Text style={styles.modalTextLeft}>Place: {selectedItem?.place}</Text>
+      <BlackLine />
+    </View>
+    <View style={{ width: '100%' }}>
+      <Text style={styles.modalTextLeft}>
+        Date: {selectedUmbrella?.rentDate}
+      </Text>
+      <BlackLine />
+    </View>
+    <View style={{ width: '100%' }}>
+      <Text style={styles.modalTextLeft}>
+        Time: {selectedUmbrella?.rentTime}
+      </Text>
+      <BlackLine />
+    </View>
+    <View style={{ width: '100%' }}>
+      <Text style={styles.modalTextLeft}>
+        Lock ID: {selectedUmbrella?.lockId}
+      </Text>
+      <BlackLine />
+      </View>
+    <View style={{ width: '100%' }}>
+      <Text style={styles.modalTextLeft}>
+        Umbrella ID: {selectedUmbrella?.umbrellaId}
+      </Text>
+      <BlackLine />
+    </View>
+    <View style={{ width: '100%' }}>
+      <Text style={styles.modalTextLeft}>
+        Price: ฿{selectedItem?.price.toFixed(2)}
+      </Text>
+      <BlackLine />
+    </View>
+    <TouchableOpacity
+      style={{ ...styles.modalConfirmButton }}
+      onPress={() => showImageModal()}>
+      <Text style={styles.modalConfirmButtonText}>Confirm</Text>
+    </TouchableOpacity>
+  </View>
+</Modal>
 
       <Modal
         animationType="slide"
@@ -358,6 +423,7 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFill,
   },
+<<<<<<< HEAD
   views: {
     alignItems: 'center',
     backgroundColor: '#FAC983',
@@ -476,6 +542,61 @@ const styles = StyleSheet.create({
     height: 40,
     resizeMode: 'cover',
     marginRight: 10,
+=======
+modalCloseButton: {
+backgroundColor: 'black',
+borderRadius: 20,
+padding: 10,
+elevation: 2,
+position: 'absolute',
+top: 10,
+left: 10,
+},
+modalCloseButtonText: {
+color: 'white',
+fontWeight: 'bold',
+textAlign: 'center',
+},
+modalConfirmButton: {
+backgroundColor: '#E35205',
+borderRadius: 20,
+padding: 10,
+elevation: 2,
+marginTop: 15,
+paddingHorizontal: 30,
+},
+modalConfirmButtonText: {
+color: 'white',
+fontWeight: 'bold',
+textAlign: 'center',
+},
+successText: {
+fontWeight: 'bold',
+fontSize: 24,
+marginBottom: 20,
+color: 'green',
+},
+detailsText: {
+fontSize: 18,
+marginBottom: 10,
+textAlign: 'center',
+},
+umbrellaBox: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  backgroundColor: 'white',
+  borderRadius: 5,
+  borderWidth: 1,
+  borderColor: '#FAC983',
+  marginBottom: 10,
+  padding: 10,
+  },
+  profileImage: {
+  width: 70,
+  height: 70,
+  resizeMode: 'cover',
+  marginRight: 10,
+>>>>>>> 22b247f02ec46cd8af12bad4c5cde02501d72c50
   },
   umbrellaInfo: {
     flex: 1,
@@ -501,7 +622,7 @@ const styles = StyleSheet.create({
   },
   blackLine: {
     height: 1,
-    backgroundColor: 'black',
+    backgroundColor: '#FAC983',
     marginVertical: 8,
     width: '100%', // Add this line to set the width
   },
@@ -547,5 +668,16 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     width: 150,
+  },
+  rentButton: {
+    borderRadius: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  rentButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
