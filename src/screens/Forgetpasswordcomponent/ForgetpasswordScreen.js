@@ -59,24 +59,9 @@ export default function ForgetpasswordScreen({navigation}) {
         onPress={resetPassword()}>
         <Text style={Stylecomponent.text_white}>Send Code</Text>
       </TouchableOpacity>
+      <Text style={stylepadding.text_padding}></Text>
       <Text>
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}Remember Password?
+        Remember Password?
         <Link to={{screen: 'Signin'}} style={Stylecomponent.text_blue}>
           {' '}
           Login{'\n'}
@@ -86,3 +71,9 @@ export default function ForgetpasswordScreen({navigation}) {
     </View>
   );
 }
+
+const stylepadding = StyleSheet.create({
+  text_padding: {
+    marginBottom: 250,
+  },
+});

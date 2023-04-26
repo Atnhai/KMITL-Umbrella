@@ -44,12 +44,8 @@ export default function ProfileScreen({navigation}) {
       <View style={StyleMaincomponent.rectangle} />
       <Image source={user} style={StyleMaincomponent.logo_umbrella}></Image>
       <Image source={setting} style={StyleMaincomponent.setting_icon}></Image>
+      <Text style={stylepadding.text_padding}></Text>
       <Text style={StyleMaincomponent.texts_profile_white}>
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
         username:**********
       </Text>
       <Text style={StyleMaincomponent.texts_profile_white}>
@@ -65,30 +61,8 @@ export default function ProfileScreen({navigation}) {
           <Image
             source={Logo}
             style={StyleMaincomponent.logo_history}></Image>{' '}
-          History {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
+          History
+          <View style={stylepadding.text_padding_history}></View>
           <Image
             source={go}
             style={StyleMaincomponent.navigate_icon}></Image>{' '}
@@ -103,32 +77,8 @@ export default function ProfileScreen({navigation}) {
           <Image
             source={help}
             style={StyleMaincomponent.logo_history}></Image>{' '}
-          Help {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
+          Help
+          <View style={stylepadding.text_padding_help}></View>
           <Image source={go} style={StyleMaincomponent.navigate_icon}></Image>
         </Text>
       </TouchableOpacity>
@@ -141,28 +91,8 @@ export default function ProfileScreen({navigation}) {
           <Image
             source={aboutus}
             style={StyleMaincomponent.logo_history}></Image>{' '}
-          About us {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
+          About us
+          <View style={stylepadding.text_padding_aboutus}></View>
           <Image
             source={go}
             style={StyleMaincomponent.navigate_icon}></Image>{' '}
@@ -183,3 +113,17 @@ export default function ProfileScreen({navigation}) {
     </View>
   );
 }
+const stylepadding = StyleSheet.create({
+  text_padding: {
+    marginBottom: 90,
+  },
+  text_padding_history: {
+    paddingLeft: 200,
+  },
+  text_padding_help: {
+    paddingLeft: 220,
+  },
+  text_padding_aboutus: {
+    paddingLeft: 190,
+  },
+});
