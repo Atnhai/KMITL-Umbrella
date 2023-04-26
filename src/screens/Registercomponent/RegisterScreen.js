@@ -81,13 +81,9 @@ export default function RegisterScreen({navigation}) {
         }}>
         <Text style={Stylecomponent.text_white}>Register</Text>
       </TouchableOpacity>
+      <Text style={stylepadding.text_padding}></Text>
       <Text>
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}Already have an account?
+        Already have an account?
         <Link to={{screen: 'Signin'}} style={Stylecomponent.text_blue}>
           {' '}
           Login Now{'\n'}
@@ -97,3 +93,9 @@ export default function RegisterScreen({navigation}) {
     </View>
   );
 }
+
+const stylepadding = StyleSheet.create({
+  text_padding: {
+    marginBottom: 80,
+  },
+});

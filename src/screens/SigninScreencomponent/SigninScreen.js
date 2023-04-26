@@ -34,7 +34,7 @@ export default function SigninScreen({navigation}) {
         navigation.navigate('Main');
       })
       .catch(re => {
-        alert('Not Correct Username Password');
+        alert('Username or password was not corrected');
         console.log(re);
       });
   };
@@ -49,7 +49,6 @@ export default function SigninScreen({navigation}) {
 
       <Text style={Stylecomponent.header_text}>
         {'\n'}
-        
         {'\n'}Welcome back! Glad to see you, Again!{'\n'}
       </Text>
 
@@ -82,19 +81,9 @@ export default function SigninScreen({navigation}) {
         }>
         <Text style={Stylecomponent.text_white}>Login</Text>
       </TouchableOpacity>
-
+      <Text style={stylepadding.text_padding}></Text>
       <Text>
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}Don't have an account?{' '}
+        Don't have an account?{' '}
         <Link to={{screen: 'Register'}} style={Stylecomponent.text_blue}>
           Register Now {'\n'}
           {'\n'}
@@ -103,3 +92,8 @@ export default function SigninScreen({navigation}) {
     </View>
   );
 }
+const stylepadding = StyleSheet.create({
+  text_padding: {
+    marginBottom: 160,
+  },
+});
