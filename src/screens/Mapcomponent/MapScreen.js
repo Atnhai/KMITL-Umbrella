@@ -365,37 +365,6 @@ export default function MapScreen({ navigation }) {
         </View>
       </Modal>
     </View>
-  </Modal>
-  <Modal
-  animationType="slide"
-  transparent={true}
-  visible={successModalVisible}
-  onRequestClose={() => {
-    setSuccessModalVisible(!successModalVisible);
-  }}>
-  <View style={styles.modalView}>
-    <TouchableOpacity
-      style={{ ...styles.modalCloseButton }}
-      onPress={() => setSuccessModalVisible(!successModalVisible)}>
-      <Text style={styles.modalCloseButtonText}>Back</Text>
-    </TouchableOpacity>
-    <Image source={profileImage2} style={styles.profileImage2} />
-    <Text style={styles.successText}>Successfully Rented!</Text>
-    <Text style={styles.detailsText}>Place: {selectedItem?.place}</Text>
-    <Text style={styles.detailsText}>Date: {new Date().toLocaleDateString()}</Text>
-    <Text style={styles.detailsText}>Time: {new Date().toLocaleTimeString()}</Text>
-    <Text style={styles.detailsText}>
-                Lock ID: {selectedUmbrella?.lockId}
-              </Text>
-    <Text style={styles.detailsText}>
-        Umbrella ID: {selectedUmbrella?.umbrellaId}
-      </Text>
-    <Text style={styles.detailsText}>Price: ฿{selectedItem?.price.toFixed(2)}</Text>
-    <Image source={correctImage} style={styles.correctImage} />
-  </View>
-</Modal>
-
-</View>
 );
 }
 
