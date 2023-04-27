@@ -23,22 +23,22 @@ const StyleMaincomponent = StyleSheet.create({
     flexDirection: 'row',
   },
   logo_history: {
-    height: 20,
-    width: 20,
+    height: 25,
+    width: 25,
     alignItems: 'center',
     resizeMode: 'stretch',
-    marginRight: 40,
+    paddingleft: 40,
   },
   logo_help: {
     resizeMode: 'cover',
-    height: 20,
-    width: 20,
+    height: 25,
+    width: 25,
     alignItems: 'center',
   },
   logo_aboutus: {
     resizeMode: 'cover',
-    height: 20,
-    width: 20,
+    height: 25,
+    width: 25,
     alignItems: 'center',
   },
   logo_umbrella: {
@@ -68,7 +68,7 @@ const StyleMaincomponent = StyleSheet.create({
   },
   texts_profile_white: {
     alignContent: 'center',
-    paddingBottom: 30,
+    marginTop: 20,
     right: 80,
     color: 'white',
     fontWeight: 'bold',
@@ -79,7 +79,7 @@ const StyleMaincomponent = StyleSheet.create({
     borderBottomRightRadius: 80,
     width: 410,
     height: 250,
-    marginBottom: 20,
+    // marginBottom: 20,
     backgroundColor: '#E35205',
   },
   rectangle_small: {

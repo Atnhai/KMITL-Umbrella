@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -20,37 +20,32 @@ import {useNavigation} from '@react-navigation/native';
 import {Searchbar} from 'react-native-paper';
 import MapView, {Marker, enableLatestRenderer} from 'react-native-maps';
 import {FullWindowOverlay} from 'react-native-screens';
-<<<<<<< HEAD
 import {ScrollView} from 'react-native';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
-=======
-import { ScrollView } from 'react-native';
->>>>>>> bb63a0e2ac3f4205e4bfd5db7f74335ceba03202
-
+import Geolocation from '@react-native-community/geolocation';
 enableLatestRenderer();
 
-export default function MapScreen({ navigation }) {
+export default function MapScreen({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [selectedUmbrella, setSelectedUmbrella] = useState({ id: null, rentDate: null, rentTime: null });
+  const [selectedUmbrella, setSelectedUmbrella] = useState({
+    id: null,
+    rentDate: null,
+    rentTime: null,
+  });
   const [rentModalVisible, setRentModalVisible] = useState(false);
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
 
-  const showModal = (item) => {
+  const showModal = item => {
     setSelectedItem(item);
     setModalVisible(true);
   };
 
-<<<<<<< HEAD
   const showRentModal = umbrella => {
     const rentDate = new Date().toLocaleString('en-US', {
       timeZone: 'Asia/Bangkok',
     });
-=======
-  const showRentModal = (umbrella) => {
-    const rentDate = new Date();
->>>>>>> bb63a0e2ac3f4205e4bfd5db7f74335ceba03202
     setSelectedUmbrella({
       ...umbrella,
       rentDate: new Date(rentDate).toLocaleDateString(),
@@ -58,7 +53,25 @@ export default function MapScreen({ navigation }) {
     });
     setRentModalVisible(true);
   };
-  
+  const [position, setPosition] = useState({
+    latitude: 10,
+    longitude: 10,
+    latitudeDelta: 0.001,
+    longitudeDelta: 0.001,
+  });
+
+  useEffect(() => {
+    Geolocation.getCurrentPosition(pos => {
+      const crd = pos.coords;
+      setPosition({
+        latitude: crd.latitude,
+        longitude: crd.longitude,
+        latitudeDelta: 0.0421,
+        longitudeDelta: 0.0421,
+      });
+    });
+  }, []);
+
   const showImageModal = () => {
     setRentModalVisible(false);
     setImageModalVisible(true);
@@ -106,12 +119,11 @@ export default function MapScreen({ navigation }) {
       // Add more umbrellas for HM Building here...
     ],
   };
-  
-  
+
   const BlackLine = () => {
     return <View style={styles.blackLine} />;
   };
-  
+
   const item = [
     {
       id: 1,
@@ -120,7 +132,7 @@ export default function MapScreen({ navigation }) {
       place: 'ECC Building',
       availableUmbrellas: 3,
       image: require('../../../assets/images/ecc.jpg'),
-      price: 20.00,
+      price: 20.0,
     },
     {
       id: 2,
@@ -129,15 +141,15 @@ export default function MapScreen({ navigation }) {
       place: 'HM Building',
       availableUmbrellas: 3,
       image: require('../../../assets/images/hm.jpg'),
-      price: 20.00,
+      price: 20.0,
     },
   ];
 
-  const calculateUmbrellaStats = (umbrellas) => {
+  const calculateUmbrellaStats = umbrellas => {
     let availableCount = 0;
     let unavailableCount = 0;
 
-    umbrellas.forEach((umbrella) => {
+    umbrellas.forEach(umbrella => {
       if (umbrella.status === 'Available') {
         availableCount++;
       } else {
@@ -145,7 +157,7 @@ export default function MapScreen({ navigation }) {
       }
     });
 
-    return { availableCount, unavailableCount };
+    return {availableCount, unavailableCount};
   };
 
   return (
@@ -161,15 +173,17 @@ export default function MapScreen({ navigation }) {
             <Text style={styles.text1}>HM Building </Text>
           </TouchableOpacity>
           <TouchableOpacity>
-            <Text style={styles.text2}>ECC Building </Text>
+            <Text style={styles.text2}>Ecc Building </Text>
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.views2}>
         <MapView
           style={styles.map}
-          maxZoomLevel={20}
           minZoomLevel={15}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          followsUserLocation={true}
           initialRegion={{
             latitude: 13.730283,
             longitude: 100.77945,
@@ -188,6 +202,12 @@ export default function MapScreen({ navigation }) {
               <Image source={LockerImage} style={styles.profileImage} />
             </Marker>
           ))}
+          <Marker
+            title="Yor are here"
+            description="This is a description"
+            coordinate={position}>
+            <Image source={LockerImage} style={styles.profileImage} />
+          </Marker>
         </MapView>
       </View>
       <Modal
@@ -374,38 +394,7 @@ export default function MapScreen({ navigation }) {
         </View>
       </Modal>
     </View>
-  </Modal>
-  <Modal
-  animationType="slide"
-  transparent={true}
-  visible={successModalVisible}
-  onRequestClose={() => {
-    setSuccessModalVisible(!successModalVisible);
-  }}>
-  <View style={styles.modalView}>
-    <TouchableOpacity
-      style={{ ...styles.modalCloseButton }}
-      onPress={() => setSuccessModalVisible(!successModalVisible)}>
-      <Text style={styles.modalCloseButtonText}>Back</Text>
-    </TouchableOpacity>
-    <Image source={profileImage2} style={styles.profileImage2} />
-    <Text style={styles.successText}>Successfully Rented!</Text>
-    <Text style={styles.detailsText}>Place: {selectedItem?.place}</Text>
-    <Text style={styles.detailsText}>Date: {new Date().toLocaleDateString()}</Text>
-    <Text style={styles.detailsText}>Time: {new Date().toLocaleTimeString()}</Text>
-    <Text style={styles.detailsText}>
-                Lock ID: {selectedUmbrella?.lockId}
-              </Text>
-    <Text style={styles.detailsText}>
-        Umbrella ID: {selectedUmbrella?.umbrellaId}
-      </Text>
-    <Text style={styles.detailsText}>Price: ฿{selectedItem?.price.toFixed(2)}</Text>
-    <Image source={correctImage} style={styles.correctImage} />
-  </View>
-</Modal>
-
-</View>
-);
+  );
 }
 
 const styles = StyleSheet.create({
@@ -542,13 +531,13 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   umbrellaInfo: {
-  flex: 1,
+    flex: 1,
   },
   umbrellaId: {
-  fontSize: 16,
+    fontSize: 16,
   },
   umbrellaStatus: {
-  fontSize: 16,
+    fontSize: 16,
   },
   modalView: {
     flexGrow: 1,
@@ -624,4 +613,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-           

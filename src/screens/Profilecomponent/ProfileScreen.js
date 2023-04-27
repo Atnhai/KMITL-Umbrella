@@ -11,10 +11,10 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {authentication} from '../../../firebase';
-import Logo from '../../../assets/images/history.png';
+import Logo from '../../../assets/images/HistoryNew.png';
 import editcards from '../../../assets/images/editcards.png';
-import help from '../../../assets/images/help.png';
-import aboutus from '../../../assets/images/aboutus.png';
+import help from '../../../assets/images/HelpNew.png';
+import aboutus from '../../../assets/images/AboutUsNew.png';
 import user from '../../../assets/images/profileNew.png';
 import go from '../../../assets/images/go.png';
 import setting from '../../../assets/images/setting.png';
@@ -71,12 +71,28 @@ export default function ProfileScreen({navigation}) {
 
       <TouchableOpacity
         style={StyleMaincomponent.buttons_white}
+        onPress={() => navigation.navigate('History')}>
+        <Text style={StyleMaincomponent.texts_menu}>
+          {' '}
+          <Image
+            source={Logo}
+            style={StyleMaincomponent.logo_history}></Image>{' '}
+          Reset Password
+          <View style={stylepadding.text_padding_resetpassword}></View>
+          <Image
+            source={go}
+            style={StyleMaincomponent.navigate_icon}></Image>{' '}
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={StyleMaincomponent.buttons_white}
         onPress={() => navigation.navigate('Help')}>
         <Text style={StyleMaincomponent.texts_menu}>
           {' '}
           <Image
             source={help}
-            style={StyleMaincomponent.logo_history}></Image>{' '}
+            style={StyleMaincomponent.logo_help}></Image>{' '}
           Help
           <View style={stylepadding.text_padding_help}></View>
           <Image source={go} style={StyleMaincomponent.navigate_icon}></Image>
@@ -90,7 +106,7 @@ export default function ProfileScreen({navigation}) {
           {' '}
           <Image
             source={aboutus}
-            style={StyleMaincomponent.logo_history}></Image>{' '}
+            style={StyleMaincomponent.logo_aboutus}></Image>{' '}
           About us
           <View style={stylepadding.text_padding_aboutus}></View>
           <Image
@@ -116,6 +132,10 @@ export default function ProfileScreen({navigation}) {
 const stylepadding = StyleSheet.create({
   text_padding: {
     marginBottom: 90,
+    paddingBottom:40,
+  },
+  text_padding_resetpassword: {
+    paddingLeft: 90,
   },
   text_padding_history: {
     paddingLeft: 200,

@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/geolocation": "^3.0.6",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-native-firebase/app": "^17.4.1",
     "@react-navigation/bottom-tabs": "^6.5.1",
