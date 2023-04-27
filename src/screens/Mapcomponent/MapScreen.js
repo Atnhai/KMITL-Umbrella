@@ -20,12 +20,8 @@ import {useNavigation} from '@react-navigation/native';
 import {Searchbar} from 'react-native-paper';
 import MapView, {Marker, enableLatestRenderer} from 'react-native-maps';
 import {FullWindowOverlay} from 'react-native-screens';
-<<<<<<< HEAD
 import {ScrollView} from 'react-native';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
-=======
-import { ScrollView } from 'react-native';
->>>>>>> bb63a0e2ac3f4205e4bfd5db7f74335ceba03202
 
 enableLatestRenderer();
 
@@ -42,15 +38,10 @@ export default function MapScreen({ navigation }) {
     setModalVisible(true);
   };
 
-<<<<<<< HEAD
   const showRentModal = umbrella => {
     const rentDate = new Date().toLocaleString('en-US', {
       timeZone: 'Asia/Bangkok',
     });
-=======
-  const showRentModal = (umbrella) => {
-    const rentDate = new Date();
->>>>>>> bb63a0e2ac3f4205e4bfd5db7f74335ceba03202
     setSelectedUmbrella({
       ...umbrella,
       rentDate: new Date(rentDate).toLocaleDateString(),
