@@ -190,6 +190,12 @@ export default function MapScreen({navigation}) {
             latitudeDelta: 2,
             longitudeDelta: 2,
           }}>
+          <Marker
+            title="Yor are here"
+            description="This is a description"
+            coordinate={position}>
+            <Image source={LockerImage} style={styles.profileImage} />
+          </Marker>
           {item.map((item, index) => (
             <Marker
               key={item.id}
@@ -202,12 +208,6 @@ export default function MapScreen({navigation}) {
               <Image source={LockerImage} style={styles.profileImage} />
             </Marker>
           ))}
-          <Marker
-            title="Yor are here"
-            description="This is a description"
-            coordinate={position}>
-            <Image source={LockerImage} style={styles.profileImage} />
-          </Marker>
         </MapView>
       </View>
       <Modal

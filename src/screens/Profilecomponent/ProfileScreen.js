@@ -132,10 +132,10 @@ export default function ProfileScreen({navigation}) {
 const stylepadding = StyleSheet.create({
   text_padding: {
     marginBottom: 90,
-    paddingBottom:40,
+    paddingBottom: 40,
   },
   text_padding_resetpassword: {
-    paddingLeft: 90,
+    paddingLeft: 140,
   },
   text_padding_history: {
     paddingLeft: 200,
