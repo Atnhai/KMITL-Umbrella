@@ -17,6 +17,7 @@ import help from '../../../assets/images/HelpNew.png';
 import aboutus from '../../../assets/images/AboutUsNew.png';
 import user from '../../../assets/images/profileNew.png';
 import go from '../../../assets/images/go.png';
+import forgetPassword from '../../../assets/images/forgetPass.png';
 import setting from '../../../assets/images/setting.png';
 import {useNavigation} from '@react-navigation/native';
 import {Ionic} from 'react-native-vector-icons/Ionicons';
@@ -46,10 +47,10 @@ export default function ProfileScreen({navigation}) {
       <Image source={setting} style={StyleMaincomponent.setting_icon}></Image>
       <Text style={stylepadding.text_padding}></Text>
       <Text style={StyleMaincomponent.texts_profile_white}>
-        username:**********
+        Username: **********
       </Text>
       <Text style={StyleMaincomponent.texts_profile_white}>
-        Email:{authentication.currentUser.email} {'\n'}
+      {'\t'}{'\t'}{'\t'}Email:{authentication.currentUser.email} {'\n'}
         {'\n'}
       </Text>
 
@@ -61,7 +62,7 @@ export default function ProfileScreen({navigation}) {
           <Image
             source={Logo}
             style={StyleMaincomponent.logo_history}></Image>{' '}
-          History
+          History{'\t'}
           <View style={stylepadding.text_padding_history}></View>
           <Image
             source={go}
@@ -75,9 +76,9 @@ export default function ProfileScreen({navigation}) {
         <Text style={StyleMaincomponent.texts_menu}>
           {' '}
           <Image
-            source={Logo}
+            source={forgetPassword}
             style={StyleMaincomponent.logo_history}></Image>{' '}
-          Reset Password
+          Reset Password{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}
           <View style={stylepadding.text_padding_resetpassword}></View>
           <Image
             source={go}
@@ -121,6 +122,9 @@ export default function ProfileScreen({navigation}) {
         <Text style={Stylecomponent.text_white}>Log out</Text>
       </TouchableOpacity>
       <Text>
+        {'\n'}
+        {'\n'}
+        {'\n'}
         {'\n'}
         {'\n'}
         {'\n'}

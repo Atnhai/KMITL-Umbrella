@@ -103,7 +103,7 @@ const StyleMaincomponent = StyleSheet.create({
     margin: 20,
   },
   text_navigation: {
-    fontsize: 20,
+    fontSize: 20,
     fontWeight: 'bold',
     padding: 10,
   },
