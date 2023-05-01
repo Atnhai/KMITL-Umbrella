@@ -23,11 +23,13 @@ import {FullWindowOverlay} from 'react-native-screens';
 import {ScrollView} from 'react-native';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
 import Geolocation from '@react-native-community/geolocation';
+import {googleMapIsInstalled} from 'react-native-maps/lib/decorateMapComponent';
 enableLatestRenderer();
 
 export default function MapScreen({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [region, setRegion] = useState({});
   const [selectedUmbrella, setSelectedUmbrella] = useState({
     id: null,
     rentDate: null,
@@ -41,6 +43,14 @@ export default function MapScreen({navigation}) {
     setSelectedItem(item);
     setModalVisible(true);
   };
+  // useEffect(() => {
+  //   setRegion({
+  //     latitude: 13.730283,
+  //     longitude: 100.77945,
+  //     latitudeDelta: 1,
+  //     longitudeDelta: 1,
+  //   });
+  // }, []);
 
   const showRentModal = umbrella => {
     const rentDate = new Date().toLocaleString('en-US', {
@@ -63,12 +73,14 @@ export default function MapScreen({navigation}) {
   useEffect(() => {
     Geolocation.getCurrentPosition(pos => {
       const crd = pos.coords;
-      setPosition({
+      setRegion({
         latitude: crd.latitude,
         longitude: crd.longitude,
-        latitudeDelta: 0.0421,
-        longitudeDelta: 0.0421,
+        latitudeDelta: 1,
+        longitudeDelta: 1,
       });
+      console.log(crd.latitude);
+      console.log(crd.longitude);
     });
   }, []);
 
@@ -125,6 +137,7 @@ export default function MapScreen({navigation}) {
   };
 
   const item = [
+    // 13.729246179041802, 100.77653473477697
     {
       id: 1,
       latitude: 13.729249840361328,
@@ -160,6 +173,15 @@ export default function MapScreen({navigation}) {
     return {availableCount, unavailableCount};
   };
 
+  const go = (latitude, longitude) => {
+    setRegion({
+      latitude: latitude,
+      longitude: longitude,
+      latitudeDelta: 1,
+      longitudeDelta: 1,
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.views}>
@@ -169,10 +191,12 @@ export default function MapScreen({navigation}) {
         {/* { <Searchbar placeholder="Search" style={styles.search}></Searchbar> */}
         <View style={{height: 40, flexDirection: 'row'}}>
           <Text style={styles.text1}>Choose your location here: </Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => go(item[1].latitude, item[1].longitude)}>
             <Text style={styles.text1}>HM Building </Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => go(item[0].latitude, item[0].longitude)}>
             <Text style={styles.text2}>Ecc Building </Text>
           </TouchableOpacity>
         </View>
@@ -183,13 +207,8 @@ export default function MapScreen({navigation}) {
           minZoomLevel={15}
           showsUserLocation={true}
           showsMyLocationButton={true}
-          followsUserLocation={true}
-          initialRegion={{
-            latitude: 13.730283,
-            longitude: 100.77945,
-            latitudeDelta: 2,
-            longitudeDelta: 2,
-          }}>
+          // followsUserLocation={true}
+          region={region}>
           <Marker
             title="Yor are here"
             description="This is a description"
