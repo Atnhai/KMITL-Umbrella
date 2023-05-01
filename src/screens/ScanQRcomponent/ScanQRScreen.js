@@ -22,6 +22,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FullWindowOverlay } from 'react-native-screens';
 import { ScrollView } from 'react-native';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
+import secondModalImage from '../../../assets/images/howto2.png'; 
 
 export default function ScanQRScreen({ navigation }) {
   // Sample data
@@ -115,6 +116,7 @@ export default function ScanQRScreen({ navigation }) {
   ];
 
   const [showModal, setShowModal] = useState(false);
+  const [showSecondModal, setShowSecondModal] = useState(false);
 
   function DataCard({ item }) {
     return (
@@ -199,6 +201,12 @@ export default function ScanQRScreen({ navigation }) {
           >
             <Text style={styles.backButtonText}>Back</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+          style={styles.infoButton}
+          onPress={() => setShowSecondModal(true)}
+        >
+          <Text style={styles.infoButtonText}>?</Text>
+        </TouchableOpacity>
           <Text style={styles.lockerTitle}>
             Available Lockers: {availableLockers.length}
           </Text>
@@ -208,6 +216,17 @@ export default function ScanQRScreen({ navigation }) {
             keyExtractor={(item) => item.id.toString()}
             contentContainerStyle={styles.flatListContentContainer}
           />
+        </View>
+      </Modal>
+      <Modal animationType="slide" transparent={false} visible={showSecondModal}>
+        <View style={styles.secondModalContainer}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => setShowSecondModal(false)}
+          >
+            <Text style={styles.backButtonText}>Back</Text>
+          </TouchableOpacity>
+          <Image source={secondModalImage} style={styles.secondModalImage} />
         </View>
       </Modal>
     </View>
@@ -271,6 +290,18 @@ export default function ScanQRScreen({ navigation }) {
   color: '#FFFFFF',
   fontSize: 16,
   },
+  infoButton: {
+    backgroundColor: 'white',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+    alignSelf: 'flex-end',
+    marginTop: -30,
+  },
+  infoButtonText: {
+    color: 'black',
+    fontSize: 16,
+  },
   lockerTitle: {
   fontSize: 18,
   fontWeight: 'bold',
@@ -314,5 +345,16 @@ export default function ScanQRScreen({ navigation }) {
   },
   availableStatus: {
     color: 'green',
+  },
+  secondModalContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingTop: 15,
+    paddingHorizontal: 10,
+  },
+  secondModalImage: {
+    width: '100%',
+    height: '100%',
+    //resizeMode: 'contain',
   },
   });
