@@ -11,6 +11,7 @@ import {
   TextInput,
   Modal,
 } from 'react-native';
+import axios from 'axios';
 import Logo from '../../../assets/images/search.png';
 import LockerImage from '../../../assets/images/locker.png';
 import profileImage2 from '../../../assets/images/profileNew.png';
@@ -38,11 +39,11 @@ export default function MapScreen({navigation}) {
   const [rentModalVisible, setRentModalVisible] = useState(false);
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
-
   const showModal = item => {
     setSelectedItem(item);
     setModalVisible(true);
   };
+  const [tempVar, settempVar] = useState(null);
   // useEffect(() => {
   //   setRegion({
   //     latitude: 13.730283,
@@ -51,7 +52,6 @@ export default function MapScreen({navigation}) {
   //     longitudeDelta: 1,
   //   });
   // }, []);
-
   const showRentModal = umbrella => {
     const rentDate = new Date().toLocaleString('en-US', {
       timeZone: 'Asia/Bangkok',
@@ -96,7 +96,7 @@ export default function MapScreen({navigation}) {
   const umbrellasData = {
     eccBuilding: [
       {
-        lockId: '001',
+        lockId: tempVar,
         umbrellaId: '01',
         status: 'Available',
       },
@@ -128,9 +128,38 @@ export default function MapScreen({navigation}) {
         umbrellaId: '06',
         status: 'Unavailable',
       },
-      // Add more umbrellas for HM Building here...
+      //Add more umbrellas for HM Building here...
     ],
   };
+
+  // Create a new state variable for umbrellasData
+  // const [umbrellasData, setUmbrellasData] = useState({
+  //   eccBuilding: [],
+  //   hmBuilding: [],
+  // });
+
+  // Function to fetch umbrellas data from the Django API
+  const fetchLockerName = async (locker_id) => {
+    try {
+      const response = await axios.get(`http://10.66.9.250:8000//api/locker-name/${locker_id}/`);
+      if (response.status === 200) {
+        settempVar(response.data.LockerName)
+        console.log(`Locker name for umbrella ID ${locker_id}:`, response.data.LockerName);
+      } else {
+        console.error('Error fetching locker name:', response.status);
+      }
+    } catch (error) {
+      console.error('Error fetching locker name:', error);
+    }
+  };
+
+  useEffect(() => {
+    // Call fetchLockerName with the desired ID when the component mounts
+    fetchLockerName(1)
+     // Replace 1 with the ID you want to fetch
+    // ... (other useEffect logic)
+  }, []);
+
 
   const BlackLine = () => {
     return <View style={styles.blackLine} />;
@@ -161,7 +190,7 @@ export default function MapScreen({navigation}) {
   const calculateUmbrellaStats = umbrellas => {
     let availableCount = 0;
     let unavailableCount = 0;
-
+    
     umbrellas.forEach(umbrella => {
       if (umbrella.status === 'Available') {
         availableCount++;
@@ -181,6 +210,9 @@ export default function MapScreen({navigation}) {
       longitudeDelta: 1,
     });
   };
+  if(!tempVar){
+    return(<View></View>)
+  }
 
   return (
     <View style={styles.container}>
@@ -193,7 +225,7 @@ export default function MapScreen({navigation}) {
           <Text style={styles.text1}>Choose your location here: </Text>
           <TouchableOpacity
             onPress={() => go(item[1].latitude, item[1].longitude)}>
-            <Text style={styles.text1}>HM Building </Text>
+            <Text style={styles.text1}>{tempVar} </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => go(item[0].latitude, item[0].longitude)}>
