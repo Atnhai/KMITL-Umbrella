@@ -107,7 +107,6 @@ export default function MapScreen({navigation}) {
   //     longitudeDelta: 1,
   //   });
   // }, []);
-
   const showRentModal = umbrella => {
     const rentDate = new Date().toLocaleString('en-US', {
       timeZone: 'Asia/Bangkok',
@@ -286,7 +285,7 @@ export default function MapScreen({navigation}) {
   const calculateUmbrellaStats = umbrellas => {
     let availableCount = 0;
     let unavailableCount = 0;
-
+    
     umbrellas.forEach(umbrella => {
       if (umbrella.status === 'Available') {
         availableCount++;
