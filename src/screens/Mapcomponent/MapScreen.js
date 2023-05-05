@@ -194,7 +194,7 @@ export default function MapScreen({navigation}) {
   const umbrellasData = {
     eccBuilding: [
       {
-        lockId: tempVar,
+        lockId: '001',
         umbrellaId: '01',
         status: 'Available',
       },
@@ -230,16 +230,38 @@ export default function MapScreen({navigation}) {
     ],
   };
 
-  // const fetchLockerName = async locker_id => {
+  // const fetchAllLockers = async () => {
+  //   try {
+  //     const response = await axios.get('http://10.66.9.250:8000/api/lockers/'); // Replace with your API endpoint
+  //     if (response.status === 200) {
+  //       const lockers = response.data;
+  //       console.log('All lockers:', lockers);
+  //     } else {
+  //       console.error('Error fetching lockers:', response.status);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching lockers:', error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   // Call fetchLockerName with the desired ID when the component mounts
+  //   fetchAllLockers();
+  //   // Replace 1 with the ID you want to fetch
+  //   // ... (other useEffect logic)
+  // }, []);
+
+  // const fetchLockerName = async () => {
   //   try {
   //     const response = await axios.get(
-  //       `http://10.66.9.250:8000//api/locker-name/${locker_id}/`,
+  //       `http://10.66.9.250:8000/api/lockers/`,
   //     );
   //     if (response.status === 200) {
-  //       settempVar(response.data.LockerName);
+  //       const lockerName = response.data[0].name; // Access the first locker's name
+  //       settempVar(lockerName);
   //       console.log(
-  //         `Locker name for umbrella ID ${locker_id}:`,
-  //         response.data.LockerName,
+  //         `Locker name for locker ID`,
+  //         lockerName,
   //       );
   //     } else {
   //       console.error('Error fetching locker name:', response.status);
@@ -251,7 +273,7 @@ export default function MapScreen({navigation}) {
 
   // useEffect(() => {
   //   // Call fetchLockerName with the desired ID when the component mounts
-  //   fetchLockerName(1);
+  //   fetchLockerName();
   //   // Replace 1 with the ID you want to fetch
   //   // ... (other useEffect logic)
   // }, []);
@@ -285,7 +307,7 @@ export default function MapScreen({navigation}) {
   const calculateUmbrellaStats = umbrellas => {
     let availableCount = 0;
     let unavailableCount = 0;
-    
+
     umbrellas.forEach(umbrella => {
       if (umbrella.status === 'Available') {
         availableCount++;
@@ -313,7 +335,7 @@ export default function MapScreen({navigation}) {
     <View style={styles.container}>
       <View style={styles.views}>
         <Text style={styles.header_text}>
-          Choose the locker location {'\t'} {'\t'}for rent your umbrella
+          Choose the locker {tempVar} {'\t'} {'\t'}for rent your umbrella
         </Text>
         {/* { <Searchbar placeholder="Search" style={styles.search}></Searchbar> */}
         {/* <View style={{height: 40, flexDirection: 'row'}}>
