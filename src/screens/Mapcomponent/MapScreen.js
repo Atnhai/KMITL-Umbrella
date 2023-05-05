@@ -159,28 +159,31 @@ export default function MapScreen({navigation}) {
 
   measureDistances();
 
+  const [userLocation, setUserLocation] = useState(null);
+
   useEffect(() => {
     Geolocation.getCurrentPosition(
       pos => {
         const crd = pos.coords;
+        setUserLocation({latitude: crd.latitude, longitude: crd.longitude}); // Add this line
         setRegion({
           latitude: crd.latitude,
           longitude: crd.longitude,
           latitudeDelta: 1,
           longitudeDelta: 1,
         });
-        console.log('Geolocation API response: ', pos); // log the Geolocation API response
+        console.log('Geolocation API response: ', pos);
         console.log(crd.latitude);
         console.log(crd.longitude);
       },
       error => {
         console.log(error.message);
-        // Handle the error here
       },
       {enableHighAccuracy: true},
     );
-    return () => console.log('useEffect cleanup'); // log the cleanup function
+    return () => console.log('useEffect cleanup');
   }, []);
+  
 
   const showImageModal = () => {
     setRentModalVisible(false);
@@ -298,16 +301,20 @@ export default function MapScreen({navigation}) {
   };
 
   const go = (latitude, longitude) => {
-    setRegion({
-      latitude: latitude,
-      longitude: longitude,
-      latitudeDelta: 1,
-      longitudeDelta: 1,
-    });
+    if (latitude && longitude) {
+      setRegion({
+        latitude: latitude,
+        longitude: longitude,
+        latitudeDelta: 1,
+        longitudeDelta: 1,
+      });
+    }
   };
+  
   // if (!tempVar) {
   //   return <View><Text>Hi</Text></View>;
   // }
+  
 
   return (
     <View style={styles.container}>
@@ -351,28 +358,32 @@ export default function MapScreen({navigation}) {
             </Marker>
           ))}
         </MapView>
-        <View>
+        {/* <View>
           <Text style={styles.cardTitle}>Choose your location here:</Text>
+        </View> */}
+ <View style={styles.cardBody}>
+  <ScrollView
+    horizontal={true}
+    style={styles.scrollContainer}>
+    {item.map((location, index) => (
+      <TouchableOpacity key={index} onPress={() => go(location.latitude, location.longitude)}>
+        <View style={styles.locationCard}>
+          <Image source={location.image} style={styles.cardImage} />
+          <View style={styles.cardInfo}>
+            <Text style={styles.cardText}>{location.place}</Text>
+            <Text style={styles.cardText}>Available Umbrellas:{' '}
+            {
+              (selectedItem?.place === 'ECC Building'
+                ? umbrellasData.eccBuilding
+                : umbrellasData.hmBuilding
+              ).filter(umbrella => umbrella.status === 'Available').length
+            }</Text>
+          </View>
         </View>
-        <View style={styles.cardBody}>
-          <ScrollView
-            horizontal={true}
-            // showsHorizontalScrollIndicator={false}
-            style={styles.scrollContainer}>
-            <TouchableOpacity
-              onPress={() => go(item[1].latitude, item[1].longitude)}>
-              <Card style={styles.locationCard}>
-                <Text style={styles.cardText}>Hm Building</Text>
-              </Card>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => go(item[0].latitude, item[0].longitude)}>
-              <Card style={styles.locationCard}>
-                <Text style={styles.cardText}>Ecc Building</Text>
-              </Card>
-            </TouchableOpacity>
-          </ScrollView>
-        </View>
+      </TouchableOpacity>
+    ))}
+  </ScrollView>
+</View>
       </View>
       <Modal
         animationType="slide"
@@ -401,7 +412,14 @@ export default function MapScreen({navigation}) {
             : umbrellasData.hmBuilding
           ).map((umbrella, index) => {
             const isAvailable = umbrella.status === 'Available';
-            const isnearBy = 600;
+            const isnearBy = userLocation && selectedItem
+            ? geolib.getDistance(userLocation, {
+                latitude: selectedItem.latitude,
+                longitude: selectedItem.longitude,
+              })
+            : null;
+          
+
             return (
               <View key={index} style={styles.umbrellaBox}>
                 <Image source={LockerImage} style={styles.profileImage} />
@@ -420,15 +438,16 @@ export default function MapScreen({navigation}) {
                   </Text>
                 </View>
                 <TouchableOpacity
-                  style={{
-                    ...styles.rentButton,
-                    backgroundColor:
-                      isAvailable && isnearBy <= 500 ? '#E35205' : 'grey',
-                  }}
-                  onPress={() => showRentModal(umbrella)}
-                  disabled={!isAvailable || isnearBy > 500}>
-                  <Text style={styles.rentButtonText}>Rent</Text>
-                </TouchableOpacity>
+  style={{
+    ...styles.rentButton,
+    backgroundColor:
+      isAvailable && isnearBy <= 100 ? '#E35205' : 'grey',
+  }}
+  onPress={() => showRentModal(umbrella)}
+  disabled={!isAvailable || !isnearBy || isnearBy > 100}>
+  <Text style={styles.rentButtonText}>Rent</Text>
+</TouchableOpacity>
+
               </View>
             );
           })}
@@ -437,6 +456,7 @@ export default function MapScreen({navigation}) {
             onPress={() => setModalVisible(!modalVisible)}>
             <Text style={styles.modalCloseButtonText}>Back</Text>
           </TouchableOpacity>
+          <Text style={styles.cardTitle}>*Warning: Umbrellas are available for rental within a 100-meter radius from the locker.*</Text>
         </ScrollView>
       </Modal>
 
@@ -776,48 +796,66 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
-  scrollContainer: {
-    height: 120,
-    marginRight: 80,
-    // marginBottom:10,
-  },
-  card: {
-    borderRadius: 10,
-    marginHorizontal: 10,
-    minWidth: 400,
-  },
+  // scrollContainer: {
+  //   height: 120,
+  //   marginRight: 80,
+  //   // marginBottom:10,
+  // },
+  // card: {
+  //   borderRadius: 10,
+  //   marginHorizontal: 10,
+  //   minWidth: 400,
+  // },
   cardTitle: {
     fontWeight: 'bold',
     marginBottom: 10,
     marginTop: 10,
-    fontSize: 18,
+    fontSize: 14,
+    color: 'red',
   },
   cardBody: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    position: 'absolute',
+    bottom: 10,
+    left: 0,
+    right: 0,
+  },
+  scrollContainer: {
+    paddingHorizontal: 10,
   },
   locationCard: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: '#FAC983',
     padding: 10,
     borderRadius: 10,
-    marginHorizontal: 5,
-    minWidth: 180,
-    height: 110,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: 300,
+    height: 120,
+    margin: 20,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-    elevation: 4,
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  cardImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 10,
+    marginRight: 15,
+  },
+  cardInfo: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    flex: 1,
   },
   cardText: {
-    // color: '#007AFF',
     fontSize: 16,
     fontWeight: 'bold',
-    textAlign: 'center',
   },
+  
 });
