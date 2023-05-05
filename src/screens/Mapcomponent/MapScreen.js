@@ -10,7 +10,9 @@ import {
   Alert,
   TextInput,
   Modal,
+  PermissionsAndroid,
 } from 'react-native';
+import axios from 'axios';
 import Logo from '../../../assets/images/search.png';
 import LockerImage from '../../../assets/images/locker.png';
 import profileImage2 from '../../../assets/images/profileNew.png';
@@ -24,12 +26,43 @@ import {ScrollView} from 'react-native';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
 import Geolocation from '@react-native-community/geolocation';
 import {googleMapIsInstalled} from 'react-native-maps/lib/decorateMapComponent';
+import {Card} from 'react-native-elements';
+import * as geolib from 'geolib';
+
 enableLatestRenderer();
 
 export default function MapScreen({navigation}) {
+  async function requestLocationPermission() {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Location Permission',
+          message: 'This app requires access to your location.',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('Location permission granted');
+      } else {
+        console.log('Location permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  }
+  requestLocationPermission();
+
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [region, setRegion] = useState({});
+  const [region, setRegion] = useState({
+    latitude: 13.730283,
+    longitude: 100.77945,
+    latitudeDelta: 1,
+    longitudeDelta: 1,
+  });
   const [selectedUmbrella, setSelectedUmbrella] = useState({
     id: null,
     rentDate: null,
@@ -38,11 +71,34 @@ export default function MapScreen({navigation}) {
   const [rentModalVisible, setRentModalVisible] = useState(false);
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
-
   const showModal = item => {
     setSelectedItem(item);
     setModalVisible(true);
   };
+  const [tempVar, settempVar] = useState(null);
+
+  const item = [
+    // 13.729246179041802, 100.77653473477697
+    {
+      id: 1,
+      latitude: 13.729249840361328,
+      longitude: 100.77563323749371,
+      place: 'ECC Building',
+      availableUmbrellas: 3,
+      image: require('../../../assets/images/ecc.jpg'),
+      price: 20.0,
+    },
+    {
+      id: 2,
+      latitude: 13.726573105186487,
+      longitude: 100.77497633816488,
+      place: 'HM Building',
+      availableUmbrellas: 3,
+      image: require('../../../assets/images/hm.jpg'),
+      price: 20.0,
+    },
+  ];
+
   // useEffect(() => {
   //   setRegion({
   //     latitude: 13.730283,
@@ -63,25 +119,68 @@ export default function MapScreen({navigation}) {
     });
     setRentModalVisible(true);
   };
-  const [position, setPosition] = useState({
-    latitude: 10,
-    longitude: 10,
-    latitudeDelta: 0.001,
-    longitudeDelta: 0.001,
-  });
+
+  function measureDistances() {
+    // Get the user's current location
+    Geolocation.getCurrentPosition(
+      position => {
+        // Loop through each destination marker and measure the distance from the user's current location
+        item.forEach((destination, index) => {
+          const distance = geolib.getDistance(
+            {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            },
+            {latitude: destination.latitude, longitude: destination.longitude},
+          );
+
+          console.log(
+            `Distance to destination ${index + 1}: ${distance} meters`,
+          );
+        });
+      },
+      error => console.log(error),
+      {enableHighAccuracy: true},
+    );
+  }
+
+  // function measureDistances() {
+  //   item.forEach((destination, index) => {
+  //     const distance = geolib.getDistance(
+  //       {
+  //         latitude: region.latitude,
+  //         longitude: region.longitude,
+  //       },
+  //       {latitude: destination.latitude, longitude: destination.longitude},
+  //     );
+
+  //     console.log(`Distance to destination ${index + 1}: ${distance} meters`);
+  //   });
+  // }
+
+  measureDistances();
 
   useEffect(() => {
-    Geolocation.getCurrentPosition(pos => {
-      const crd = pos.coords;
-      setRegion({
-        latitude: crd.latitude,
-        longitude: crd.longitude,
-        latitudeDelta: 1,
-        longitudeDelta: 1,
-      });
-      console.log(crd.latitude);
-      console.log(crd.longitude);
-    });
+    Geolocation.getCurrentPosition(
+      pos => {
+        const crd = pos.coords;
+        setRegion({
+          latitude: crd.latitude,
+          longitude: crd.longitude,
+          latitudeDelta: 1,
+          longitudeDelta: 1,
+        });
+        console.log('Geolocation API response: ', pos); // log the Geolocation API response
+        console.log(crd.latitude);
+        console.log(crd.longitude);
+      },
+      error => {
+        console.log(error.message);
+        // Handle the error here
+      },
+      {enableHighAccuracy: true},
+    );
+    return () => console.log('useEffect cleanup'); // log the cleanup function
   }, []);
 
   const showImageModal = () => {
@@ -96,7 +195,7 @@ export default function MapScreen({navigation}) {
   const umbrellasData = {
     eccBuilding: [
       {
-        lockId: '001',
+        lockId: tempVar,
         umbrellaId: '01',
         status: 'Available',
       },
@@ -128,35 +227,61 @@ export default function MapScreen({navigation}) {
         umbrellaId: '06',
         status: 'Unavailable',
       },
-      // Add more umbrellas for HM Building here...
+      //Add more umbrellas for HM Building here...
     ],
   };
+
+  // const fetchLockerName = async locker_id => {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://10.66.9.250:8000//api/locker-name/${locker_id}/`,
+  //     );
+  //     if (response.status === 200) {
+  //       settempVar(response.data.LockerName);
+  //       console.log(
+  //         `Locker name for umbrella ID ${locker_id}:`,
+  //         response.data.LockerName,
+  //       );
+  //     } else {
+  //       console.error('Error fetching locker name:', response.status);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching locker name:', error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   // Call fetchLockerName with the desired ID when the component mounts
+  //   fetchLockerName(1);
+  //   // Replace 1 with the ID you want to fetch
+  //   // ... (other useEffect logic)
+  // }, []);
 
   const BlackLine = () => {
     return <View style={styles.blackLine} />;
   };
 
-  const item = [
-    // 13.729246179041802, 100.77653473477697
-    {
-      id: 1,
-      latitude: 13.729249840361328,
-      longitude: 100.77563323749371,
-      place: 'ECC Building',
-      availableUmbrellas: 3,
-      image: require('../../../assets/images/ecc.jpg'),
-      price: 20.0,
-    },
-    {
-      id: 2,
-      latitude: 13.726573105186487,
-      longitude: 100.77497633816488,
-      place: 'HM Building',
-      availableUmbrellas: 3,
-      image: require('../../../assets/images/hm.jpg'),
-      price: 20.0,
-    },
-  ];
+  // const item = [
+  //   // 13.729246179041802, 100.77653473477697
+  //   {
+  //     id: 1,
+  //     latitude: 13.729249840361328,
+  //     longitude: 100.77563323749371,
+  //     place: 'ECC Building',
+  //     availableUmbrellas: 3,
+  //     image: require('../../../assets/images/ecc.jpg'),
+  //     price: 20.0,
+  //   },
+  //   {
+  //     id: 2,
+  //     latitude: 13.726573105186487,
+  //     longitude: 100.77497633816488,
+  //     place: 'HM Building',
+  //     availableUmbrellas: 3,
+  //     image: require('../../../assets/images/hm.jpg'),
+  //     price: 20.0,
+  //   },
+  // ];
 
   const calculateUmbrellaStats = umbrellas => {
     let availableCount = 0;
@@ -181,40 +306,39 @@ export default function MapScreen({navigation}) {
       longitudeDelta: 1,
     });
   };
+  // if (!tempVar) {
+  //   return <View><Text>Hi</Text></View>;
+  // }
 
   return (
     <View style={styles.container}>
       <View style={styles.views}>
         <Text style={styles.header_text}>
-          Choose the locker location for rent your umbrella
+          Choose the locker location {'\t'} {'\t'}for rent your umbrella
         </Text>
         {/* { <Searchbar placeholder="Search" style={styles.search}></Searchbar> */}
-        <View style={{height: 40, flexDirection: 'row'}}>
+        {/* <View style={{height: 40, flexDirection: 'row'}}>
           <Text style={styles.text1}>Choose your location here: </Text>
           <TouchableOpacity
             onPress={() => go(item[1].latitude, item[1].longitude)}>
-            <Text style={styles.text1}>HM Building </Text>
+            <Text style={styles.text1}>Hm Building </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => go(item[0].latitude, item[0].longitude)}>
             <Text style={styles.text2}>Ecc Building </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
+      <View style={styles.cardContainer}></View>
+
       <View style={styles.views2}>
         <MapView
           style={styles.map}
           minZoomLevel={15}
           showsUserLocation={true}
           showsMyLocationButton={true}
-          // followsUserLocation={true}
+          followsUserLocation={true}
           region={region}>
-          <Marker
-            title="Yor are here"
-            description="This is a description"
-            coordinate={position}>
-            <Image source={LockerImage} style={styles.profileImage} />
-          </Marker>
           {item.map((item, index) => (
             <Marker
               key={item.id}
@@ -228,6 +352,28 @@ export default function MapScreen({navigation}) {
             </Marker>
           ))}
         </MapView>
+        <View>
+          <Text style={styles.cardTitle}>Choose your location here:</Text>
+        </View>
+        <View style={styles.cardBody}>
+          <ScrollView
+            horizontal={true}
+            // showsHorizontalScrollIndicator={false}
+            style={styles.scrollContainer}>
+            <TouchableOpacity
+              onPress={() => go(item[1].latitude, item[1].longitude)}>
+              <Card style={styles.locationCard}>
+                <Text style={styles.cardText}>Hm Building</Text>
+              </Card>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => go(item[0].latitude, item[0].longitude)}>
+              <Card style={styles.locationCard}>
+                <Text style={styles.cardText}>Ecc Building</Text>
+              </Card>
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
       </View>
       <Modal
         animationType="slide"
@@ -256,6 +402,7 @@ export default function MapScreen({navigation}) {
             : umbrellasData.hmBuilding
           ).map((umbrella, index) => {
             const isAvailable = umbrella.status === 'Available';
+            const isnearBy = 600;
             return (
               <View key={index} style={styles.umbrellaBox}>
                 <Image source={LockerImage} style={styles.profileImage} />
@@ -276,10 +423,11 @@ export default function MapScreen({navigation}) {
                 <TouchableOpacity
                   style={{
                     ...styles.rentButton,
-                    backgroundColor: isAvailable ? '#E35205' : 'grey',
+                    backgroundColor:
+                      isAvailable && isnearBy <= 500 ? '#E35205' : 'grey',
                   }}
                   onPress={() => showRentModal(umbrella)}
-                  disabled={!isAvailable}>
+                  disabled={!isAvailable || isnearBy > 500}>
                   <Text style={styles.rentButtonText}>Rent</Text>
                 </TouchableOpacity>
               </View>
@@ -418,38 +566,41 @@ export default function MapScreen({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FAC983',
     flex: 1,
   },
   map: {
     ...StyleSheet.absoluteFill,
-    borderRadius: 15,
-    borderWidth: 4,
   },
   views: {
     alignItems: 'center',
     paddingTop: 20,
-    padding: 30,
+    padding: 10,
+    paddingLeft: 40,
     justifyContent: 'center',
-    width: 500,
+    width: 411,
+    height: 110,
+    borderBottomRightRadius: 25,
+    borderBottomLeftRadius: 25,
+    backgroundColor: '#FAC983',
   },
   views2: {
     alignItems: 'center',
     // backgroundColor: '#FAC983',
 
     justifyContent: 'center',
-    height: 500,
-    margin: 25,
-    borderRadius: 15,
-    borderWidth: 4,
-    borderColor: '#E35205',
+    height: 600,
+    // margin: 25,
+    marginTop: 0,
+    // borderRadius: 15,
+    // borderWidth: 4,
+    // borderColor: '#E35205',
   },
   header_text: {
-    fontSize: 30,
+    fontSize: 27,
     textAlign: 'left',
     color: 'black',
     fontWeight: 'bold',
-    paddingRight: 60,
+    paddingRight: 30,
   },
   text1: {
     fontSize: 10,
@@ -458,12 +609,6 @@ const styles = StyleSheet.create({
   text2: {
     fontSize: 10,
     fontWeight: 'bold',
-  },
-  search: {
-    alignItems: 'center',
-    width: 350,
-    position: 'absolute',
-    top: 40,
   },
   modalView: {
     flex: 1,
@@ -630,5 +775,50 @@ const styles = StyleSheet.create({
   rentButtonText: {
     color: 'white',
     fontWeight: 'bold',
+  },
+
+  scrollContainer: {
+    height: 120,
+    marginRight: 80,
+    // marginBottom:10,
+  },
+  card: {
+    borderRadius: 10,
+    marginHorizontal: 10,
+    minWidth: 400,
+  },
+  cardTitle: {
+    fontWeight: 'bold',
+    marginBottom: 10,
+    marginTop: 10,
+    fontSize: 18,
+  },
+  cardBody: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  locationCard: {
+    padding: 10,
+    borderRadius: 10,
+    marginHorizontal: 5,
+    minWidth: 180,
+    height: 110,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+  },
+  cardText: {
+    // color: '#007AFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });

@@ -44,13 +44,15 @@ export default function ProfileScreen({navigation}) {
     <View style={StyleMaincomponent.background_views}>
       <View style={StyleMaincomponent.rectangle} />
       <Image source={user} style={StyleMaincomponent.logo_umbrella}></Image>
-      <Image source={setting} style={StyleMaincomponent.setting_icon}></Image>
+      {/* <Image source={setting} style={StyleMaincomponent.setting_icon}></Image> */}
       <Text style={stylepadding.text_padding}></Text>
       <Text style={StyleMaincomponent.texts_profile_white}>
         Username: **********
       </Text>
       <Text style={StyleMaincomponent.texts_profile_white}>
-      {'\t'}{'\t'}{'\t'}Email:{authentication.currentUser.email} {'\n'}
+        {'\t'}
+        {'\t'}
+        {'\t'}Email:{authentication.currentUser.email} {'\n'}
         {'\n'}
       </Text>
 
@@ -78,7 +80,14 @@ export default function ProfileScreen({navigation}) {
           <Image
             source={forgetPassword}
             style={StyleMaincomponent.logo_history}></Image>{' '}
-          Reset Password{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}{'\t'}
+          Reset Password{'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
+          {'\t'}
           <View style={stylepadding.text_padding_resetpassword}></View>
           <Image
             source={go}
