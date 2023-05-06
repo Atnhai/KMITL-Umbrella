@@ -179,11 +179,31 @@ export default function MapScreen({navigation}) {
       error => {
         console.log(error.message);
       },
-      {enableHighAccuracy: true},
+      {enableHighAccuracy: true, maximumAge: 1000},
     );
     return () => console.log('useEffect cleanup');
   }, []);
-  
+
+  useEffect(() => {
+    const geoWatchId = Geolocation.watchPosition(
+      position => {
+        const crd = position.coords;
+        setUserLocation({latitude: crd.latitude, longitude: crd.longitude});
+        setRegion({
+          latitude: crd.latitude,
+          longitude: crd.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        });
+      },
+      error => {
+        console.log(error.message);
+      },
+      {enableHighAccuracy: true, distanceFilter: 10},
+    );
+
+    return () => Geolocation.clearWatch(geoWatchId);
+  }, []);
 
   const showImageModal = () => {
     setRentModalVisible(false);
@@ -332,11 +352,10 @@ export default function MapScreen({navigation}) {
       });
     }
   };
-  
+
   // if (!tempVar) {
   //   return <View><Text>Hi</Text></View>;
   // }
-  
 
   return (
     <View style={styles.container}>
@@ -362,9 +381,8 @@ export default function MapScreen({navigation}) {
       <View style={styles.views2}>
         <MapView
           style={styles.map}
-          minZoomLevel={15}
+          minZoomLevel={16}
           showsUserLocation={true}
-          showsMyLocationButton={true}
           followsUserLocation={true}
           region={region}>
           {item.map((item, index) => (
@@ -379,33 +397,43 @@ export default function MapScreen({navigation}) {
               <Image source={LockerImage} style={styles.profileImage} />
             </Marker>
           ))}
+          {userLocation && (
+            <Marker
+              coordinate={userLocation}
+              title="You are here"
+              pinColor="blue"
+            />
+          )}
         </MapView>
         {/* <View>
           <Text style={styles.cardTitle}>Choose your location here:</Text>
         </View> */}
- <View style={styles.cardBody}>
-  <ScrollView
-    horizontal={true}
-    style={styles.scrollContainer}>
-    {item.map((location, index) => (
-      <TouchableOpacity key={index} onPress={() => go(location.latitude, location.longitude)}>
-        <View style={styles.locationCard}>
-          <Image source={location.image} style={styles.cardImage} />
-          <View style={styles.cardInfo}>
-            <Text style={styles.cardText}>{location.place}</Text>
-            <Text style={styles.cardText}>Available Umbrellas:{' '}
-            {
-              (selectedItem?.place === 'ECC Building'
-                ? umbrellasData.eccBuilding
-                : umbrellasData.hmBuilding
-              ).filter(umbrella => umbrella.status === 'Available').length
-            }</Text>
-          </View>
+        <View style={styles.cardBody}>
+          <ScrollView horizontal={true} style={styles.scrollContainer}>
+            {item.map((location, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => go(location.latitude, location.longitude)}>
+                <View style={styles.locationCard}>
+                  <Image source={location.image} style={styles.cardImage} />
+                  <View style={styles.cardInfo}>
+                    <Text style={styles.cardText}>{location.place}</Text>
+                    <Text style={styles.cardText}>
+                      Available Umbrellas:{' '}
+                      {
+                        (selectedItem?.place === 'ECC Building'
+                          ? umbrellasData.eccBuilding
+                          : umbrellasData.hmBuilding
+                        ).filter(umbrella => umbrella.status === 'Available')
+                          .length
+                      }
+                    </Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
         </View>
-      </TouchableOpacity>
-    ))}
-  </ScrollView>
-</View>
       </View>
       <Modal
         animationType="slide"
@@ -434,13 +462,13 @@ export default function MapScreen({navigation}) {
             : umbrellasData.hmBuilding
           ).map((umbrella, index) => {
             const isAvailable = umbrella.status === 'Available';
-            const isnearBy = userLocation && selectedItem
-            ? geolib.getDistance(userLocation, {
-                latitude: selectedItem.latitude,
-                longitude: selectedItem.longitude,
-              })
-            : null;
-          
+            const isnearBy =
+              userLocation && selectedItem
+                ? geolib.getDistance(userLocation, {
+                    latitude: selectedItem.latitude,
+                    longitude: selectedItem.longitude,
+                  })
+                : null;
 
             return (
               <View key={index} style={styles.umbrellaBox}>
@@ -460,16 +488,15 @@ export default function MapScreen({navigation}) {
                   </Text>
                 </View>
                 <TouchableOpacity
-  style={{
-    ...styles.rentButton,
-    backgroundColor:
-      isAvailable && isnearBy <= 100 ? '#E35205' : 'grey',
-  }}
-  onPress={() => showRentModal(umbrella)}
-  disabled={!isAvailable || !isnearBy || isnearBy > 100}>
-  <Text style={styles.rentButtonText}>Rent</Text>
-</TouchableOpacity>
-
+                  style={{
+                    ...styles.rentButton,
+                    backgroundColor:
+                      isAvailable && isnearBy <= 100 ? '#E35205' : 'grey',
+                  }}
+                  onPress={() => showRentModal(umbrella)}
+                  disabled={!isAvailable || !isnearBy || isnearBy > 100}>
+                  <Text style={styles.rentButtonText}>Rent</Text>
+                </TouchableOpacity>
               </View>
             );
           })}
@@ -478,7 +505,10 @@ export default function MapScreen({navigation}) {
             onPress={() => setModalVisible(!modalVisible)}>
             <Text style={styles.modalCloseButtonText}>Back</Text>
           </TouchableOpacity>
-          <Text style={styles.cardTitle}>*Warning: Umbrellas are available for rental within a 100-meter radius from the locker.*</Text>
+          <Text style={styles.cardTitle}>
+            *Warning: Umbrellas are available for rental within a 100-meter
+            radius from the locker.*
+          </Text>
         </ScrollView>
       </Modal>
 
@@ -879,5 +909,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  
 });
