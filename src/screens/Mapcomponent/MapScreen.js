@@ -221,21 +221,21 @@ export default function MapScreen({navigation}) {
     setSuccessModalVisible(true);
   };
   const umbrellasData = {
-    eccBuilding: [
+    [locker]: [
       {
-        lockId: '001',
-        umbrellaId: '01',
-        status: 'Available',
+        lockId: lock1.id,
+        umbrellaId: umbrella1.id,
+        status: lock1.availability,
       },
       {
-        lockId: '002',
-        umbrellaId: '02',
-        status: 'Unavailable',
+        lockId: lock2.id,
+        umbrellaId: umbrella2.id,
+        status: lock2.availability,
       },
       {
-        lockId: '003',
-        umbrellaId: '03',
-        status: 'Available',
+        lockId: lock3.id,
+        umbrellaId: umbrella3.id,
+        status: lock3.availability,
       },
       // {
       //   lockId: '005',
