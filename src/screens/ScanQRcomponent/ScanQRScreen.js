@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -18,13 +18,13 @@ import profileImage2 from '../../../assets/images/profileNew.png';
 import profileBW from '../../../assets/images/profileBW.png';
 import bill from '../../../assets/images/bill.png';
 import correctImage from '../../../assets/images/correct.png';
-import { useNavigation } from '@react-navigation/native';
-import { FullWindowOverlay } from 'react-native-screens';
-import { ScrollView } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {FullWindowOverlay} from 'react-native-screens';
+import {ScrollView} from 'react-native';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
-import secondModalImage from '../../../assets/images/howto2.png'; 
+import secondModalImage from '../../../assets/images/howto2.png';
 
-export default function ScanQRScreen({ navigation }) {
+export default function ScanQRScreen({navigation}) {
   // Sample data
   const data = [
     {
@@ -118,7 +118,7 @@ export default function ScanQRScreen({ navigation }) {
   const [showModal, setShowModal] = useState(false);
   const [showSecondModal, setShowSecondModal] = useState(false);
 
-  function DataCard({ item }) {
+  function DataCard({item}) {
     return (
       <View style={styles.dataCard}>
         <Image source={item.image} style={styles.dataImage} />
@@ -131,8 +131,7 @@ export default function ScanQRScreen({ navigation }) {
           <View style={styles.returnButtonContainer}>
             <TouchableOpacity
               style={styles.returnButton}
-              onPress={() => setShowModal(true)}
-            >
+              onPress={() => setShowModal(true)}>
               <Text style={styles.returnButtonText}>Return</Text>
             </TouchableOpacity>
           </View>
@@ -141,7 +140,7 @@ export default function ScanQRScreen({ navigation }) {
     );
   }
 
-  function LockerCard({ item }) {
+  function LockerCard({item}) {
     if (item.status === 'Available') {
       return (
         <View style={styles.lockerCard}>
@@ -159,71 +158,68 @@ export default function ScanQRScreen({ navigation }) {
       return null;
     }
   }
-  
-  
-  
 
-  const renderItem = ({ item }) => <DataCard item={item} />;
-  const renderLocker = ({ item }) => <LockerCard item={item} />;
+  const renderItem = ({item}) => <DataCard item={item} />;
+  const renderLocker = ({item}) => <LockerCard item={item} />;
 
   if (data.length === 0) {
-  return (
-  <View style={styles.noDataContainer}>
-  <Image source={profileBW} style={styles.noDataImage} />
-  <Text style={styles.noDataText}>No umbrella rented</Text>
-  </View>
-  );
+    return (
+      <View style={styles.noDataContainer}>
+        <Image source={profileBW} style={styles.noDataImage} />
+        <Text style={styles.noDataText}>No umbrella rented</Text>
+      </View>
+    );
   }
-  
+
   // Sort data by date and time in descending order (most recent first)
   const sortedData = data.sort((a, b) => {
-  const dateA = new Date(a.date + 'T' + a.time);
-  const dateB = new Date(b.date + 'T' + b.time);
-  return dateB - dateA;
+    const dateA = new Date(a.date + 'T' + a.time);
+    const dateB = new Date(b.date + 'T' + b.time);
+    return dateB - dateA;
   });
-  
+
   const availableLockers = lockerData.filter(
-  (locker) => locker.status === 'Available'
+    locker => locker.status === 'Available',
   );
-  
+
   return (
     <View style={styles.container}>
       <FlatList
         data={sortedData}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={item => item.id.toString()}
       />
       <Modal animationType="slide" transparent={false} visible={showModal}>
         <View style={styles.modalContainer}>
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => setShowModal(false)}
-          >
+            onPress={() => setShowModal(false)}>
             <Text style={styles.backButtonText}>Back</Text>
           </TouchableOpacity>
           <TouchableOpacity
-          style={styles.infoButton}
-          onPress={() => setShowSecondModal(true)}
-        >
-          <Text style={styles.infoButtonText}>?</Text>
-        </TouchableOpacity>
+            style={styles.infoButton}
+            onPress={() => setShowSecondModal(true)}>
+            <Text style={styles.infoButtonText}>?</Text>
+          </TouchableOpacity>
           <Text style={styles.lockerTitle}>
             Available Lockers: {availableLockers.length}
           </Text>
           <FlatList
             data={availableLockers}
             renderItem={renderLocker}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={item => item.id.toString()}
             contentContainerStyle={styles.flatListContentContainer}
           />
         </View>
       </Modal>
-      <Modal animationType="slide" transparent={false} visible={showSecondModal}>
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={showSecondModal}>
         <View style={styles.secondModalContainer}>
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => setShowSecondModal(false)}
-          >
+            onPress={() => setShowSecondModal(false)}>
             <Text style={styles.backButtonText}>Back</Text>
           </TouchableOpacity>
           <Image source={secondModalImage} style={styles.secondModalImage} />
@@ -231,64 +227,64 @@ export default function ScanQRScreen({ navigation }) {
       </Modal>
     </View>
   );
-  }
-  
-  const styles = StyleSheet.create({
+}
+
+const styles = StyleSheet.create({
   container: {
-  flex: 1,
-  backgroundColor: '#FAC983',
-  paddingTop: 15,
-  paddingHorizontal: 10,
+    flex: 1,
+    backgroundColor: '#FAC983',
+    paddingTop: 15,
+    paddingHorizontal: 10,
   },
   dataCard: {
-  flexDirection: 'row',
-  backgroundColor: '#fff',
-  padding: 15,
-  marginBottom: 15,
-  alignItems: 'center',
-  borderRadius: 10,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    padding: 15,
+    marginBottom: 15,
+    alignItems: 'center',
+    borderRadius: 10,
   },
   dataImage: {
-  width: 150,
-  height: 150,
-  borderRadius: 25,
-  marginRight: 10,
+    width: 150,
+    height: 150,
+    borderRadius: 25,
+    marginRight: 10,
   },
   dataContent: {
-  justifyContent: 'space-between',
-  flex: 1,
+    justifyContent: 'space-between',
+    flex: 1,
   },
   returnButtonContainer: {
-  justifyContent: 'center',
-  alignItems: 'flex-start',
-  padding: 10,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    padding: 10,
   },
   returnButton: {
-  backgroundColor: '#E35205',
-  paddingVertical: 8,
-  paddingHorizontal: 16,
-  borderRadius: 4,
+    backgroundColor: '#E35205',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 4,
   },
   returnButtonText: {
-  color: '#FFFFFF',
-  fontSize: 16,
+    color: '#FFFFFF',
+    fontSize: 16,
   },
   modalContainer: {
-  flex: 1,
-  backgroundColor: '#FAC983',
-  paddingTop: 15,
-  paddingHorizontal: 10,
+    flex: 1,
+    backgroundColor: '#FAC983',
+    paddingTop: 15,
+    paddingHorizontal: 10,
   },
   backButton: {
-  backgroundColor: '#E35205',
-  paddingVertical: 8,
-  paddingHorizontal: 16,
-  borderRadius: 20,
-  alignSelf: 'flex-start',
+    backgroundColor: '#E35205',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    alignSelf: 'flex-start',
   },
   backButtonText: {
-  color: '#FFFFFF',
-  fontSize: 16,
+    color: '#FFFFFF',
+    fontSize: 16,
   },
   infoButton: {
     backgroundColor: 'white',
@@ -303,42 +299,42 @@ export default function ScanQRScreen({ navigation }) {
     fontSize: 16,
   },
   lockerTitle: {
-  fontSize: 18,
-  fontWeight: 'bold',
-  textAlign: 'center',
-  marginVertical: 10,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginVertical: 10,
   },
   lockerCard: {
-  flexDirection: 'row',
-  backgroundColor: '#fff',
-  padding: 15,
-  marginBottom: 15,
-  alignItems: 'center',
-  borderRadius: 10,
+    flexDirection: 'row',
+    backgroundColor: '#fff',
+    padding: 15,
+    marginBottom: 15,
+    alignItems: 'center',
+    borderRadius: 10,
   },
   lockerImage: {
-  width: 100,
-  height: 100,
-  borderRadius: 25,
-  marginRight: 10,
+    width: 100,
+    height: 100,
+    borderRadius: 25,
+    marginRight: 10,
   },
   lockerContent: {
-  justifyContent: 'space-between',
-  flex: 1,
+    justifyContent: 'space-between',
+    flex: 1,
   },
   noDataContainer: {
-  flex: 1,
-  justifyContent: 'center',
-  alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   noDataImage: {
-  width: 200,
-  height: 200,
+    width: 200,
+    height: 200,
   },
   noDataText: {
-  fontSize: 24,
-  fontWeight: 'bold',
-  marginTop: 20,
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginTop: 20,
   },
   flatListContentContainer: {
     flexGrow: 1,
@@ -357,4 +353,4 @@ export default function ScanQRScreen({ navigation }) {
     height: '100%',
     //resizeMode: 'contain',
   },
-  });
+});

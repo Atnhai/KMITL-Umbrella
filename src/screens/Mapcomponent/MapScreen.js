@@ -77,7 +77,6 @@ export default function MapScreen({navigation}) {
     setModalVisible(true);
   };
 
-
   const item = [
     // 13.729246179041802, 100.77653473477697
     {
@@ -99,7 +98,7 @@ export default function MapScreen({navigation}) {
       price: 20.0,
     },
   ];
-  
+
   let locker;
   let locks;
   let lock1, lock2, lock3;
@@ -283,18 +282,20 @@ export default function MapScreen({navigation}) {
     try {
       const response = await axios.get('http://10.66.4.168:8000/api/lockers/');
       const lockers = response.data.lockers;
-  
+
       locker = lockers[0]; // Get the locker (at index 0)
       locks = locker.Locks;
-  
+
+      console.log('Lockerssss:', locker);
+
       lock1 = locks[0];
       lock2 = locks[1];
       lock3 = locks[2];
-  
+
       umbrella1 = lock1 && lock1.Umbrella ? lock1.Umbrella : null;
       umbrella2 = lock2 && lock2.Umbrella ? lock2.Umbrella : null;
       umbrella3 = lock3 && lock3.Umbrella ? lock3.Umbrella : null;
-  
+
       // Accessing locker fields
       name = locker.name;
       location = locker.location;
@@ -307,9 +308,13 @@ export default function MapScreen({navigation}) {
       console.log(error);
     }
   };
-  
-fetchLocker();
-  
+  useEffect(() => {
+    // Call fetchLockerName with the desired ID when the component mounts
+    fetchLocker();
+    // Replace 1 with the ID you want to fetch
+    // ... (other useEffect logic)
+  }, []);
+
   // Now you can access these variables from anywhere in this file
   console.log('Locker:', locker);
   console.log('Locks:', lock1, lock2, lock3);
@@ -321,34 +326,28 @@ fetchLocker();
   console.log('Longitude:', longitude);
   console.log('Price:', price);
   console.log('Image:', image);
-  
+
   const format = [
     {
-      [locker.name]: [
+      [name]: [
         {
-          lockId: lock1.id,
-          umbrellaId: umbrella1.id,
-          status: lock1.availability,
+          lockId: lock1,
+          umbrellaId: umbrella1,
+          status: lock1,
         },
         {
-          lockId: lock2.id,
-          umbrellaId: umbrella2.id,
-          status: lock2.availability,
+          lockId: lock2,
+          umbrellaId: umbrella2,
+          status: lock2,
         },
         {
-          lockId: lock3.id,
-          umbrellaId: umbrella3.id,
-          status: lock3.availability,
+          lockId: lock3,
+          umbrellaId: umbrella3,
+          status: lock3,
         },
       ],
     },
   ];
-  // useEffect(() => {
-  //   // Call fetchLockerName with the desired ID when the component mounts
-  //   fetchAllLockers();
-  //   // Replace 1 with the ID you want to fetch
-  //   // ... (other useEffect logic)
-  // }, []);
 
   // const fetchLockerName = async () => {
   //   try {
@@ -437,7 +436,7 @@ fetchLocker();
     <View style={styles.container}>
       <View style={styles.views}>
         <Text style={styles.header_text}>
-          Choose the locker {tempVar} {'\t'} {'\t'}for rent your umbrella
+          Choose the locker {'\t'} {'\t'}for rent your umbrella
         </Text>
         {/* { <Searchbar placeholder="Search" style={styles.search}></Searchbar> */}
         {/* <View style={{height: 40, flexDirection: 'row'}}>
