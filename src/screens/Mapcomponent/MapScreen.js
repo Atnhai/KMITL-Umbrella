@@ -307,7 +307,15 @@ export default function MapScreen({navigation}) {
   
     fetchData();
   }, []);
-
+  useEffect(() => {
+    console.log('Locker:', locker);
+    console.log('Lock1:', lock1);
+    console.log('Lock2:', lock2);
+    console.log('Lock3:', lock3);
+    console.log('Umbrella1:', umbrella1);
+    console.log('Umbrella2:', umbrella2);
+    console.log('Umbrella3:', umbrella3);
+  }, [locker, lock1, lock2, lock3, umbrella1, umbrella2, umbrella3]);
   // const fetchLockerName = async () => {
   //   try {
   //     const response = await axios.get(
