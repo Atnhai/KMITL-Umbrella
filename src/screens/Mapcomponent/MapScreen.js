@@ -97,6 +97,15 @@ export default function MapScreen({navigation}) {
       image: require('../../../assets/images/hm.jpg'),
       price: 20.0,
     },
+    {
+      id: 3,
+      latitude: 13.726573105186487,
+      longitude: 100.75497633816488,
+      place: 'Peem Building',
+      availableUmbrellas: 1,
+      image: require('../../../assets/images/hm.jpg'),
+      price: 20.0,
+    },
   ];
 
   // useEffect(() => {
@@ -220,16 +229,19 @@ export default function MapScreen({navigation}) {
         lockId: '001',
         umbrellaId: '01',
         status: 'Available',
+        placeId: 'ECC Building',
       },
       {
         lockId: '002',
         umbrellaId: '02',
         status: 'Unavailable',
+        placeId: 'ECC Building',
       },
       {
         lockId: '003',
         umbrellaId: '03',
         status: 'Available',
+        placeId: 'ECC Building',
       },
       // Add more umbrellas for ECC Building here...
     ],
@@ -238,16 +250,40 @@ export default function MapScreen({navigation}) {
         lockId: '001',
         umbrellaId: '04',
         status: 'Available',
+        placeId: 'HM Building',
       },
       {
         lockId: '002',
         umbrellaId: '05',
         status: 'Available',
+        placeId: 'HM Building',
       },
       {
         lockId: '003',
         umbrellaId: '06',
+        status: 'Available',
+        placeId: 'HM Building',
+      },
+      //Add more umbrellas for HM Building here...
+    ],
+    PeemBuilding: [
+      {
+        lockId: '001',
+        umbrellaId: '04',
         status: 'Unavailable',
+        placeId: 'Peem Building',
+      },
+      {
+        lockId: '002',
+        umbrellaId: '05',
+        status: 'Unavailable',
+        placeId: 'Peem Building',
+      },
+      {
+        lockId: '003',
+        umbrellaId: '06',
+        status: 'Available',
+        placeId: 'Peem Building',
       },
       //Add more umbrellas for HM Building here...
     ],
@@ -420,13 +456,16 @@ export default function MapScreen({navigation}) {
                     <Text style={styles.cardText}>{location.place}</Text>
                     <Text style={styles.cardText}>
                       Available Umbrellas:{' '}
-                      {
-                        (selectedItem?.place === 'ECC Building'
-                          ? umbrellasData.eccBuilding
-                          : umbrellasData.hmBuilding
-                        ).filter(umbrella => umbrella.status === 'Available')
-                          .length
-                      }
+                      {umbrellasData[selectedItem?.place]?.reduce(
+                        (count, umbrella) => {
+                          if (umbrella.status === 'Available') {
+                            return count + 1;
+                          } else {
+                            return count;
+                          }
+                        },
+                        0,
+                      )}
                     </Text>
                   </View>
                 </View>
