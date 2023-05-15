@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import React, {Component} from 'react';
+import axios from 'axios';
 import Logo from '../../../assets/images/Google.png';
 import {useState} from 'react';
 import {authentication, provider} from '../../../firebase';
@@ -31,6 +32,16 @@ export default function RegisterScreen({navigation}) {
       .catch(re => {
         console.log(re);
       });
+      axios.post('http://10.66.4.168:8000/api/users/', {
+      email: email,
+      username: username,
+      })
+    .then(response => {
+    console.log('User created successfully:', response.data);
+    })
+    .catch(error => {
+      console.log('Error creating user:', error);
+    });
     // auth
     //   .createUserWithEmailAndPassword(email, password)
     //   .then(userCredentials => {
@@ -39,6 +50,7 @@ export default function RegisterScreen({navigation}) {
     //   })
     //   .catch(error => alert(error.message));
   };
+
 
   return (
     <View style={Stylecomponent.root_register}>
@@ -99,3 +111,4 @@ const stylepadding = StyleSheet.create({
     marginBottom: 80,
   },
 });
+
