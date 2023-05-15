@@ -99,12 +99,16 @@ export default function MapScreen({navigation}) {
     },
   ];
 
-  let locker;
-  let locks;
-  let lock1, lock2, lock3;
-  let umbrella1, umbrella2, umbrella3;
-  let name, location, availableUmbrellas, latitude, longitude, price, image;
-
+  const MyComponent = () => {
+    const [locker, setLocker] = useState(null);
+    const [locks, setLocks] = useState([]);
+    const [lock1, setLock1] = useState(null);
+    const [lock2, setLock2] = useState(null);
+    const [lock3, setLock3] = useState(null);
+    const [umbrella1, setUmbrella1] = useState(null);
+    const [umbrella2, setUmbrella2] = useState(null);
+    const [umbrella3, setUmbrella3] = useState(null);
+  };
   // useEffect(() => {
   //   setRegion({
   //     latitude: 13.730283,
@@ -277,77 +281,87 @@ export default function MapScreen({navigation}) {
   //     console.error('Error fetching lockers:', error);
   //   }
   // };
-
-  const fetchLocker = async () => {
-    try {
-      const response = await axios.get('http://10.66.4.168:8000/api/lockers/');
-      const lockers = response.data.lockers;
-
-      locker = lockers[0]; // Get the locker (at index 0)
-      locks = locker.Locks;
-
-      console.log('Lockerssss:', locker);
-
-      lock1 = locks[0];
-      lock2 = locks[1];
-      lock3 = locks[2];
-
-      umbrella1 = lock1 && lock1.Umbrella ? lock1.Umbrella : null;
-      umbrella2 = lock2 && lock2.Umbrella ? lock2.Umbrella : null;
-      umbrella3 = lock3 && lock3.Umbrella ? lock3.Umbrella : null;
-
-      // Accessing locker fields
-      name = locker.name;
-      location = locker.location;
-      availableUmbrellas = locker.availableUmbrellas;
-      latitude = locker.latitude;
-      longitude = locker.longitude;
-      price = locker.price;
-      image = locker.image;
-    } catch (error) {
-      console.log(error);
-    }
-  };
   useEffect(() => {
-    // Call fetchLockerName with the desired ID when the component mounts
+    const fetchLocker = async () => {
+      try {
+        const response = await axios.get(
+          'http://10.66.4.168:8000/api/lockers/',
+        );
+        const lockers = response.data.lockers;
+
+        const fetchedLocker = lockers[0];
+        const fetchedLocks = fetchedLocker.Locks;
+
+        const fetchedLock1 = fetchedLocks[0];
+        const fetchedLock2 = fetchedLocks[1];
+        const fetchedLock3 = fetchedLocks[2];
+
+        const fetchedUmbrella1 =
+          fetchedLock1 && fetchedLock1.Umbrella ? fetchedLock1.Umbrella : null;
+        const fetchedUmbrella2 =
+          fetchedLock2 && fetchedLock2.Umbrella ? fetchedLock2.Umbrella : null;
+        const fetchedUmbrella3 =
+          fetchedLock3 && fetchedLock3.Umbrella ? fetchedLock3.Umbrella : null;
+
+        setLocker(fetchedLocker);
+        setLocks(fetchedLocks);
+        setLock1(fetchedLock1);
+        setLock2(fetchedLock2);
+        setLock3(fetchedLock3);
+        setUmbrella1(fetchedUmbrella1);
+        setUmbrella2(fetchedUmbrella2);
+        setUmbrella3(fetchedUmbrella3);
+
+        console.log('Locker:', fetchedLocker);
+        console.log('Locks:', fetchedLock1, fetchedLock2, fetchedLock3);
+        console.log(
+          'Umbrellas:',
+          fetchedUmbrella1,
+          fetchedUmbrella2,
+          fetchedumbrella3,
+        );
+        console.log('Name:', fetchedLocker.name);
+        console.log('Location:', fetchedLocker.location);
+        console.log('Available Umbrellas:', fetchedLocker.availableUmbrellas);
+        console.log('Latitude:', fetchedLocker.latitude);
+        console.log('Longitude:', fetchedLocker.longitude);
+        console.log('Price:', fetchedLocker.price);
+        console.log('Image:', fetchedLocker.image);
+
+        const format = [
+          {
+            [fetchedLocker.name]: [
+              {
+                lockId: fetchedLock1.id,
+                umbrellaId: fetchedUmbrella1.id,
+                status: fetchedLock1.availability,
+              },
+              {
+                lockId: fetchedLock2.id,
+                umbrellaId: fetchedUmbrella2.id,
+                status: fetchedLock2.availability,
+              },
+              {
+                lockId: fetchedLock3.id,
+                umbrellaId: fetchedUmbrella3.id,
+                status: fetchedLock3.availability,
+              },
+            ],
+          },
+        ];
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     fetchLocker();
-    // Replace 1 with the ID you want to fetch
-    // ... (other useEffect logic)
   }, []);
-
-  // Now you can access these variables from anywhere in this file
-  console.log('Locker:', locker);
-  console.log('Locks:', lock1, lock2, lock3);
-  console.log('Umbrellas:', umbrella1, umbrella2, umbrella3);
-  console.log('Name:', name);
-  console.log('Location:', location);
-  console.log('Available Umbrellas:', availableUmbrellas);
-  console.log('Latitude:', latitude);
-  console.log('Longitude:', longitude);
-  console.log('Price:', price);
-  console.log('Image:', image);
-
-  const format = [
-    {
-      [name]: [
-        {
-          lockId: lock1,
-          umbrellaId: umbrella1,
-          status: lock1,
-        },
-        {
-          lockId: lock2,
-          umbrellaId: umbrella2,
-          status: lock2,
-        },
-        {
-          lockId: lock3,
-          umbrellaId: umbrella3,
-          status: lock3,
-        },
-      ],
-    },
-  ];
+  // useEffect(() => {
+  //   // Call fetchLockerName with the desired ID when the component mounts
+  //   fetchAllLockers();
+  //   // Replace 1 with the ID you want to fetch
+  //   // ... (other useEffect logic)
+  // }, []);
 
   // const fetchLockerName = async () => {
   //   try {
