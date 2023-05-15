@@ -87,6 +87,7 @@ export default function MapScreen({navigation}) {
       availableUmbrellas: 3,
       image: require('../../../assets/images/ecc.jpg'),
       price: 20.0,
+      mark: 'near canteen and 70th building',
     },
     {
       id: 2,
@@ -96,6 +97,7 @@ export default function MapScreen({navigation}) {
       availableUmbrellas: 3,
       image: require('../../../assets/images/hm.jpg'),
       price: 20.0,
+      mark: 'near canteen',
     },
     {
       id: 3,
@@ -224,7 +226,7 @@ export default function MapScreen({navigation}) {
     setSuccessModalVisible(true);
   };
   const umbrellasData = {
-    eccBuilding: [
+    'ECC Building' : [
       {
         lockId: '001',
         umbrellaId: '01',
@@ -245,7 +247,7 @@ export default function MapScreen({navigation}) {
       },
       // Add more umbrellas for ECC Building here...
     ],
-    hmBuilding: [
+    'HM Building' : [
       {
         lockId: '001',
         umbrellaId: '04',
@@ -266,7 +268,7 @@ export default function MapScreen({navigation}) {
       },
       //Add more umbrellas for HM Building here...
     ],
-    PeemBuilding: [
+    'Peem Building' : [
       {
         lockId: '001',
         umbrellaId: '04',
@@ -454,19 +456,7 @@ export default function MapScreen({navigation}) {
                   <Image source={location.image} style={styles.cardImage} />
                   <View style={styles.cardInfo}>
                     <Text style={styles.cardText}>{location.place}</Text>
-                    <Text style={styles.cardText}>
-                      Available Umbrellas:{' '}
-                      {umbrellasData[selectedItem?.place]?.reduce(
-                        (count, umbrella) => {
-                          if (umbrella.status === 'Available') {
-                            return count + 1;
-                          } else {
-                            return count;
-                          }
-                        },
-                        0,
-                      )}
-                    </Text>
+                    <Text style={styles.cardText}>Landmark: {location.mark}</Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -488,19 +478,13 @@ export default function MapScreen({navigation}) {
             source={selectedItem ? selectedItem.image : null}
           />
           <Text style={styles.modalText}>
-            Umbrellas available:{' '}
-            {
-              (selectedItem?.place === 'ECC Building'
-                ? umbrellasData.eccBuilding
-                : umbrellasData.hmBuilding
-              ).filter(umbrella => umbrella.status === 'Available').length
-            }
-          </Text>
-          {(selectedItem?.place === 'ECC Building'
-            ? umbrellasData.eccBuilding
-            : umbrellasData.hmBuilding
-          ).map((umbrella, index) => {
-            const isAvailable = umbrella.status === 'Available';
+          Umbrellas available:{' '}
+  {
+    umbrellasData[selectedItem?.place]?.filter(umbrella => umbrella.status === 'Available').length || 0
+  }
+</Text>
+{ umbrellasData[selectedItem?.place]?.map((umbrella, index) => {
+    const isAvailable = umbrella.status === 'Available';
             const isnearBy =
               userLocation && selectedItem
                 ? geolib.getDistance(userLocation, {
