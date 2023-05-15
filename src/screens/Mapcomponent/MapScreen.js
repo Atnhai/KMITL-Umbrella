@@ -99,17 +99,13 @@ export default function MapScreen({navigation}) {
       price: 20.0,
     },
   ];
-  
-  const MyComponent = () => {
-    const [locker, setLocker] = useState(null);
-    const [locks, setLocks] = useState([]);
-    const [lock1, setLock1] = useState(null);
-    const [lock2, setLock2] = useState(null);
-    const [lock3, setLock3] = useState(null);
-    const [umbrella1, setUmbrella1] = useState(null);
-    const [umbrella2, setUmbrella2] = useState(null);
-    const [umbrella3, setUmbrella3] = useState(null);
-  }
+  const [locker, setLocker] = useState(null);
+  const [lock1, setLock1] = useState(null);
+  const [lock2, setLock2] = useState(null);
+  const [lock3, setLock3] = useState(null);
+  const [umbrella1, setUmbrella1] = useState(null);
+  const [umbrella2, setUmbrella2] = useState(null);
+  const [umbrella3, setUmbrella3] = useState(null);
   // useEffect(() => {
   //   setRegion({
   //     latitude: 13.730283,
@@ -282,71 +278,34 @@ export default function MapScreen({navigation}) {
   //     console.error('Error fetching lockers:', error);
   //   }
   // };
-const fetchLocker = async () => {
-    try {
-      const response = await axios.get('http://10.66.4.168:8000/api/lockers/');
-      const lockers = response.data.lockers;
-  
-      const locker = lockers[0];
-      const locks = locker.Locks;
-  
-      const lock1 = locks[0];
-      const lock2 = locks[1];
-      const lock3 = locks[2];
-  
-      const umbrella1 = lock1 && lock1.Umbrella ? lock1.Umbrella : null;
-      const umbrella2 = lock2 && lock2.Umbrella ? lock2.Umbrella : null;
-      const umbrella3 = lock3 && lock3.Umbrella ? lock3.Umbrella : null;
-  
-      const name = locker.name;
-      const location = locker.location;
-      const availableUmbrellas = locker.availableUmbrellas;
-      const latitude = locker.latitude;
-      const longitude = locker.longitude;
-      const price = locker.price;
-      const image = locker.image;
-  
-      console.log('Locker:', locker);
-      console.log('Locks:', lock1, lock2, lock3);
-      console.log('Umbrellas:', umbrella1, umbrella2, umbrella3);
-      console.log('Name:', name);
-      console.log('Location:', location);
-      console.log('Available Umbrellas:', availableUmbrellas);
-      console.log('Latitude:', latitude);
-      console.log('Longitude:', longitude);
-      console.log('Price:', price);
-      console.log('Image:', image);
-  
-      const format = [
-        {
-          [name]: [
-            {
-              lockId: lock1.id,
-              umbrellaId: umbrella1.id,
-              status: lock1.availability,
-            },
-            {
-              lockId: lock2.id,
-              umbrellaId: umbrella2.id,
-              status: lock2.availability,
-            },
-            {
-              lockId: lock3.id,
-              umbrellaId: umbrella3.id,
-              status: lock3.availability,
-            },
-          ],
-        },
-      ];
-    } catch (error) {
-      console.log(error);
-    }
-  };
   useEffect(() => {
-    // Call fetchLockerName with the desired ID when the component mounts
-    fetchLocker();
-    // Replace 1 with the ID you want to fetch
-    // ... (other useEffect logic)
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://10.66.4.168:8000/api/lockers/');
+        const data = response.data; // Assuming the response contains the required data
+
+        // Extract the data and update the state variables
+        setLocker(data.locker[0]);
+        setLock1(data.locker[0].lock[0]);
+        setLock2(data.locker[0].lock[1]);
+        setLock3(data.locker[0].lock[2]);
+        setUmbrella1(data.locker[0].umbrella[0]);
+        setUmbrella2(data.locker[0].umbrella[1]);
+        setUmbrella3(data.locker[0].umbrella[2]);
+
+        console.log(locker);
+        console.log(lock1);
+        console.log(lock2);
+        console.log(lock3);
+        console.log(umbrella1);
+        console.log(umbrella2);
+        console.log(umbrella3);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   // const fetchLockerName = async () => {
