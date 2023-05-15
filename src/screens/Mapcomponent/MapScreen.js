@@ -81,13 +81,11 @@ export default function MapScreen({navigation}) {
   const [tempVar, settempVar] = useState(null);
 
   const item = [
-    // 13.729246179041802, 100.77653473477697
     {
       id: 1,
       latitude: 13.729249840361328,
       longitude: 100.77563323749371,
       place: 'ECC Building',
-      availableUmbrellas: 3,
       image: require('../../../assets/images/ecc.jpg'),
       price: 20.0,
       mark: 'near canteen and 70th building',
@@ -97,7 +95,6 @@ export default function MapScreen({navigation}) {
       latitude: 13.726573105186487,
       longitude: 100.77497633816488,
       place: 'HM Building',
-      availableUmbrellas: 3,
       image: require('../../../assets/images/hm.jpg'),
       price: 20.0,
       mark: 'near canteen',
@@ -107,7 +104,6 @@ export default function MapScreen({navigation}) {
       latitude: 13.726573105186487,
       longitude: 100.75497633816488,
       place: 'Peem Building',
-      availableUmbrellas: 1,
       image: require('../../../assets/images/hm.jpg'),
       price: 20.0,
     },
@@ -156,20 +152,6 @@ export default function MapScreen({navigation}) {
       {enableHighAccuracy: true},
     );
   }
-
-  // function measureDistances() {
-  //   item.forEach((destination, index) => {
-  //     const distance = geolib.getDistance(
-  //       {
-  //         latitude: region.latitude,
-  //         longitude: region.longitude,
-  //       },
-  //       {latitude: destination.latitude, longitude: destination.longitude},
-  //     );
-
-  //     console.log(`Distance to destination ${index + 1}: ${distance} meters`);
-  //   });
-  // }
 
   measureDistances();
 
@@ -229,7 +211,7 @@ export default function MapScreen({navigation}) {
     setSuccessModalVisible(true);
   };
   const umbrellasData = {
-    'ECC Building' : [
+    'ECC Building': [
       {
         lockId: '001',
         umbrellaId: '01',
@@ -250,7 +232,7 @@ export default function MapScreen({navigation}) {
       },
       // Add more umbrellas for ECC Building here...
     ],
-    'HM Building' : [
+    'HM Building': [
       {
         lockId: '001',
         umbrellaId: '04',
@@ -271,11 +253,11 @@ export default function MapScreen({navigation}) {
       },
       //Add more umbrellas for HM Building here...
     ],
-    'Peem Building' : [
+    'Peem Building': [
       {
         lockId: '001',
         umbrellaId: '04',
-        status: 'Unavailable',
+        status: 'Available',
         placeId: 'Peem Building',
       },
       {
@@ -287,7 +269,7 @@ export default function MapScreen({navigation}) {
       {
         lockId: '003',
         umbrellaId: '06',
-        status: 'Available',
+        status: 'Unavailable',
         placeId: 'Peem Building',
       },
       //Add more umbrellas for HM Building here...
@@ -345,28 +327,6 @@ export default function MapScreen({navigation}) {
   const BlackLine = () => {
     return <View style={styles.blackLine} />;
   };
-
-  // const item = [
-  //   // 13.729246179041802, 100.77653473477697
-  //   {
-  //     id: 1,
-  //     latitude: 13.729249840361328,
-  //     longitude: 100.77563323749371,
-  //     place: 'ECC Building',
-  //     availableUmbrellas: 3,
-  //     image: require('../../../assets/images/ecc.jpg'),
-  //     price: 20.0,
-  //   },
-  //   {
-  //     id: 2,
-  //     latitude: 13.726573105186487,
-  //     longitude: 100.77497633816488,
-  //     place: 'HM Building',
-  //     availableUmbrellas: 3,
-  //     image: require('../../../assets/images/hm.jpg'),
-  //     price: 20.0,
-  //   },
-  // ];
 
   const calculateUmbrellaStats = umbrellas => {
     let availableCount = 0;
@@ -465,7 +425,9 @@ export default function MapScreen({navigation}) {
                   <Image source={location.image} style={styles.cardImage} />
                   <View style={styles.cardInfo}>
                     <Text style={styles.cardText}>{location.place}</Text>
-                    <Text style={styles.cardText}>Landmark: {location.mark}</Text>
+                    <Text style={styles.cardText}>
+                      Landmark: {location.mark}
+                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -498,13 +460,13 @@ export default function MapScreen({navigation}) {
             source={selectedItem ? selectedItem.image : null}
           />
           <Text style={styles.modalText}>
-          Umbrellas available:{' '}
-  {
-    umbrellasData[selectedItem?.place]?.filter(umbrella => umbrella.status === 'Available').length || 0
-  }
-</Text>
-{ umbrellasData[selectedItem?.place]?.map((umbrella, index) => {
-    const isAvailable = umbrella.status === 'Available';
+            Umbrellas available:{' '}
+            {umbrellasData[selectedItem?.place]?.filter(
+              umbrella => umbrella.status === 'Available',
+            ).length || 0}
+          </Text>
+          {umbrellasData[selectedItem?.place]?.map((umbrella, index) => {
+            const isAvailable = umbrella.status === 'Available';
             const isnearBy =
               userLocation && selectedItem
                 ? geolib.getDistance(userLocation, {
