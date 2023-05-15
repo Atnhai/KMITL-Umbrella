@@ -76,7 +76,7 @@ export default function MapScreen({navigation}) {
     setSelectedItem(item);
     setModalVisible(true);
   };
-  const [tempVar, settempVar] = useState(null);
+
 
   const item = [
     // 13.729246179041802, 100.77653473477697
@@ -99,7 +99,12 @@ export default function MapScreen({navigation}) {
       price: 20.0,
     },
   ];
-
+  
+  let locker;
+  let locks;
+  let lock1, lock2, lock3;
+  let umbrella1, umbrella2, umbrella3;
+  let name, location, availableUmbrellas, latitude, longitude, price, image;
 
   // useEffect(() => {
   //   setRegion({
@@ -279,45 +284,44 @@ export default function MapScreen({navigation}) {
       const response = await axios.get('http://10.66.4.168:8000/api/lockers/');
       const lockers = response.data.lockers;
   
-      const locker = lockers[0]; // Get the third locker (at index 0)
-      const locks = locker.Locks;
+      locker = lockers[0]; // Get the locker (at index 0)
+      locks = locker.Locks;
   
-      const lock1 = locks[0];
-      const lock2 = locks[1];
-      const lock3 = locks[2];
+      lock1 = locks[0];
+      lock2 = locks[1];
+      lock3 = locks[2];
   
-      const umbrella1 = lock1 && lock1.Umbrella ? lock1.Umbrella : null;
-      const umbrella2 = lock2 && lock2.Umbrella ? lock2.Umbrella : null;
-      const umbrella3 = lock3 && lock3.Umbrella ? lock3.Umbrella : null;
+      umbrella1 = lock1 && lock1.Umbrella ? lock1.Umbrella : null;
+      umbrella2 = lock2 && lock2.Umbrella ? lock2.Umbrella : null;
+      umbrella3 = lock3 && lock3.Umbrella ? lock3.Umbrella : null;
   
       // Accessing locker fields
-      const name = locker.name;
-      const location = locker.location;
-      const availableUmbrellas = locker.availableUmbrellas;
-      const latitude = locker.latitude;
-      const longitude = locker.longitude;
-      const price = locker.price;
-      const image = locker.image; // You will need to handle the conversion from Base64 to an image file
-      // Now you have each lock, umbrella, and locker field stored in separate variables
-      console.log('Locker 3:');
-      console.log('Name:', name);
-      console.log('Location:', location);
-      console.log('Available Umbrellas:', availableUmbrellas);
-      console.log('Latitude:', latitude);
-      console.log('Longitude:', longitude);
-      console.log('Price:', price);
-      console.log('Image:', image); // This will be a Base64 string; you will need to handle the conversion to an image file
-      console.log('Locks:', lock1, lock2, lock3);
-      console.log('Umbrellas:', umbrella1, umbrella2, umbrella3);
+      name = locker.name;
+      location = locker.location;
+      availableUmbrellas = locker.availableUmbrellas;
+      latitude = locker.latitude;
+      longitude = locker.longitude;
+      price = locker.price;
+      image = locker.image;
     } catch (error) {
       console.log(error);
     }
   };
   
-  useEffect(() => {
-    fetchLocker();
-  }, []);
-
+fetchLocker();
+  
+  // Now you can access these variables from anywhere in this file
+  console.log('Locker:', locker);
+  console.log('Locks:', lock1, lock2, lock3);
+  console.log('Umbrellas:', umbrella1, umbrella2, umbrella3);
+  console.log('Name:', name);
+  console.log('Location:', location);
+  console.log('Available Umbrellas:', availableUmbrellas);
+  console.log('Latitude:', latitude);
+  console.log('Longitude:', longitude);
+  console.log('Price:', price);
+  console.log('Image:', image);
+  
   const format = [
     {
       [locker.name]: [
