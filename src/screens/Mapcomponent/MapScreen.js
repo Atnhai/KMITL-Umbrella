@@ -12,7 +12,6 @@ import {
   Modal,
   PermissionsAndroid,
 } from 'react-native';
-
 import axios from 'axios';
 import Logo from '../../../assets/images/search.png';
 import LockerImage from '../../../assets/images/locker.png';
@@ -76,35 +75,37 @@ export default function MapScreen({navigation}) {
     setSelectedItem(item);
     setModalVisible(true);
   };
+  const [tempVar, settempVar] = useState(null);
 
   const item = [
-    // 13.729246179041802, 100.77653473477697
     {
       id: 1,
       latitude: 13.729249840361328,
       longitude: 100.77563323749371,
       place: 'ECC Building',
-      availableUmbrellas: 3,
       image: require('../../../assets/images/ecc.jpg'),
       price: 20.0,
+      mark: 'near canteen and 70th building',
     },
     {
       id: 2,
       latitude: 13.726573105186487,
       longitude: 100.77497633816488,
       place: 'HM Building',
-      availableUmbrellas: 3,
+      image: require('../../../assets/images/hm.jpg'),
+      price: 20.0,
+      mark: 'near canteen',
+    },
+    {
+      id: 3,
+      latitude: 13.726573105186487,
+      longitude: 100.75497633816488,
+      place: 'Peem Building',
       image: require('../../../assets/images/hm.jpg'),
       price: 20.0,
     },
   ];
-  const [locker, setLocker] = useState(null);
-  const [lock1, setLock1] = useState(null);
-  const [lock2, setLock2] = useState(null);
-  const [lock3, setLock3] = useState(null);
-  const [umbrella1, setUmbrella1] = useState(null);
-  const [umbrella2, setUmbrella2] = useState(null);
-  const [umbrella3, setUmbrella3] = useState(null);
+
   // useEffect(() => {
   //   setRegion({
   //     latitude: 13.730283,
@@ -148,20 +149,6 @@ export default function MapScreen({navigation}) {
       {enableHighAccuracy: true},
     );
   }
-
-  // function measureDistances() {
-  //   item.forEach((destination, index) => {
-  //     const distance = geolib.getDistance(
-  //       {
-  //         latitude: region.latitude,
-  //         longitude: region.longitude,
-  //       },
-  //       {latitude: destination.latitude, longitude: destination.longitude},
-  //     );
-
-  //     console.log(`Distance to destination ${index + 1}: ${distance} meters`);
-  //   });
-  // }
 
   measureDistances();
 
@@ -220,90 +207,67 @@ export default function MapScreen({navigation}) {
     setImageModalVisible(false);
     setSuccessModalVisible(true);
   };
-
-  // const fetchAllLockers = async () => {
-  //   try {
-  //     const response = await axios.get('http://10.66.9.250:8000/api/lockers/'); // Replace with your API endpoint
-  //     if (response.status === 200) {
-  //       const lockers = response.data;
-  //       console.log('All lockers:', lockers);
-  //     } else {
-  //       console.error('Error fetching lockers:', response.status);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching lockers:', error);
-  //   }
-  // };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          'http://10.66.4.168:8000/api/lockers/',
-        );
-        const data = response.data; // Assuming the response contains the required data
-
-        // Extract the data and update the state variables
-        setLocker(data.locker[0]);
-        setLock1(data.locker[0].lock[0]);
-        setLock2(data.locker[0].lock[1]);
-        setLock3(data.locker[0].lock[2]);
-        setUmbrella1(data.locker[0].umbrella[0]);
-        setUmbrella2(data.locker[0].umbrella[1]);
-        setUmbrella3(data.locker[0].umbrella[2]);
-
-        console.log(locker);
-        console.log(lock1);
-        console.log(lock2);
-        console.log(lock3);
-        console.log(umbrella1);
-        console.log(umbrella2);
-        console.log(umbrella3);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchData();
-  }, []);
   const umbrellasData = {
-    [locker]: [
+    'ECC Building': [
       {
-        lockId: lock1 ? lock1.id : null,
-        umbrellaId: umbrella1 ? umbrella1.id : null,
-        status: lock1 ? lock1.availability : null,
+        lockId: '001',
+        umbrellaId: '01',
+        status: 'Available',
+        placeId: 'ECC Building',
       },
       {
-        lockId: lock2 ? lock2.id : null,
-        umbrellaId: umbrella2 ? umbrella2.id : null,
-        status: lock2 ? lock2.availability : null,
+        lockId: '002',
+        umbrellaId: '02',
+        status: 'Unavailable',
+        placeId: 'ECC Building',
       },
       {
-        lockId: lock3 ? lock3.id : null,
-        umbrellaId: umbrella3 ? umbrella3.id : null,
-        status: lock3 ? lock3.availability : null,
+        lockId: '003',
+        umbrellaId: '03',
+        status: 'Available',
+        placeId: 'ECC Building',
       },
-      // {
-      //   lockId: '005',
-      //   umbrellaId: '06',
-      //   status: 'Available',
-      // },
       // Add more umbrellas for ECC Building here...
     ],
-    hmBuilding: [
+    'HM Building': [
       {
         lockId: '001',
         umbrellaId: '04',
         status: 'Available',
+        placeId: 'HM Building',
       },
       {
         lockId: '002',
         umbrellaId: '05',
         status: 'Available',
+        placeId: 'HM Building',
+      },
+      {
+        lockId: '003',
+        umbrellaId: '06',
+        status: 'Available',
+        placeId: 'HM Building',
+      },
+      //Add more umbrellas for HM Building here...
+    ],
+    'Peem Building': [
+      {
+        lockId: '001',
+        umbrellaId: '04',
+        status: 'Available',
+        placeId: 'Peem Building',
+      },
+      {
+        lockId: '002',
+        umbrellaId: '05',
+        status: 'Unavailable',
+        placeId: 'Peem Building',
       },
       {
         lockId: '003',
         umbrellaId: '06',
         status: 'Unavailable',
+        placeId: 'Peem Building',
       },
       //Add more umbrellas for HM Building here...
     ],
@@ -322,35 +286,13 @@ export default function MapScreen({navigation}) {
   //     console.error('Error fetching lockers:', error);
   //   }
   // };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://10.66.4.168:8000/api/lockers/');
-        const data = response.data; // Assuming the response contains the required data
-  
-        // Extract the data and update the state variables
-        setLocker(data.locker[0]);
-        setLock1(data.locker[0].lock[0]);
-        setLock2(data.locker[0].lock[1]);
-        setLock3(data.locker[0].lock[2]);
-        setUmbrella1(data.locker[0].umbrella[0]);
-        setUmbrella2(data.locker[0].umbrella[1]);
-        setUmbrella3(data.locker[0].umbrella[2]);
-  
-        console.log(locker);
-        console.log(lock1);
-        console.log(lock2);
-        console.log(lock3);
-        console.log(umbrella1);
-        console.log(umbrella2);
-        console.log(umbrella3);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-  
-    fetchData();
-  }, []);
+
+  // useEffect(() => {
+  //   // Call fetchLockerName with the desired ID when the component mounts
+  //   fetchAllLockers();
+  //   // Replace 1 with the ID you want to fetch
+  //   // ... (other useEffect logic)
+  // }, []);
 
   // const fetchLockerName = async () => {
   //   try {
@@ -382,28 +324,6 @@ export default function MapScreen({navigation}) {
   const BlackLine = () => {
     return <View style={styles.blackLine} />;
   };
-
-  // const item = [
-  //   // 13.729246179041802, 100.77653473477697
-  //   {
-  //     id: 1,
-  //     latitude: 13.729249840361328,
-  //     longitude: 100.77563323749371,
-  //     place: 'ECC Building',
-  //     availableUmbrellas: 3,
-  //     image: require('../../../assets/images/ecc.jpg'),
-  //     price: 20.0,
-  //   },
-  //   {
-  //     id: 2,
-  //     latitude: 13.726573105186487,
-  //     longitude: 100.77497633816488,
-  //     place: 'HM Building',
-  //     availableUmbrellas: 3,
-  //     image: require('../../../assets/images/hm.jpg'),
-  //     price: 20.0,
-  //   },
-  // ];
 
   const calculateUmbrellaStats = umbrellas => {
     let availableCount = 0;
@@ -439,7 +359,7 @@ export default function MapScreen({navigation}) {
     <View style={styles.container}>
       <View style={styles.views}>
         <Text style={styles.header_text}>
-          Choose the locker {'\t'} {'\t'}for rent your umbrella
+          Choose the locker {tempVar} {'\t'} {'\t'}for rent your umbrella
         </Text>
         {/* { <Searchbar placeholder="Search" style={styles.search}></Searchbar> */}
         {/* <View style={{height: 40, flexDirection: 'row'}}>
@@ -497,14 +417,7 @@ export default function MapScreen({navigation}) {
                   <View style={styles.cardInfo}>
                     <Text style={styles.cardText}>{location.place}</Text>
                     <Text style={styles.cardText}>
-                      Available Umbrellas:{' '}
-                      {
-                        (selectedItem?.place === 'ECC Building'
-                          ? umbrellasData.eccBuilding
-                          : umbrellasData.hmBuilding
-                        ).filter(umbrella => umbrella.status === 'Available')
-                          .length
-                      }
+                      Landmark: {location.mark}
                     </Text>
                   </View>
                 </View>
@@ -528,17 +441,11 @@ export default function MapScreen({navigation}) {
           />
           <Text style={styles.modalText}>
             Umbrellas available:{' '}
-            {
-              (selectedItem?.place === 'ECC Building'
-                ? umbrellasData.eccBuilding
-                : umbrellasData.hmBuilding
-              ).filter(umbrella => umbrella.status === 'Available').length
-            }
+            {umbrellasData[selectedItem?.place]?.filter(
+              umbrella => umbrella.status === 'Available',
+            ).length || 0}
           </Text>
-          {(selectedItem?.place === 'ECC Building'
-            ? umbrellasData.eccBuilding
-            : umbrellasData.hmBuilding
-          ).map((umbrella, index) => {
+          {umbrellasData[selectedItem?.place]?.map((umbrella, index) => {
             const isAvailable = umbrella.status === 'Available';
             const isnearBy =
               userLocation && selectedItem
