@@ -74,7 +74,7 @@ export default function ProfileScreen({navigation}) {
 
       <TouchableOpacity
         style={StyleMaincomponent.buttons_white}
-        onPress={() => navigation.navigate('History')}>
+        onPress={() => navigation.navigate('Forgetpassword')}>
         <Text style={StyleMaincomponent.texts_menu}>
           {' '}
           <Image
