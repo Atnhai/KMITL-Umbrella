@@ -268,19 +268,19 @@ export default function MapScreen({navigation}) {
   const umbrellasData = {
     [locker]: [
       {
-        lockId: lock1.id,
-        umbrellaId: umbrella1.id,
-        status: lock1.availability,
+        lockId: lock1 ? lock1.id : null,
+        umbrellaId: umbrella1 ? umbrella1.id : null,
+        status: lock1 ? lock1.availability : null,
       },
       {
-        lockId: lock2.id,
-        umbrellaId: umbrella2.id,
-        status: lock2.availability,
+        lockId: lock2 ? lock2.id : null,
+        umbrellaId: umbrella2 ? umbrella2.id : null,
+        status: lock2 ? lock2.availability : null,
       },
       {
-        lockId: lock3.id,
-        umbrellaId: umbrella3.id,
-        status: lock3.availability,
+        lockId: lock3 ? lock3.id : null,
+        umbrellaId: umbrella3 ? umbrella3.id : null,
+        status: lock3 ? lock3.availability : null,
       },
       // {
       //   lockId: '005',
@@ -308,6 +308,49 @@ export default function MapScreen({navigation}) {
       //Add more umbrellas for HM Building here...
     ],
   };
+
+  // const fetchAllLockers = async () => {
+  //   try {
+  //     const response = await axios.get('http://10.66.9.250:8000/api/lockers/'); // Replace with your API endpoint
+  //     if (response.status === 200) {
+  //       const lockers = response.data;
+  //       console.log('All lockers:', lockers);
+  //     } else {
+  //       console.error('Error fetching lockers:', response.status);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching lockers:', error);
+  //   }
+  // };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://10.66.4.168:8000/api/lockers/');
+        const data = response.data; // Assuming the response contains the required data
+  
+        // Extract the data and update the state variables
+        setLocker(data.locker[0]);
+        setLock1(data.locker[0].lock[0]);
+        setLock2(data.locker[0].lock[1]);
+        setLock3(data.locker[0].lock[2]);
+        setUmbrella1(data.locker[0].umbrella[0]);
+        setUmbrella2(data.locker[0].umbrella[1]);
+        setUmbrella3(data.locker[0].umbrella[2]);
+  
+        console.log(locker);
+        console.log(lock1);
+        console.log(lock2);
+        console.log(lock3);
+        console.log(umbrella1);
+        console.log(umbrella2);
+        console.log(umbrella3);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   // const fetchLockerName = async () => {
   //   try {
