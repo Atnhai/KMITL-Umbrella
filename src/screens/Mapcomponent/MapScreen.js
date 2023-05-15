@@ -28,6 +28,7 @@ import Geolocation from '@react-native-community/geolocation';
 import {googleMapIsInstalled} from 'react-native-maps/lib/decorateMapComponent';
 import {Card} from 'react-native-elements';
 import * as geolib from 'geolib';
+import secondModalImage from '../../../assets/images/howto2.png'; 
 
 enableLatestRenderer();
 
@@ -71,6 +72,8 @@ export default function MapScreen({navigation}) {
   const [rentModalVisible, setRentModalVisible] = useState(false);
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
+  const [showSecondModal, setShowSecondModal] = useState(false);
+
   const showModal = item => {
     setSelectedItem(item);
     setModalVisible(true);
@@ -399,8 +402,14 @@ export default function MapScreen({navigation}) {
     <View style={styles.container}>
       <View style={styles.views}>
         <Text style={styles.header_text}>
-          Choose the locker {tempVar} {'\t'} {'\t'}for rent your umbrella
+          Please choose the locker{tempVar} to rent your umbrella
         </Text>
+        <TouchableOpacity
+          style={styles.infoButton}
+          onPress={() => setShowSecondModal(true)}
+        >
+          <Text style={styles.infoButtonText}>?</Text>
+        </TouchableOpacity>
         {/* { <Searchbar placeholder="Search" style={styles.search}></Searchbar> */}
         {/* <View style={{height: 40, flexDirection: 'row'}}>
           <Text style={styles.text1}>Choose your location here: </Text>
@@ -464,6 +473,17 @@ export default function MapScreen({navigation}) {
           </ScrollView>
         </View>
       </View>
+      <Modal animationType="slide" transparent={false} visible={showSecondModal}>
+        <View style={styles.secondModalContainer}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => setShowSecondModal(false)}
+          >
+            <Text style={styles.backButtonText}>Back</Text>
+          </TouchableOpacity>
+          <Image source={secondModalImage} style={styles.secondModalImage} />
+        </View>
+      </Modal>
       <Modal
         animationType="slide"
         transparent={true}
@@ -932,4 +952,39 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  secondModalContainer: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingTop: 15,
+    paddingHorizontal: 10,
+  },
+  secondModalImage: {
+    width: '100%',
+    height: '100%',
+    //resizeMode: 'contain',
+  },
+  backButton: {
+    backgroundColor: '#E35205',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    alignSelf: 'flex-start',
+    },
+    backButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    },
+    infoButton: {
+      backgroundColor: 'white',
+      paddingVertical: 8,
+      paddingHorizontal: 12,
+      borderRadius: 20,
+      alignSelf: 'flex-end',
+      marginTop: -30,
+      marginRight: 15,
+    },
+    infoButtonText: {
+      color: 'black',
+      fontSize: 16,
+    },
 });

@@ -40,7 +40,7 @@ export default function ForgetpasswordScreen({navigation}) {
       <TouchableOpacity
         title="<"
         style={Stylecomponent.buttons_goback}
-        onPress={() => navigation.navigate('Signin')}>
+        onPress={() => navigation.goBack()}>
         <Text style={Stylecomponent.text_black}>{'<'}</Text>
       </TouchableOpacity>
       <Text style={Stylecomponent.header_text}>{'\n'}Forgot Password?</Text>
