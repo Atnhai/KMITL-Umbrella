@@ -100,27 +100,7 @@ export default function MapScreen({navigation}) {
     },
   ];
 
-  const format = [
-    {
-      [locker.name]: [
-        {
-          lockId: lock1.id,
-          umbrellaId: umbrella1.id,
-          status: lock1.availability,
-        },
-        {
-          lockId: lock2.id,
-          umbrellaId: umbrella2.id,
-          status: lock2.availability,
-        },
-        {
-          lockId: lock3.id,
-          umbrellaId: umbrella3.id,
-          status: lock3.availability,
-        },
-      ],
-    },
-  ];
+
   // useEffect(() => {
   //   setRegion({
   //     latitude: 13.730283,
@@ -294,36 +274,57 @@ export default function MapScreen({navigation}) {
   //   }
   // };
 
-  axios.get('http://10.66.4.168:8000/api/lockers/')
-  .then(response => {
-    const lockers = response.data.lockers;
-    
-    const locker = lockers[2]; // Get the third locker (at index 2)
-    const locks = locker.Locks;
+  axios
+    .get('http://10.66.4.168:8000/api/lockers/')
+    .then(response => {
+      const lockers = response.data.lockers;
 
-    const lock1 = locks[0];
-    const lock2 = locks[1];
-    const lock3 = locks[2];
+      const locker = lockers[2]; // Get the third locker (at index 2)
+      const locks = locker.Locks;
 
-    const umbrella1 = lock1 && lock1.Umbrella ? lock1.Umbrella : null;
-    const umbrella2 = lock2 && lock2.Umbrella ? lock2.Umbrella : null;
-    const umbrella3 = lock3 && lock3.Umbrella ? lock3.Umbrella : null;
+      const lock1 = locks[0];
+      const lock2 = locks[1];
+      const lock3 = locks[2];
 
-    // Accessing locker fields
-    const name = locker.name;
-    const location = locker.location;
-    const availableUmbrellas = locker.availableUmbrellas;
-    const latitude = locker.latitude;
-    const longitude = locker.longitude;
-    const price = locker.price;
-    const image = locker.image; // You will need to handle the conversion from Base64 to an image file
-    // Now you have each lock, umbrella, and locker field stored in separate variables
-  })
-  .catch(error => {
-    console.log(error);
-  });
+      const umbrella1 = lock1 && lock1.Umbrella ? lock1.Umbrella : null;
+      const umbrella2 = lock2 && lock2.Umbrella ? lock2.Umbrella : null;
+      const umbrella3 = lock3 && lock3.Umbrella ? lock3.Umbrella : null;
 
+      // Accessing locker fields
+      const name = locker.name;
+      const location = locker.location;
+      const availableUmbrellas = locker.availableUmbrellas;
+      const latitude = locker.latitude;
+      const longitude = locker.longitude;
+      const price = locker.price;
+      const image = locker.image; // You will need to handle the conversion from Base64 to an image file
+      // Now you have each lock, umbrella, and locker field stored in separate variables
+    })
+    .catch(error => {
+      console.log(error);
+    });
 
+  const format = [
+    {
+      [locker.name]: [
+        {
+          lockId: lock1.id,
+          umbrellaId: umbrella1.id,
+          status: lock1.availability,
+        },
+        {
+          lockId: lock2.id,
+          umbrellaId: umbrella2.id,
+          status: lock2.availability,
+        },
+        {
+          lockId: lock3.id,
+          umbrellaId: umbrella3.id,
+          status: lock3.availability,
+        },
+      ],
+    },
+  ];
   // useEffect(() => {
   //   // Call fetchLockerName with the desired ID when the component mounts
   //   fetchAllLockers();
