@@ -207,6 +207,28 @@ export default function MapScreen({navigation}) {
     setImageModalVisible(false);
     setSuccessModalVisible(true);
   };
+
+  axios.get(`http://10.66.4.168:8000/api/locker/1`)
+  .then(response => {
+    const lockerData = response.data;
+    console.log(lockerData);
+
+    let newData = {};
+    newData[lockerData.name] = lockerData.lock_set.map((lock, index) => {
+      return {
+        lockId: lock.id,
+        umbrellaId: lock.umbrella ? lock.umbrella.id : 'N/A',
+        status: lock.availability ? 'Available' : 'Unavailable',
+        placeId: lockerData.name
+      };
+    });
+
+    console.log(newData);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+
   const umbrellasData = {
     'ECC Building': [
       {
@@ -273,15 +295,7 @@ export default function MapScreen({navigation}) {
     ],
   };
 
-  axios.get(`http://10.66.4.168:8000/api/locker/1`)
-    .then(response => {
-      const lockerData = response.data;
-      console.log(lockerData);
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  
+
 
   const BlackLine = () => {
     return <View style={styles.blackLine} />;
