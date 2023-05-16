@@ -28,7 +28,7 @@ import Geolocation from '@react-native-community/geolocation';
 import {googleMapIsInstalled} from 'react-native-maps/lib/decorateMapComponent';
 import {Card} from 'react-native-elements';
 import * as geolib from 'geolib';
-import secondModalImage from '../../../assets/images/howto2.png';
+import secondModalImage from '../../../assets/images/howtorent2.png'; 
 
 enableLatestRenderer();
 
@@ -919,12 +919,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     paddingTop: 15,
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
   },
   secondModalImage: {
     width: '100%',
     height: '100%',
-    //resizeMode: 'contain',
+    resizeMode: 'contain',
   },
   backButton: {
     backgroundColor: '#E35205',

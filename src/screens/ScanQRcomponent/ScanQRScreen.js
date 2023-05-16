@@ -22,7 +22,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FullWindowOverlay } from 'react-native-screens';
 import { ScrollView } from 'react-native';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
-import secondModalImage from '../../../assets/images/howto2.png'; 
+import secondModalImage from '../../../assets/images/howtoreturn.png'; 
 
 export default function ScanQRScreen({ navigation }) {
   // Sample data
@@ -350,11 +350,11 @@ export default function ScanQRScreen({ navigation }) {
     flex: 1,
     backgroundColor: 'white',
     paddingTop: 15,
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
   },
   secondModalImage: {
     width: '100%',
     height: '100%',
-    //resizeMode: 'contain',
+    resizeMode: 'contain',
   },
   });
