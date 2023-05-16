@@ -145,6 +145,7 @@ export default function MapScreen({navigation}) {
           const response = await axios.get(`http://10.66.4.168:8000/api/locker/${lockerNumber}`);
           const lockerData = response.data;
   
+          // If lockerData is undefined or null, break the loop
           if (!lockerData) {
             console.log(`Locker data for locker number ${lockerNumber} not available`);
             break;
@@ -167,8 +168,14 @@ export default function MapScreen({navigation}) {
   
           lockerNumber++;
         } catch (error) {
-          console.error(error);
-          break;  // Exit the loop if we get an error (e.g., if a locker doesn't exist)
+          // If the response status is 404, break the loop
+          if (error.response && error.response.status === 404) {
+            console.log(`Locker data for locker number ${lockerNumber} not available`);
+            break;
+          } else {
+            console.error(error);
+            break;  // Exit the loop if we get any other error
+          }
         }
       }
   
@@ -178,6 +185,7 @@ export default function MapScreen({navigation}) {
   
     fetchAllLockersData();
   }, []);
+  
   
   // const umbrellasData = {
   //   'ECC Building': [
