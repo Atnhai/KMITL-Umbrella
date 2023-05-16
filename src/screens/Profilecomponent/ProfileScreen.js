@@ -41,11 +41,11 @@ export default function ProfileScreen({navigation}) {
   //     );
   //   }
   // };
-
+  const [username, setUsername] = useState('');
   useEffect(() => {
     const email = authentication.currentUser.email;
     
-    axios.get('http://10.66.4.168:8000/get_username/', { params: { email } })
+    axios.get('http://10.66.4.168:8000/api/get_username/', { params: { email } })
       .then(response => setUsername(response.data.username))
       .catch(error => console.error(error));
   }, []);
