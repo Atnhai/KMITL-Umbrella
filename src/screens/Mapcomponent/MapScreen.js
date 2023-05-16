@@ -138,22 +138,26 @@ export default function MapScreen({navigation}) {
   useEffect(() => {
     const fetchAllLockersData = async () => {
       let lockerNumber = 1;
-      let allUmbrellasData = {};  // Temp object to store all locker data
-  
+      let allUmbrellasData = {}; // Temp object to store all locker data
+
       while (true) {
         try {
-          const response = await axios.get(`http://10.66.4.168:8000/api/locker/${lockerNumber}`);
+          const response = await axios.get(
+            `http://10.66.4.168:8000/api/locker/${lockerNumber}`,
+          );
           const lockerData = response.data;
-  
+
           // If lockerData is undefined or null, break the loop
           if (!lockerData) {
-            console.log(`Locker data for locker number ${lockerNumber} not available`);
+            console.log(
+              `Locker data for locker number ${lockerNumber} not available`,
+            );
             break;
           }
-  
+
           console.log(`Locker name: ${lockerData.name}`);
           console.log(`Locker ID: ${lockerData.lock_set[0].id}`);
-  
+
           const newUmbrellaData = {
             [lockerData.name]: lockerData.lock_set.map(lock => ({
               lockId: String(lock.id),
@@ -162,31 +166,32 @@ export default function MapScreen({navigation}) {
               placeId: lockerData.name,
             })),
           };
-  
+
           // Add the new data to the allUmbrellasData object
-          allUmbrellasData = { ...allUmbrellasData, ...newUmbrellaData };
-  
+          allUmbrellasData = {...allUmbrellasData, ...newUmbrellaData};
+
           lockerNumber++;
         } catch (error) {
           // If the response status is 404, break the loop
           if (error.response && error.response.status === 404) {
-            console.log(`Locker data for locker number ${lockerNumber} not available`);
+            console.log(
+              `Locker data for locker number ${lockerNumber} not available`,
+            );
             break;
           } else {
             console.error(error);
-            break;  // Exit the loop if we get any other error
+            break; // Exit the loop if we get any other error
           }
         }
       }
-  
+
       // Once we've fetched all the data, update the state
       setUmbrellasData(allUmbrellasData);
     };
-  
+
     fetchAllLockersData();
   }, []);
-  
-  
+
   // const umbrellasData = {
   //   'ECC Building': [
   //     {
