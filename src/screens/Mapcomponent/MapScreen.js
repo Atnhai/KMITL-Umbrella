@@ -68,6 +68,7 @@ export default function MapScreen({navigation}) {
     rentDate: null,
     rentTime: null,
   });
+  const [items, setitems] = useState([]);
   const [rentModalVisible, setRentModalVisible] = useState(false);
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
@@ -76,7 +77,7 @@ export default function MapScreen({navigation}) {
     setModalVisible(true);
   };
   const [tempVar, settempVar] = useState(null);
-
+  const [umbrellasDatas, setumbrellasDatas] = useState([]);
   const item = [
     {
       id: 1,
@@ -105,6 +106,119 @@ export default function MapScreen({navigation}) {
       price: 20.0,
     },
   ];
+
+  // export function DataDisplay() {
+  //   const [data, setData] = useState([]);
+
+  //   useEffect(() => {
+  //     axios
+  //       .get("http://10.66.10.185:5001/pins")
+  //       .then((response) => {
+  //         setData(response.data);
+  //         console.log("HELLO", response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   }, []);
+
+  //   console.log("DATA = ", data);
+
+  //   const markers = data.map((item) => ({
+  //     id: item.id,
+  //     coordinate: {
+  //       latitude: item.latitude,
+  //       longtitude: item.longtitude,
+  //     },
+  //     title: item.name,
+  //     description: "X Available",
+  //     image: item.image,
+  //   }));
+
+  let lockerData;
+  (async () => {
+    try {
+      const response = await axios.get('http://10.66.4.168:8000/api/locker/1');
+      lockerData = response.data;
+      console.log(lockerData);
+
+      // Use lockerData variable here
+      if (lockerData) {
+        console.log(`Locker name: ${lockerData.name}`);
+        console.log(`Locker ID: ${lockerData.id}`);
+        setumbrellasDatas(lockerData.id[0].lockId.id);
+      } else {
+        console.log('Locker data not available');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  })();
+  const umbrellasData = {
+    'ECC Building': [
+      {
+        lockId: '001',
+        umbrellaId: '01',
+        status: 'Available',
+        placeId: 'ECC Building',
+      },
+      {
+        lockId: '002',
+        umbrellaId: '02',
+        status: 'Unavailable',
+        placeId: 'ECC Building',
+      },
+      {
+        lockId: '003',
+        umbrellaId: '03',
+        status: 'Available',
+        placeId: 'ECC Building',
+      },
+      // Add more umbrellas for ECC Building here...
+    ],
+    'HM Building': [
+      {
+        lockId: '001',
+        umbrellaId: '04',
+        status: 'Available',
+        placeId: 'HM Building',
+      },
+      {
+        lockId: '002',
+        umbrellaId: '05',
+        status: 'Available',
+        placeId: 'HM Building',
+      },
+      {
+        lockId: '003',
+        umbrellaId: '06',
+        status: 'Available',
+        placeId: 'HM Building',
+      },
+      //Add more umbrellas for HM Building here...
+    ],
+    'Peem Building': [
+      {
+        lockId: '001',
+        umbrellaId: '04',
+        status: 'Available',
+        placeId: 'Peem Building',
+      },
+      {
+        lockId: '002',
+        umbrellaId: '05',
+        status: 'Unavailable',
+        placeId: 'Peem Building',
+      },
+      {
+        lockId: '003',
+        umbrellaId: '06',
+        status: 'Unavailable',
+        placeId: 'Peem Building',
+      },
+      //Add more umbrellas for HM Building here...
+    ],
+  };
 
   // useEffect(() => {
   //   setRegion({
@@ -207,75 +321,6 @@ export default function MapScreen({navigation}) {
     setImageModalVisible(false);
     setSuccessModalVisible(true);
   };
-
-
-  const umbrellasData = {
-    'ECC Building': [
-      {
-        lockId: '001',
-        umbrellaId: '01',
-        status: 'Available',
-        placeId: 'ECC Building',
-      },
-      {
-        lockId: '002',
-        umbrellaId: '02',
-        status: 'Unavailable',
-        placeId: 'ECC Building',
-      },
-      {
-        lockId: '003',
-        umbrellaId: '03',
-        status: 'Available',
-        placeId: 'ECC Building',
-      },
-      // Add more umbrellas for ECC Building here...
-    ],
-    'HM Building': [
-      {
-        lockId: '001',
-        umbrellaId: '04',
-        status: 'Available',
-        placeId: 'HM Building',
-      },
-      {
-        lockId: '002',
-        umbrellaId: '05',
-        status: 'Available',
-        placeId: 'HM Building',
-      },
-      {
-        lockId: '003',
-        umbrellaId: '06',
-        status: 'Available',
-        placeId: 'HM Building',
-      },
-      //Add more umbrellas for HM Building here...
-    ],
-    'Peem Building': [
-      {
-        lockId: '001',
-        umbrellaId: '04',
-        status: 'Available',
-        placeId: 'Peem Building',
-      },
-      {
-        lockId: '002',
-        umbrellaId: '05',
-        status: 'Unavailable',
-        placeId: 'Peem Building',
-      },
-      {
-        lockId: '003',
-        umbrellaId: '06',
-        status: 'Unavailable',
-        placeId: 'Peem Building',
-      },
-      //Add more umbrellas for HM Building here...
-    ],
-  };
-
-
 
   const BlackLine = () => {
     return <View style={styles.blackLine} />;
