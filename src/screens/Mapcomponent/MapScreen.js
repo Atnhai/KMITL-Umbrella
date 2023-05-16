@@ -77,7 +77,7 @@ export default function MapScreen({navigation}) {
     setModalVisible(true);
   };
   const [tempVar, settempVar] = useState(null);
-
+  const [umbrellasData, setUmbrellasData] = useState(null);
   const item = [
     {
       id: 1,
@@ -135,53 +135,39 @@ export default function MapScreen({navigation}) {
   //     image: item.image,
   //   }));
 
-  const LockerComponent = () => {
-    const [umbrellasDatas, setUmbrellasDatas] = useState(null);
-    const [umbrellasData, setUmbrellasData] = useState(null);
+  useEffect(() => {
+    const fetchLockerData = async () => {
+      try {
+        const response = await axios.get('http://10.66.4.168:8000/api/locker/1');
+        const lockerData = response.data;
+        console.log(lockerData);
   
-    useEffect(() => {
-      const fetchLockerData = async () => {
-        try {
-          const response = await axios.get('http://10.66.4.168:8000/api/locker/1');
-          const lockerData = response.data;
-          console.log(lockerData);
+        // Use lockerData variable here
+        if (lockerData) {
+          console.log(`Locker name: ${lockerData.name}`);
+          console.log(`Locker ID: ${lockerData.lock_set[0].id}`);
   
-          // Use lockerData variable here
-          if (lockerData) {
-            console.log(`Locker name: ${lockerData.name}`);
-            console.log(`Locker ID: ${lockerData.lock_set[0].id}`);
-            setUmbrellasDatas(lockerData);
-          } else {
-            console.log('Locker data not available');
-          }
-        } catch (error) {
-          console.error(error);
+          const newUmbrellaData = {
+            [lockerData.name]: lockerData.lock_set.map(lock => ({
+              lockId: String(lock.id),
+              umbrellaId: String(lock.umbrella.id),
+              status: lock.availability ? 'Available' : 'Unavailable',
+              placeId: lockerData.name,
+            })),
+          };
+          
+          setUmbrellasData(newUmbrellaData); // Store the formatted data in the state
+        } else {
+          console.log('Locker data not available');
         }
-      };
-  
-      fetchLockerData();
-    }, []);
-  
-    useEffect(() => {
-      if (umbrellasDatas) {
-        console.log('backend info= ', umbrellasDatas);
-        const newUmbrellasData = umbrellasDatas.lock_set.map(lock => ({
-          [umbrellasDatas.name]: [
-            {
-              lockId: lock.id,
-              umbrellaId: lock.umbrella?.id, // make sure umbrella exists on the lock
-              status: lock.status,
-              placeId: '1',
-            },
-          ],
-        }));
-        console.log(newUmbrellasData);
-        setUmbrellasData(newUmbrellasData); // Update state with newUmbrellasData
+      } catch (error) {
+        console.error(error);
       }
-    }, [umbrellasDatas]);
+    };
   
-    // rest of your component...
-  };
+    fetchLockerData();
+  }, []);
+  
   // const umbrellasData = {
   //   'ECC Building': [
   //     {
