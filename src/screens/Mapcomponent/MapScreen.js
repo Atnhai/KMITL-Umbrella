@@ -77,7 +77,7 @@ export default function MapScreen({navigation}) {
     setModalVisible(true);
   };
   const [tempVar, settempVar] = useState(null);
-  const [umbrellasData, setUmbrellasData] = useState();
+  const [umbrellasData, setUmbrellasData] = useState([]);
   const item = [
     {
       id: 1,
