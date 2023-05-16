@@ -137,6 +137,7 @@ export default function MapScreen({navigation}) {
 
   const LockerComponent = () => {
     const [umbrellasDatas, setUmbrellasDatas] = useState(null);
+    const [umbrellasData, setUmbrellasData] = useState(null);
   
     useEffect(() => {
       const fetchLockerData = async () => {
@@ -164,7 +165,7 @@ export default function MapScreen({navigation}) {
     useEffect(() => {
       if (umbrellasDatas) {
         console.log('backend info= ', umbrellasDatas);
-        const umbrellasData = umbrellasDatas.lock_set.map(lock => ({
+        const newUmbrellasData = umbrellasDatas.lock_set.map(lock => ({
           [umbrellasDatas.name]: [
             {
               lockId: lock.id,
@@ -174,7 +175,8 @@ export default function MapScreen({navigation}) {
             },
           ],
         }));
-        console.log(umbrellasData);
+        console.log(newUmbrellasData);
+        setUmbrellasData(newUmbrellasData); // Update state with newUmbrellasData
       }
     }, [umbrellasDatas]);
   
