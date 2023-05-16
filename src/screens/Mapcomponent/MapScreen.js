@@ -136,14 +136,20 @@ export default function MapScreen({navigation}) {
   //   }));
 
   useEffect(() => {
-    const fetchLockerData = async () => {
-      try {
-        const response = await axios.get('http://10.66.4.168:8000/api/locker/1');
-        const lockerData = response.data;
-        console.log(lockerData);
+    const fetchAllLockersData = async () => {
+      let lockerNumber = 1;
+      let allUmbrellasData = {};  // Temp object to store all locker data
   
-        // Use lockerData variable here
-        if (lockerData) {
+      while (true) {
+        try {
+          const response = await axios.get(`http://10.66.4.168:8000/api/locker/${lockerNumber}`);
+          const lockerData = response.data;
+  
+          if (!lockerData) {
+            console.log(`Locker data for locker number ${lockerNumber} not available`);
+            break;
+          }
+  
           console.log(`Locker name: ${lockerData.name}`);
           console.log(`Locker ID: ${lockerData.lock_set[0].id}`);
   
@@ -155,17 +161,22 @@ export default function MapScreen({navigation}) {
               placeId: lockerData.name,
             })),
           };
-          
-          setUmbrellasData(newUmbrellaData); // Store the formatted data in the state
-        } else {
-          console.log('Locker data not available');
+  
+          // Add the new data to the allUmbrellasData object
+          allUmbrellasData = { ...allUmbrellasData, ...newUmbrellaData };
+  
+          lockerNumber++;
+        } catch (error) {
+          console.error(error);
+          break;  // Exit the loop if we get an error (e.g., if a locker doesn't exist)
         }
-      } catch (error) {
-        console.error(error);
       }
+  
+      // Once we've fetched all the data, update the state
+      setUmbrellasData(allUmbrellasData);
     };
   
-    fetchLockerData();
+    fetchAllLockersData();
   }, []);
   
   // const umbrellasData = {
