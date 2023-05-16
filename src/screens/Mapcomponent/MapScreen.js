@@ -136,24 +136,30 @@ export default function MapScreen({navigation}) {
   //   }));
 
   let lockerData;
-  (async () => {
-    try {
-      const response = await axios.get('http://10.66.4.168:8000/api/locker/1');
-      lockerData = response.data;
-      console.log(lockerData);
 
-      // Use lockerData variable here
-      if (lockerData) {
-        console.log(`Locker name: ${lockerData.name}`);
-        console.log(`Locker ID: ${lockerData.lock_set[0].id}`);
-        setumbrellasDatas(lockerData);
-      } else {
-        console.log('Locker data not available');
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(
+          'http://10.66.4.168:8000/api/locker/1',
+        );
+        lockerData = response.data;
+        console.log(lockerData);
+
+        // Use lockerData variable here
+        if (lockerData) {
+          console.log(`Locker name: ${lockerData.name}`);
+          console.log(`Locker ID: ${lockerData.lock_set[0].id}`);
+          setumbrellasDatas(lockerData);
+        } else {
+          console.log('Locker data not available');
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  })();
+    })();
+  }, []);
+
   console.log('backend info= ', umbrellasDatas);
   const umbrellasData = umbrellasDatas.map(item => ({
     [item.name]: [
