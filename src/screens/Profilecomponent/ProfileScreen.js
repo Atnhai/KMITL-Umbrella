@@ -1,4 +1,4 @@
-import React, {Component,useEffect, useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import axios from 'axios';
 import {
   Text,
@@ -44,8 +44,14 @@ export default function ProfileScreen({navigation}) {
   const [username, setUsername] = useState('');
   useEffect(() => {
     const email = authentication.currentUser.email;
-    
-    axios.get('http://10.66.4.168:8000/api/get_username/', { params: { email } })
+
+    console.log(email);
+    axios
+      .get('http://10.66.4.168:8000/api/get_username/', {
+        params: {
+          email: email, // pass in the email parameter correctly
+        },
+      })
       .then(response => setUsername(response.data.username))
       .catch(error => console.error(error));
   }, []);
