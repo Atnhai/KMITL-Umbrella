@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, {Component,useEffect, useState} from 'react';
+import axios from 'axios';
 import {
   Text,
   View,
@@ -24,11 +25,7 @@ import {Ionic} from 'react-native-vector-icons/Ionicons';
 import HelpScreen from '../Helpcomponent';
 import StyleMaincomponent from '../../StyleSheet/StyleMaincomponent';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
-import { useContext } from 'react';
-import { UserContext } from './UserContext';
-
 export default function ProfileScreen({navigation}) {
-  const { username } = useContext(UserContext);
   // const rendercheckanonymous = () => {
   //   if (!authentication.currentUser.isAnonymous) {
   //     return (
@@ -44,6 +41,15 @@ export default function ProfileScreen({navigation}) {
   //     );
   //   }
   // };
+
+  useEffect(() => {
+    const email = authentication.currentUser.email;
+    
+    axios.get('http://10.66.4.168:8000/get_username/', { params: { email } })
+      .then(response => setUsername(response.data.username))
+      .catch(error => console.error(error));
+  }, []);
+
   return (
     <View style={StyleMaincomponent.background_views}>
       <View style={StyleMaincomponent.rectangle} />
