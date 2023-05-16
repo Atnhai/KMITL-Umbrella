@@ -22,141 +22,134 @@ import setting from '../../../assets/images/setting.png';
 import {useNavigation} from '@react-navigation/native';
 import {Ionic} from 'react-native-vector-icons/Ionicons';
 import HelpScreen from '../Helpcomponent';
-import StyleMaincomponent from '../../StyleSheet/StyleMaincomponent';
-import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
-export default function ProfileScreen({navigation}) {
-  // const rendercheckanonymous = () => {
-  //   if (!authentication.currentUser.isAnonymous) {
-  //     return (
-  //       <View>
-  //         <View style={styles.rectangle} />
-  //       </View>
-  //     );
-  //   } else {
-  //     return (
-  //       <View>
-  //         <Text>You are signed in anonymously</Text>
-  //       </View>
-  //     );
-  //   }
-  // };
+//import StyleMaincomponent from '../../StyleSheet/StyleMaincomponent';
+//import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
+export default function ProfileScreen({ navigation }) {
   return (
-    <View style={StyleMaincomponent.background_views}>
-      <View style={StyleMaincomponent.rectangle} />
-      <Image source={user} style={StyleMaincomponent.logo_umbrella}></Image>
-      {/* <Image source={setting} style={StyleMaincomponent.setting_icon}></Image> */}
-      <Text style={stylepadding.text_padding}></Text>
-      <Text style={StyleMaincomponent.texts_profile_white}>
-        Username: **********
-      </Text>
-      <Text style={StyleMaincomponent.texts_profile_white}>
-        {'\t'}
-        {'\t'}
-        {'\t'}Email:{authentication.currentUser.email} {'\n'}
-        {'\n'}
-      </Text>
+    <View style={styles.container}>
+      <View style={styles.rectangle}>
+        <Image source={user} style={styles.logo} />
+        <View style={styles.userInfo}>
+          <Text style={styles.text}>Username: **********</Text>
+          <Text style={styles.text}>Email: {authentication.currentUser.email}</Text>
+        </View>
+      </View>
 
-      <TouchableOpacity
-        style={StyleMaincomponent.buttons_white}
-        onPress={() => navigation.navigate('History')}>
-        <Text style={StyleMaincomponent.texts_menu}>
-          {' '}
-          <Image
-            source={Logo}
-            style={StyleMaincomponent.logo_history}></Image>{' '}
-          History{'\t'}
-          <View style={stylepadding.text_padding_history}></View>
-          <Image
-            source={go}
-            style={StyleMaincomponent.navigate_icon}></Image>{' '}
-        </Text>
-      </TouchableOpacity>
+      <View style={styles.buttonsContainer}>
+        <ButtonWithIcon
+          title="History"
+          image={Logo}
+          onPress={() => navigation.navigate('History')}
+        />
+        <ButtonWithIcon
+          title="Reset Password"
+          image={forgetPassword}
+          onPress={() => navigation.navigate('Forgetpassword')}
+        />
+        <ButtonWithIcon
+          title="Help"
+          image={help}
+          onPress={() => navigation.navigate('Help')}
+        />
+        <ButtonWithIcon
+          title="About us"
+          image={aboutus}
+          onPress={() => navigation.navigate('Aboutus')}
+        />
+        <TouchableOpacity style={styles.button_logout} onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.logoutText}>LogOut</Text>
+        </TouchableOpacity>
+      </View>
 
-      <TouchableOpacity
-        style={StyleMaincomponent.buttons_white}
-        onPress={() =>navigation.navigate('Forgetpassword')}>
-        <Text style={StyleMaincomponent.texts_menu}>
-          {' '}
-          <Image
-            source={forgetPassword}
-            style={StyleMaincomponent.logo_history}></Image>{' '}
-          Reset Password{'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          {'\t'}
-          <View style={stylepadding.text_padding_resetpassword}></View>
-          <Image
-            source={go}
-            style={StyleMaincomponent.navigate_icon}></Image>{' '}
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={StyleMaincomponent.buttons_white}
-        onPress={() => navigation.navigate('Help')}>
-        <Text style={StyleMaincomponent.texts_menu}>
-          {' '}
-          <Image
-            source={help}
-            style={StyleMaincomponent.logo_help}></Image>{' '}
-          Help
-          <View style={stylepadding.text_padding_help}></View>
-          <Image source={go} style={StyleMaincomponent.navigate_icon}></Image>
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={StyleMaincomponent.buttons_white}
-        onPress={() => navigation.navigate('Aboutus')}>
-        <Text style={StyleMaincomponent.texts_menu}>
-          {' '}
-          <Image
-            source={aboutus}
-            style={StyleMaincomponent.logo_aboutus}></Image>{' '}
-          About us
-          <View style={stylepadding.text_padding_aboutus}></View>
-          <Image
-            source={go}
-            style={StyleMaincomponent.navigate_icon}></Image>{' '}
-        </Text>
-      </TouchableOpacity>
-      {/* <Text style={Stylecomponent.text_padding}></Text> */}
-      <TouchableOpacity
-        style={Stylecomponent.button_login}
-        onPress={() => navigation.navigate('Login')}>
-        <Text style={Stylecomponent.text_white}>Log out</Text>
-      </TouchableOpacity>
-      <Text>
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-        {'\n'}
-      </Text>
     </View>
   );
 }
-const stylepadding = StyleSheet.create({
-  text_padding: {
-    marginBottom: 90,
-    paddingBottom: 40,
+
+function ButtonWithIcon({ title, image, onPress }) {
+  return (
+    <TouchableOpacity style={styles.button} onPress={onPress}>
+      <View style={styles.buttonContent}>
+        <Image source={image} style={styles.buttonIcon} />
+        <Text style={styles.buttonText}>{title}</Text>
+      </View>
+      <Image source={go} style={styles.buttonIcon} />
+    </TouchableOpacity>
+  );
+}
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    //justifyContent: 'space-between',
+    backgroundColor: '#FAC983',
+    //padding: 10,
   },
-  text_padding_resetpassword: {
-    paddingLeft: 140,
+  rectangle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    padding: 20,
+    backgroundColor: '#E35205',
+    borderBottomRightRadius: 80,
   },
-  text_padding_history: {
-    paddingLeft: 200,
+  userInfo: {
+    marginLeft: 20,
   },
-  text_padding_help: {
-    paddingLeft: 220,
+  logo: {
+    height: 130,
+    width: 130,
+    resizeMode: 'cover',
   },
-  text_padding_aboutus: {
-    paddingLeft: 190,
+  text: {
+    color: 'white',
+    fontWeight: 'bold',
+    marginTop: 10,
+  },
+  buttonsContainer: {
+    width: '100%',
+    marginTop: 10,
+    padding: 20,
+    justifyContent: 'flex-start',
+    marginTop: 70,
+  },
+  button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    marginBottom: 15,
+    padding: 12,
+    width: '100%',
+  },
+  buttonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  buttonIcon: {
+    width: 25,
+    height: 25,
+    resizeMode: 'cover',
+    marginRight: 10,
+  },
+  buttonText: {
+    fontSize: 15,
+    // Adjust any additional styling for the text
+  },
+  button_logout: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#E35205',
+    borderRadius: 10,
+    padding: 15,
+    width: '100%',
+    marginTop: 50,
+  },
+  logoutText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });

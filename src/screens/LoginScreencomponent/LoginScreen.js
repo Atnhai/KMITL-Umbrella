@@ -15,9 +15,10 @@ import {signInWithEmailAndPassword} from 'firebase/auth';
 import {useState} from 'react';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
 
-export default function LoginScreen({navigation}) {
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const handleLogin = () => {
     signInWithEmailAndPassword(authentication, email, password)
       .then(userCredentials => {
@@ -28,31 +29,26 @@ export default function LoginScreen({navigation}) {
       .catch(re => {
         console.log(re);
       });
-
-    // const navigation =  useNavigation();
-
-    // onLoginPressed = () => {
-    // navigation.navigate('Signin');
   };
+
   return (
-    <View style={Stylecomponent.root}>
-      <Image source={Logo} style={Stylecomponent.logos_umbrella}></Image>
-      <Text>
-        {'\n'}
-        {'\n'}
-      </Text>
-      <TouchableOpacity
-        title="Login"
-        style={Stylecomponent.button_login}
-        onPress={() => navigation.navigate('Signin')}>
-        <Text style={Stylecomponent.text_white}>Login</Text>
-      </TouchableOpacity>
-      <Text></Text>
-      <TouchableOpacity
-        style={Stylecomponent.button_register}
-        onPress={() => navigation.navigate('Register')}>
-        <Text style={Stylecomponent.text_black}>Register</Text>
-      </TouchableOpacity>
+    <View style={Stylecomponent.container}>
+      <View style={Stylecomponent.logoContainer}>
+        <Image source={Logo} style={Stylecomponent.logos_umbrella}></Image>
+      </View>
+      <View style={Stylecomponent.buttonContainer}>
+        <TouchableOpacity
+          title="Login"
+          style={Stylecomponent.button_login}
+          onPress={() => navigation.navigate('Signin')}>
+          <Text style={Stylecomponent.text_white}>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={Stylecomponent.button_register}
+          onPress={() => navigation.navigate('Register')}>
+          <Text style={Stylecomponent.text_black}>Register</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }

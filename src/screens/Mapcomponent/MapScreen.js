@@ -175,7 +175,7 @@ export default function MapScreen({navigation}) {
       error => {
         console.log(error.message);
       },
-      {enableHighAccuracy: true, maximumAge: 1000},
+      {enableHighAccuracy: true},
     );
     return () => console.log('useEffect cleanup');
   }, []);
@@ -661,6 +661,7 @@ const styles = StyleSheet.create({
   },
   views2: {
     alignItems: 'center',
+    flex: 1,
     // backgroundColor: '#FAC983',
 
     justifyContent: 'center',
