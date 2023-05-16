@@ -208,26 +208,8 @@ export default function MapScreen({navigation}) {
     setSuccessModalVisible(true);
   };
 
-  let lockerData;
 
-  (async () => {
-    try {
-      const response = await axios.get('http://10.66.4.168:8000/api/locker/1');
-      const lockerData = response.data;
-      console.log(lockerData);
-
-      // Use lockerData variable here
-      if (lockerData) {
-        console.log(`Locker name: ${lockerData.name}`);
-        console.log(`Locker ID: ${lockerData.id}`);
-      } else {
-        console.log('Locker data not available');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  })();
-  let umbrellasData = {
+  const umbrellasData = {
     'ECC Building': [
       {
         lockId: '001',
@@ -292,6 +274,8 @@ export default function MapScreen({navigation}) {
       //Add more umbrellas for HM Building here...
     ],
   };
+
+
 
   const BlackLine = () => {
     return <View style={styles.blackLine} />;
