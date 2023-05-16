@@ -362,12 +362,11 @@ export default function MapScreen({navigation}) {
     <View style={styles.container}>
       <View style={styles.views}>
         <Text style={styles.header_text}>
-          Please choose the locker{tempVar} to rent your umbrella
+          Please choose the locker location to rent your umbrella
         </Text>
         <TouchableOpacity
           style={styles.infoButton}
-          onPress={() => setShowSecondModal(true)}
-        >
+          onPress={() => setShowSecondModal(true)}>
           <Text style={styles.infoButtonText}>?</Text>
         </TouchableOpacity>
         {/* { <Searchbar placeholder="Search" style={styles.search}></Searchbar> */}
@@ -435,12 +434,14 @@ export default function MapScreen({navigation}) {
           </ScrollView>
         </View>
       </View>
-      <Modal animationType="slide" transparent={false} visible={showSecondModal}>
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={showSecondModal}>
         <View style={styles.secondModalContainer}>
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => setShowSecondModal(false)}
-          >
+            onPress={() => setShowSecondModal(false)}>
             <Text style={styles.backButtonText}>Back</Text>
           </TouchableOpacity>
           <Image source={secondModalImage} style={styles.secondModalImage} />
@@ -932,22 +933,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 20,
     alignSelf: 'flex-start',
-    },
-    backButtonText: {
+  },
+  backButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
-    },
-    infoButton: {
-      backgroundColor: 'white',
-      paddingVertical: 8,
-      paddingHorizontal: 12,
-      borderRadius: 20,
-      alignSelf: 'flex-end',
-      marginTop: -30,
-      marginRight: 15,
-    },
-    infoButtonText: {
-      color: 'black',
-      fontSize: 16,
-    },
+  },
+  infoButton: {
+    backgroundColor: 'white',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+    alignSelf: 'flex-end',
+    marginTop: -30,
+    marginRight: 15,
+  },
+  infoButtonText: {
+    color: 'black',
+    fontSize: 16,
+  },
 });
