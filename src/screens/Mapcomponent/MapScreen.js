@@ -77,7 +77,10 @@ export default function MapScreen({navigation}) {
     setModalVisible(true);
   };
   const [tempVar, settempVar] = useState(null);
-  const [umbrellasDatas, setumbrellasDatas] = useState([]);
+
+  const LockerComponent = () => {
+    const [umbrellasDatas, setUmbrellasDatas] = useState(null);
+
   const item = [
     {
       id: 1,
@@ -135,42 +138,46 @@ export default function MapScreen({navigation}) {
   //     image: item.image,
   //   }));
 
-  let lockerData;
 
   useEffect(() => {
-    (async () => {
+    const fetchLockerData = async () => {
       try {
-        const response = await axios.get(
-          'http://10.66.4.168:8000/api/locker/1',
-        );
-        lockerData = response.data;
+        const response = await axios.get('http://10.66.4.168:8000/api/locker/1');
+        const lockerData = response.data;
         console.log(lockerData);
 
         // Use lockerData variable here
         if (lockerData) {
           console.log(`Locker name: ${lockerData.name}`);
           console.log(`Locker ID: ${lockerData.lock_set[0].id}`);
-          setumbrellasDatas(lockerData);
+          setUmbrellasDatas(lockerData);
         } else {
           console.log('Locker data not available');
         }
       } catch (error) {
         console.error(error);
       }
-    })();
+    };
+
+    fetchLockerData();
   }, []);
 
-  console.log('backend info= ', umbrellasDatas);
-  const umbrellasData = umbrellasDatas.map(item => ({
-    [item.name]: [
-      {
-        lockId: [lockerData.lock_set[0].id],
-        umbrellaId: [lockerData.lock_set.umbrella.id],
-        status: [lockerData.status],
-        placeId: '1',
-      },
-    ],
-  }));
+  useEffect(() => {
+    if (umbrellasDatas) {
+      console.log('backend info= ', umbrellasDatas);
+      const umbrellasData = umbrellasDatas.lock_set.map(lock => ({
+        [umbrellasDatas.name]: [
+          {
+            lockId: lock.id,
+            umbrellaId: lock.umbrella?.id, // make sure umbrella exists on the lock
+            status: lock.status,
+            placeId: '1',
+          },
+        ],
+      }));
+      console.log(umbrellasData);
+    }
+  }, [umbrellasDatas]);
   // const umbrellasData = {
   //   'ECC Building': [
   //     {
