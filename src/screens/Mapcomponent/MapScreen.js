@@ -273,53 +273,15 @@ export default function MapScreen({navigation}) {
     ],
   };
 
-  // const fetchAllLockers = async () => {
-  //   try {
-  //     const response = await axios.get('http://10.66.9.250:8000/api/lockers/'); // Replace with your API endpoint
-  //     if (response.status === 200) {
-  //       const lockers = response.data;
-  //       console.log('All lockers:', lockers);
-  //     } else {
-  //       console.error('Error fetching lockers:', response.status);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching lockers:', error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   // Call fetchLockerName with the desired ID when the component mounts
-  //   fetchAllLockers();
-  //   // Replace 1 with the ID you want to fetch
-  //   // ... (other useEffect logic)
-  // }, []);
-
-  // const fetchLockerName = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://10.66.9.250:8000/api/lockers/`,
-  //     );
-  //     if (response.status === 200) {
-  //       const lockerName = response.data[0].name; // Access the first locker's name
-  //       settempVar(lockerName);
-  //       console.log(
-  //         `Locker name for locker ID`,
-  //         lockerName,
-  //       );
-  //     } else {
-  //       console.error('Error fetching locker name:', response.status);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching locker name:', error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   // Call fetchLockerName with the desired ID when the component mounts
-  //   fetchLockerName();
-  //   // Replace 1 with the ID you want to fetch
-  //   // ... (other useEffect logic)
-  // }, []);
+  axios.get(`http://10.66.4.168:8000/api/locker/1`)
+    .then(response => {
+      const lockerData = response.data;
+      console.log(lockerData);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  
 
   const BlackLine = () => {
     return <View style={styles.blackLine} />;
