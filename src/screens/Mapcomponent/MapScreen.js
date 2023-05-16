@@ -145,8 +145,8 @@ export default function MapScreen({navigation}) {
       // Use lockerData variable here
       if (lockerData) {
         console.log(`Locker name: ${lockerData.name}`);
-        console.log(`Locker ID: ${lockerData.id}`);
-        setumbrellasDatas(lockerData.id[0].lockId.id);
+        console.log(`Locker ID: ${lockerData.lock_set[0].id}`);
+        setumbrellasDatas(lockerData);
       } else {
         console.log('Locker data not available');
       }
@@ -154,71 +154,82 @@ export default function MapScreen({navigation}) {
       console.error(error);
     }
   })();
-  const umbrellasData = {
-    'ECC Building': [
+  console.log('backend info= ', umbrellasDatas);
+  const umbrellasData = umbrellasDatas.map(item => ({
+    [item.name]: [
       {
-        lockId: '001',
-        umbrellaId: '01',
-        status: 'Available',
-        placeId: 'ECC Building',
+        lockId: [lockerData.lock_set[0].id],
+        umbrellaId: [lockerData.lock_set.umbrella.id],
+        status: [lockerData.status],
+        placeId: '1',
       },
-      {
-        lockId: '002',
-        umbrellaId: '02',
-        status: 'Unavailable',
-        placeId: 'ECC Building',
-      },
-      {
-        lockId: '003',
-        umbrellaId: '03',
-        status: 'Available',
-        placeId: 'ECC Building',
-      },
-      // Add more umbrellas for ECC Building here...
     ],
-    'HM Building': [
-      {
-        lockId: '001',
-        umbrellaId: '04',
-        status: 'Available',
-        placeId: 'HM Building',
-      },
-      {
-        lockId: '002',
-        umbrellaId: '05',
-        status: 'Available',
-        placeId: 'HM Building',
-      },
-      {
-        lockId: '003',
-        umbrellaId: '06',
-        status: 'Available',
-        placeId: 'HM Building',
-      },
-      //Add more umbrellas for HM Building here...
-    ],
-    'Peem Building': [
-      {
-        lockId: '001',
-        umbrellaId: '04',
-        status: 'Available',
-        placeId: 'Peem Building',
-      },
-      {
-        lockId: '002',
-        umbrellaId: '05',
-        status: 'Unavailable',
-        placeId: 'Peem Building',
-      },
-      {
-        lockId: '003',
-        umbrellaId: '06',
-        status: 'Unavailable',
-        placeId: 'Peem Building',
-      },
-      //Add more umbrellas for HM Building here...
-    ],
-  };
+  }));
+  // const umbrellasData = {
+  //   'ECC Building': [
+  //     {
+  //       lockId: [umbrellasDatas],
+  //       umbrellaId: [umbrellasDatas],
+  //       status: 'Available',
+  //       placeId: 'ECC Building',
+  //     },
+  //     {
+  //       lockId: '002',
+  //       umbrellaId: '02',
+  //       status: 'Unavailable',
+  //       placeId: 'ECC Building',
+  //     },
+  //     {
+  //       lockId: '003',
+  //       umbrellaId: '03',
+  //       status: 'Available',
+  //       placeId: 'ECC Building',
+  //     },
+  //     // Add more umbrellas for ECC Building here...
+  //   ],
+  //   'HM Building': [
+  //     {
+  //       lockId: '001',
+  //       umbrellaId: '04',
+  //       status: 'Available',
+  //       placeId: 'HM Building',
+  //     },
+  //     {
+  //       lockId: '002',
+  //       umbrellaId: '05',
+  //       status: 'Available',
+  //       placeId: 'HM Building',
+  //     },
+  //     {
+  //       lockId: '003',
+  //       umbrellaId: '06',
+  //       status: 'Available',
+  //       placeId: 'HM Building',
+  //     },
+  //     //Add more umbrellas for HM Building here...
+  //   ],
+  //   'Peem Building': [
+  //     {
+  //       lockId: '001',
+  //       umbrellaId: '04',
+  //       status: 'Available',
+  //       placeId: 'Peem Building',
+  //     },
+  //     {
+  //       lockId: '002',
+  //       umbrellaId: '05',
+  //       status: 'Unavailable',
+  //       placeId: 'Peem Building',
+  //     },
+  //     {
+  //       lockId: '003',
+  //       umbrellaId: '06',
+  //       status: 'Unavailable',
+  //       placeId: 'Peem Building',
+  //     },
+  //     //Add more umbrellas for HM Building here...
+  //   ],
+  // };
 
   // useEffect(() => {
   //   setRegion({
