@@ -24,7 +24,11 @@ import {Ionic} from 'react-native-vector-icons/Ionicons';
 import HelpScreen from '../Helpcomponent';
 import StyleMaincomponent from '../../StyleSheet/StyleMaincomponent';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
+import { useContext } from 'react';
+import { UserContext } from './UserContext';
+
 export default function ProfileScreen({navigation}) {
+  const { username } = useContext(UserContext);
   // const rendercheckanonymous = () => {
   //   if (!authentication.currentUser.isAnonymous) {
   //     return (
@@ -47,7 +51,7 @@ export default function ProfileScreen({navigation}) {
       {/* <Image source={setting} style={StyleMaincomponent.setting_icon}></Image> */}
       <Text style={stylepadding.text_padding}></Text>
       <Text style={StyleMaincomponent.texts_profile_white}>
-        Username: **********
+        Username: {username}
       </Text>
       <Text style={StyleMaincomponent.texts_profile_white}>
         {'\t'}

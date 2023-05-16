@@ -14,8 +14,11 @@ import {useNavigation} from '@react-navigation/native';
 import {signInWithEmailAndPassword} from 'firebase/auth';
 import {useState} from 'react';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
+import { useContext } from 'react';
+import { UserContext } from './UserContext';
 
 export default function LoginScreen({navigation}) {
+  const { setUsername } = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleLogin = () => {
@@ -24,16 +27,18 @@ export default function LoginScreen({navigation}) {
         const user = userCredentials.user;
         console.log('Register with', user.email);
         alert(user.email);
+
+        // Save the username in the context
+        setUsername(user.email);
       })
       .catch(re => {
         console.log(re);
       });
-
+  };
     // const navigation =  useNavigation();
 
     // onLoginPressed = () => {
     // navigation.navigate('Signin');
-  };
   return (
     <View style={Stylecomponent.root}>
       <Image source={Logo} style={Stylecomponent.logos_umbrella}></Image>
