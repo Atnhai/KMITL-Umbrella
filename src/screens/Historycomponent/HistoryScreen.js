@@ -16,7 +16,7 @@ import {authentication} from '../../../firebase';
 import axios from 'axios';
 export default function HistoryScreen({navigation}) {
   const [historyData, setHistoryData] = useState([]);
-  const [userId, setUserId] = useState();
+  const [userId, setUserID] = useState([])
   useEffect(() => {
     const email = authentication.currentUser.email;
 

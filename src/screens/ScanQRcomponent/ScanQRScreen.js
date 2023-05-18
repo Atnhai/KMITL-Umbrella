@@ -25,6 +25,39 @@ import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
 import secondModalImage from '../../../assets/images/howto2.png';
 
 export default function ScanQRScreen({navigation}) {
+
+  const [rentStateData, setRentStateData] = useState([]);
+  const [userId, setUserId] = useState(null);
+  
+  useEffect(() => {
+    const email = authentication.currentUser.email;
+  
+    axios.get('http://10.66.4.168:8000/api/get_userid/', { params: { email } })
+      .then(response => {
+        setUserId(response.data.id);
+        return axios.get(`http://10.66.4.168:8000/api/user_rentstate/${response.data.id}/`);
+      })
+      .then(response => {
+        const fetchedRentStateData = response.data.map(item => {
+          // Get the current date and time
+          const now = new Date();
+          // Format the date and time
+          const rentStart = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
+          const date = ("0" + now.getDate()).slice(-2) + '/' + ("0" + (now.getMonth()+1)).slice(-2) + '/' + now.getFullYear();
+  
+          return {
+            rent_start: rentStart,
+            renter: userId,
+            date: date,
+            umbrella: item.umbrella,
+          }
+        });
+  
+        setRentStateData(fetchedRentStateData);
+      })
+      .catch(error => console.error(error));
+  }, []);
+
   // Sample data
   const data = [
     {
