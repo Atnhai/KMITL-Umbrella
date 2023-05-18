@@ -1,4 +1,4 @@
-import React, {Component,useState, useEffect} from 'react';
+import React, {Component, useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -12,18 +12,21 @@ import {
   TextInput,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-
+import {authentication} from '../../../firebase';
+import axios from 'axios';
 export default function HistoryScreen({navigation}) {
-
   const [historyData, setHistoryData] = useState([]);
-
+  const [userId, setUserId] = useState();
   useEffect(() => {
     const email = authentication.currentUser.email;
-  
-    axios.get('http://10.66.4.168:8000/api/get_userid/', { params: { email } })
+
+    axios
+      .get('http://10.66.4.168:8000/api/get_userid/', {params: {email}})
       .then(response => {
         setUserId(response.data.id);
-        return axios.get(`http://10.66.4.168:8000/api/user_history/${response.data.id}/`);
+        return axios.get(
+          `http://10.66.4.168:8000/api/user_history/${response.data.id}/`,
+        );
       })
       .then(response => {
         const fetchedHistoryData = response.data.map(item => {
@@ -32,10 +35,10 @@ export default function HistoryScreen({navigation}) {
             place: item.place,
             date: item.date,
             time: item.time,
-            umbrellaID: item.umbrellaID,
+            number: item.umbrellaID,
             month: item.month,
-            image: item.image // this will be a URL string, not an imported image in React
-          }
+            image: item.image, // this will be a URL string, not an imported image in React
+          };
         });
         setHistoryData(fetchedHistoryData);
         console.log(fetchedHistoryData);
@@ -263,5 +266,4 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 16,
   },
-  
 });
