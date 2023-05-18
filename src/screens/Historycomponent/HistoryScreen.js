@@ -14,64 +14,90 @@ import {
 import {useNavigation} from '@react-navigation/native';
 
 export default function HistoryScreen({navigation}) {
-  const historyData = [
-    {
-      id: 1,
-      place: 'HM Building',
-      date: '2023-04-01',
-      time: '13:00',
-      lockId: '001',
-      number: '01',
-      price: '฿20',
-      month: 'April 2023',
-      image: require('../../../assets/images/hm.jpg'),
-    },
-    {
-      id: 2,
-      place: 'ECC Building',
-      date: '2023-03-20',
-      time: '14:00',
-      lockId: '001',
-      number: '002',
-      price: '฿20',
-      month: 'March 2023',
-      image: require('../../../assets/images/ecc.jpg'),
-    },
-    {
-      id: 3,
-      place: 'ECC Building',
-      date: '2023-03-21',
-      time: '15:00',
-      lockId: '001',
-      number: '002',
-      price: '฿20',
-      month: 'March 2023',
-      image: require('../../../assets/images/ecc.jpg'),
-    },
-    {
-      id: 4,
-      place: 'ECC Building',
-      date: '2023-04-15',
-      time: '16:00',
-      lockId: '001',
-      number: '002',
-      price: '฿20',
-      month: 'April 2023',
-      image: require('../../../assets/images/ecc.jpg'),
-    },
-    {
-      id: 5,
-      place: 'HM Building',
-      date: '2023-04-01',
-      time: '10:00',
-      lockId: '001',
-      number: '001',
-      price: '฿20',
-      month: 'April 2023',
-      image: require('../../../assets/images/hm.jpg'),
-    },
-    // Add more data here...
-  ];
+
+  useEffect(() => {
+    const email = authentication.currentUser.email;
+  
+    axios.get('http://10.66.4.168:8000/api/get_userid/', { params: { email } })
+      .then(response => {
+        setUserId(response.data.id);
+        return axios.get(`http://10.66.4.168:8000/api/user_history/${response.data.id}/`);
+      })
+      .then(response => {
+        const historyData = response.data.map(item => {
+          return {
+            user: item.place,
+            place: item.place,
+            date: item.date,
+            time: item.time,
+            umbrellaID: item.umbrellaID,
+            month: item.month,
+            image: item.image // this will be a URL string, not an imported image in React
+          }
+        });
+        console.log(historyData);
+      })
+      .catch(error => console.error(error));
+  }, []);
+  
+  // const historyData = [
+  //   {
+  //     id: 1,
+  //     place: 'HM Building',
+  //     date: '2023-04-01',
+  //     time: '13:00',
+  //     lockId: '001',
+  //     number: '01',
+  //     price: '฿20',
+  //     month: 'April 2023',
+  //     image: require('../../../assets/images/hm.jpg'),
+  //   },
+  //   {
+  //     id: 2,
+  //     place: 'ECC Building',
+  //     date: '2023-03-20',
+  //     time: '14:00',
+  //     lockId: '001',
+  //     number: '002',
+  //     price: '฿20',
+  //     month: 'March 2023',
+  //     image: require('../../../assets/images/ecc.jpg'),
+  //   },
+  //   {
+  //     id: 3,
+  //     place: 'ECC Building',
+  //     date: '2023-03-21',
+  //     time: '15:00',
+  //     lockId: '001',
+  //     number: '002',
+  //     price: '฿20',
+  //     month: 'March 2023',
+  //     image: require('../../../assets/images/ecc.jpg'),
+  //   },
+  //   {
+  //     id: 4,
+  //     place: 'ECC Building',
+  //     date: '2023-04-15',
+  //     time: '16:00',
+  //     lockId: '001',
+  //     number: '002',
+  //     price: '฿20',
+  //     month: 'April 2023',
+  //     image: require('../../../assets/images/ecc.jpg'),
+  //   },
+  //   {
+  //     id: 5,
+  //     place: 'HM Building',
+  //     date: '2023-04-01',
+  //     time: '10:00',
+  //     lockId: '001',
+  //     number: '001',
+  //     price: '฿20',
+  //     month: 'April 2023',
+  //     image: require('../../../assets/images/hm.jpg'),
+  //   },
+  //   // Add more data here...
+  // ];
 
   const sortedHistoryData = historyData.sort((a, b) => {
     const aDateTime = new Date(a.date + 'T' + a.time); // Combine date and time for comparison
