@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component,useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -14,7 +14,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 
 export default function HistoryScreen({navigation}) {
-
+ 
   useEffect(() => {
     const email = authentication.currentUser.email;
   
