@@ -16,7 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 export default function HistoryScreen({navigation}) {
 
   const [historyData, setHistoryData] = useState([]);
-  const [userId, setUserId] = usestate();
+  const [userId, setUserID] = useState([])
   useEffect(() => {
     const email = authentication.currentUser.email;
   
