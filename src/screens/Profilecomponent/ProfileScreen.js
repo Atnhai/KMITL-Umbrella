@@ -24,14 +24,16 @@ import {Ionic} from 'react-native-vector-icons/Ionicons';
 import HelpScreen from '../Helpcomponent';
 //import StyleMaincomponent from '../../StyleSheet/StyleMaincomponent';
 //import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
-export default function ProfileScreen({ navigation }) {
+export default function ProfileScreen({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.rectangle}>
         <Image source={user} style={styles.logo} />
         <View style={styles.userInfo}>
           <Text style={styles.text}>Username: **********</Text>
-          <Text style={styles.text}>Email: {authentication.currentUser.email}</Text>
+          <Text style={styles.text}>
+            Email: {authentication.currentUser.email}
+          </Text>
         </View>
       </View>
 
@@ -56,16 +58,17 @@ export default function ProfileScreen({ navigation }) {
           image={aboutus}
           onPress={() => navigation.navigate('Aboutus')}
         />
-        <TouchableOpacity style={styles.button_logout} onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity
+          style={styles.button_logout}
+          onPress={() => navigation.navigate('Login')}>
           <Text style={styles.logoutText}>LogOut</Text>
         </TouchableOpacity>
       </View>
-
     </View>
   );
 }
 
-function ButtonWithIcon({ title, image, onPress }) {
+function ButtonWithIcon({title, image, onPress}) {
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
       <View style={styles.buttonContent}>
@@ -76,7 +79,6 @@ function ButtonWithIcon({ title, image, onPress }) {
     </TouchableOpacity>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
