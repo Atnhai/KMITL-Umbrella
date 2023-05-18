@@ -399,10 +399,9 @@ export default function MapScreen({navigation}) {
       month: monthYear,
       image: selectedItem?.image,
     };
-
-    axios
-      .post('http://10.66.4.168:8000/api/histories/', postData)
-      .then(response => {
+    console.log(postData)
+    axios.post('http://10.66.4.168:8000/api/histories/', postData)
+    .then(response => {
         console.log(response.data);
         setImageModalVisible(false);
         setSuccessModalVisible(true);
