@@ -14,7 +14,9 @@ import {
 import {useNavigation} from '@react-navigation/native';
 
 export default function HistoryScreen({navigation}) {
- 
+
+  const [historyData, setHistoryData] = useState([]);
+
   useEffect(() => {
     const email = authentication.currentUser.email;
   
@@ -24,7 +26,7 @@ export default function HistoryScreen({navigation}) {
         return axios.get(`http://10.66.4.168:8000/api/user_history/${response.data.id}/`);
       })
       .then(response => {
-        const historyData = response.data.map(item => {
+        const fetchedHistoryData = response.data.map(item => {
           return {
             user: item.place,
             place: item.place,
@@ -35,11 +37,11 @@ export default function HistoryScreen({navigation}) {
             image: item.image // this will be a URL string, not an imported image in React
           }
         });
-        console.log(historyData);
+        setHistoryData(fetchedHistoryData);
+        console.log(fetchedHistoryData);
       })
       .catch(error => console.error(error));
   }, []);
-  
   // const historyData = [
   //   {
   //     id: 1,
