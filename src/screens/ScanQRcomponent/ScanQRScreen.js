@@ -22,7 +22,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FullWindowOverlay } from 'react-native-screens';
 import { ScrollView } from 'react-native';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
-import secondModalImage from '../../../assets/images/howtoreturn.png'; 
+import secondModalImage from '../../../assets/images/howtoreturn5.png'; 
 
 export default function ScanQRScreen({ navigation }) {
   // Sample data
@@ -220,6 +220,7 @@ export default function ScanQRScreen({ navigation }) {
       </Modal>
       <Modal animationType="slide" transparent={false} visible={showSecondModal}>
         <View style={styles.secondModalContainer}>
+        <View style={styles.rectangle_small} />
           <TouchableOpacity
             style={styles.backButton}
             onPress={() => setShowSecondModal(false)}
@@ -280,14 +281,14 @@ export default function ScanQRScreen({ navigation }) {
   paddingHorizontal: 10,
   },
   backButton: {
-  backgroundColor: '#E35205',
+  backgroundColor: 'white',
   paddingVertical: 8,
   paddingHorizontal: 16,
   borderRadius: 20,
   alignSelf: 'flex-start',
   },
   backButtonText: {
-  color: '#FFFFFF',
+  color: 'black',
   fontSize: 16,
   },
   infoButton: {
@@ -356,5 +357,14 @@ export default function ScanQRScreen({ navigation }) {
     width: '100%',
     height: '100%',
     resizeMode: 'contain',
+  },
+  rectangle_small: {
+    position: 'absolute',
+    top: 0,
+    borderBottomRightRadius: 80,
+    width: 410,
+    height: 80,
+    marginBottom: 20,
+    backgroundColor: '#E35205',
   },
   });

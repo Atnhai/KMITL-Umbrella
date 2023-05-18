@@ -141,6 +141,11 @@ const StyleMaincomponent = StyleSheet.create({
     borderColor: '#000000',
     marginBottom: 100,
   },
+  aboutus: {
+    width: '190%',
+    height: '150%',
+    resizeMode: 'contain',
+  },
 });
 
 export default StyleMaincomponent;

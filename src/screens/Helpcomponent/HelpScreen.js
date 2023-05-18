@@ -13,6 +13,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {Searchbar} from 'react-native-paper';
 import StyleMaincomponent from '../../StyleSheet/StyleMaincomponent';
+import contact from '../../../assets/images/contact2.png'; 
 
 export default function HelpScreen({navigation}) {
   return (
@@ -24,13 +25,7 @@ export default function HelpScreen({navigation}) {
         <Text style={StyleMaincomponent.text_navigation}>{'<'}</Text>
       </TouchableOpacity>
       <Text style={StyleMaincomponent.text_back}>Back</Text>
-      <Text style={styles.text2}>Please Contract Us</Text>
-      <View style={styles.rectangle2}>
-        <Text style={styles.text4}>0917219691</Text>
-      </View>
-      <View style={styles.rectangle3}>
-        <Text style={styles.text4}>62011197@kmitl.ac.th</Text>
-      </View>
+      <Image source={contact} style={styles.contact} />
     </View>
   );
 }
@@ -75,5 +70,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     alignItems: 'center',
+  },
+  contact: {
+    width: '200%',
+    height: '100%',
+    resizeMode: 'contain',
   },
 });

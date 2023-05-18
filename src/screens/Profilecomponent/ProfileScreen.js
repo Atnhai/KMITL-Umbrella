@@ -61,7 +61,7 @@ export default function ProfileScreen({navigation}) {
         <TouchableOpacity
           style={styles.button_logout}
           onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.logoutText}>LogOut</Text>
+          <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -151,7 +151,9 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   logoutText: {
+    fontSize: 17,
+    textAlign: 'center',
     color: 'white',
-    fontWeight: 'bold',
+    fontWeight: 'bold',  
   },
 });

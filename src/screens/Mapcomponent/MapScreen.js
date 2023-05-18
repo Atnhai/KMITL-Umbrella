@@ -28,7 +28,7 @@ import Geolocation from '@react-native-community/geolocation';
 import {googleMapIsInstalled} from 'react-native-maps/lib/decorateMapComponent';
 import {Card} from 'react-native-elements';
 import * as geolib from 'geolib';
-import secondModalImage from '../../../assets/images/howtorent2.png';
+import secondModalImage from '../../../assets/images/howtorent5.png';
 
 enableLatestRenderer();
 
@@ -439,6 +439,7 @@ export default function MapScreen({navigation}) {
         transparent={false}
         visible={showSecondModal}>
         <View style={styles.secondModalContainer}>
+        <View style={styles.rectangle_small} />
           <TouchableOpacity
             style={styles.backButton}
             onPress={() => setShowSecondModal(false)}>
@@ -655,7 +656,7 @@ const styles = StyleSheet.create({
     paddingLeft: 40,
     justifyContent: 'center',
     width: 411,
-    height: 110,
+    height: 130,
     borderBottomRightRadius: 25,
     borderBottomLeftRadius: 25,
     backgroundColor: '#FAC983',
@@ -928,14 +929,14 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   backButton: {
-    backgroundColor: '#E35205',
+    backgroundColor: 'white',
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 20,
     alignSelf: 'flex-start',
   },
   backButtonText: {
-    color: '#FFFFFF',
+    color: 'black',
     fontSize: 16,
   },
   infoButton: {
@@ -950,5 +951,14 @@ const styles = StyleSheet.create({
   infoButtonText: {
     color: 'black',
     fontSize: 16,
+  },
+  rectangle_small: {
+    position: 'absolute',
+    top: 0,
+    borderBottomRightRadius: 80,
+    width: 410,
+    height: 80,
+    marginBottom: 20,
+    backgroundColor: '#E35205',
   },
 });

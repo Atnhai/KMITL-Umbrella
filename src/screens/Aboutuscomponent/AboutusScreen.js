@@ -15,6 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Searchbar} from 'react-native-paper';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
 import StyleMaincomponent from '../../StyleSheet/StyleMaincomponent';
+import aboutus from '../../../assets/images/aboutus3.png'; 
 
 export default function AboutusScreen({navigation}) {
   return (
@@ -27,23 +28,7 @@ export default function AboutusScreen({navigation}) {
       </TouchableOpacity>
 
       <Text style={StyleMaincomponent.text_back}>Back</Text>
-      <Image
-        source={Logo}
-        style={StyleMaincomponent.logo_umbrella_profile}></Image>
-      <View style={StyleMaincomponent.rectangle_square}>
-        <Text style={StyleMaincomponent.text_name}>
-          62011146 Kunakorn Thepwong
-        </Text>
-        <Text style={StyleMaincomponent.text_name}>
-          62011181 Palakorn Kittijarukul
-        </Text>
-        <Text style={StyleMaincomponent.text_name}>
-          62011277 Thawanrat Atthawiwatkul
-        </Text>
-        <Text style={StyleMaincomponent.text_name}>
-          62011197 Peem Opaswarangkul
-        </Text>
-      </View>
+      <Image source={aboutus} style={StyleMaincomponent.aboutus} />
     </View>
   );
 }
