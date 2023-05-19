@@ -267,17 +267,36 @@ export default function MapScreen({navigation}) {
   //     longitudeDelta: 1,
   //   });
   // }, []);
+
+  const formatDate = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Months are 0 based, so we add 1.
+    const year = date.getFullYear();
+  
+    return day + '/' + month + '/' + year;
+  };
+  
   const showRentModal = umbrella => {
     const rentDate = new Date().toLocaleString('en-US', {
       timeZone: 'Asia/Bangkok',
     });
+  
+    // Create a new Date object
+    let newRentDate = new Date(rentDate);
+  
+    // Format the date in "day/month/year" format
+    let formattedDate = `${newRentDate.getDate()}/${
+      newRentDate.getMonth() + 1
+    }/${newRentDate.getFullYear()}`;
+  
     setSelectedUmbrella({
       ...umbrella,
-      rentDate: new Date(rentDate).toLocaleDateString(),
+      rentDate: formattedDate,
       rentTime: new Date(rentDate).toLocaleTimeString(),
     });
     setRentModalVisible(true);
   };
+  
 
   function measureDistances() {
     // Get the user's current location
@@ -358,6 +377,7 @@ export default function MapScreen({navigation}) {
 
   const showSuccessModal = async () => {
     const rentDate = new Date(selectedUmbrella?.rentDate);
+    const formattedRentDate = formatDate(rentDate);
     const monthNames = [
       'January',
       'February',
@@ -393,7 +413,7 @@ export default function MapScreen({navigation}) {
     const postData = {
       user: userId,
       place: selectedItem?.place,
-      date: selectedUmbrella?.rentDate,
+      date: selectedUmbrella?.formattedRentDate,
       time: selectedUmbrella?.rentTime,
       umbrellaID: selectedUmbrella?.umbrellaId,
       month: monthYear,
