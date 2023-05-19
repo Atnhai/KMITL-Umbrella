@@ -269,27 +269,27 @@ export default function MapScreen({navigation}) {
   //   });
   // }, []);
 
-  const formatDate = (date) => {
+  const formatDate = date => {
     const day = date.getDate();
     const month = date.getMonth() + 1; // Months are 0 based, so we add 1.
     const year = date.getFullYear();
-  
+
     return day + '/' + month + '/' + year;
   };
-  
+
   const showRentModal = umbrella => {
     const rentDate = new Date().toLocaleString('en-US', {
       timeZone: 'Asia/Bangkok',
     });
-  
+
     // Create a new Date object
     let newRentDate = new Date(rentDate);
-  
+
     // Format the date in "day/month/year" format
     let formattedDate = `${newRentDate.getDate()}/${
       newRentDate.getMonth() + 1
     }/${newRentDate.getFullYear()}`;
-  
+
     setSelectedUmbrella({
       ...umbrella,
       rentDate: formattedDate,
@@ -297,7 +297,6 @@ export default function MapScreen({navigation}) {
     });
     setRentModalVisible(true);
   };
-  
 
   function measureDistances() {
     // Get the user's current location
@@ -380,9 +379,9 @@ export default function MapScreen({navigation}) {
     // const rentDate = new Date(selectedUmbrella?.rentDate);
     // const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     // const monthYear = monthNames[rentDate.getMonth()] + ' ' + rentDate.getFullYear();
-    
+
     // const email = authentication.currentUser.email;
-    
+
     // let userId;
 
     // try {
@@ -406,12 +405,11 @@ export default function MapScreen({navigation}) {
     // axios.post('http://10.66.4.168:8000/api/histories/', postData)
     // .then(response => {
     //     console.log(response.data);
-        setImageModalVisible(false);
-        setSuccessModalVisible(true);
+    setImageModalVisible(false);
+    setSuccessModalVisible(true);
     // })
     // .catch(error => console.error(error));
-};
-
+  };
 
   const BlackLine = () => {
     return <View style={styles.blackLine} />;
@@ -579,7 +577,10 @@ export default function MapScreen({navigation}) {
           })}
           <TouchableOpacity
             style={{...styles.modalCloseButton}}
-            onPress={() => setModalVisible(!modalVisible)}>
+            onPress={() => {
+              setModalVisible(!modalVisible);
+              setReloadData(!reloadData);
+            }}>
             <Text style={styles.modalCloseButtonText}>Back</Text>
           </TouchableOpacity>
           <Text style={styles.cardTitle}>
@@ -599,7 +600,10 @@ export default function MapScreen({navigation}) {
         <View style={styles.modalView}>
           <TouchableOpacity
             style={{...styles.modalCloseButton}}
-            onPress={() => setRentModalVisible(!rentModalVisible)}>
+            onPress={() => {
+              setRentModalVisible(!rentModalVisible);
+              setReloadData(!reloadData);
+            }}>
             <Text style={styles.modalCloseButtonText}>Back</Text>
           </TouchableOpacity>
           <Image source={bill} style={styles.profileImage2} />
@@ -657,7 +661,10 @@ export default function MapScreen({navigation}) {
         <View style={styles.modalView}>
           <TouchableOpacity
             style={{...styles.modalCloseButton}}
-            onPress={() => setImageModalVisible(!imageModalVisible)}>
+            onPress={() => {
+              setImageModalVisible(!imageModalVisible);
+              setReloadData(!reloadData);
+            }}>
             <Text style={styles.modalCloseButtonText}>Back</Text>
           </TouchableOpacity>
           <Text style={styles.modalText}>
@@ -682,14 +689,14 @@ export default function MapScreen({navigation}) {
           setSuccessModalVisible(!successModalVisible);
         }}>
         <View style={styles.modalView}>
-        <TouchableOpacity
-          style={{...styles.modalCloseButton}}
-          onPress={() => {
-            setSuccessModalVisible(!successModalVisible);
-            setReloadData(!reloadData);  // Toggle reloadData state here
-          }}>
-          <Text style={styles.modalCloseButtonText}>Back</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={{...styles.modalCloseButton}}
+            onPress={() => {
+              setSuccessModalVisible(!successModalVisible);
+              setReloadData(!reloadData); // Toggle reloadData state here
+            }}>
+            <Text style={styles.modalCloseButtonText}>Back</Text>
+          </TouchableOpacity>
           <Image source={profileImage2} style={styles.profileImage2} />
           <Text style={styles.successText}>Successfully Rented!</Text>
           <Text style={styles.detailsText}>Place: {selectedItem?.place}</Text>
