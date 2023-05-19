@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState, Component, useCallback} from 'react';
 import {
   Text,
   View,
@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Alert,
   TextInput,
+  RefreshControl,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -83,6 +84,27 @@ export default function HistoryScreen({navigation}) {
     // Add more data here...
   ];
 
+  const [refreshing, setRefreshing] = useState(false);
+
+  // This function will be called when a refresh is triggered
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    // Simulate a network request
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
+  const renderRefreshControl = () => {
+    return (
+      <RefreshControl
+        colors={["#E35205"]}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
+    );
+  };
+
   const sortedHistoryData = historyData.sort((a, b) => {
     const aDateTime = new Date(a.date + 'T' + a.time); // Combine date and time for comparison
     const bDateTime = new Date(b.date + 'T' + b.time);
@@ -112,7 +134,17 @@ export default function HistoryScreen({navigation}) {
           <Text style={styles.backButtonText}>Back</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView>
+      <ScrollView 
+      refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            refreshControl2={renderRefreshControl()}
+            tintColor="#E35205" // Change the arrow icon color here
+            title="Refreshing..."
+            titleColor="black" // Change the text color here
+          />
+        }>
         {Object.entries(groupedData).map(([month, items]) => (
           <View key={month}>
             <Text style={styles.month}>{month}</Text>

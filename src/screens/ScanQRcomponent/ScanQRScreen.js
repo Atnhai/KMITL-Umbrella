@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Text,
   View,
@@ -12,6 +12,7 @@ import {
   Modal,
   FlatList,
 } from 'react-native';
+import { RefreshControl } from 'react-native';
 import Logo from '../../../assets/images/search.png';
 import LockerImage from '../../../assets/images/locker.png';
 import profileImage2 from '../../../assets/images/profileNew.png';
@@ -70,53 +71,30 @@ export default function ScanQRScreen({ navigation }) {
       status: 'Unavailable',
       image: LockerImage,
     },
-    // {
-    //   id: 1,
-    //   lockerId: '003',
-    //   place: 'ECC Building',
-    //   status: 'Available',
-    //   image: LockerImage,
-    // },
-    // {
-    //   id: 2,
-    //   lockerId: '004',
-    //   place: 'HM Building',
-    //   status: 'Available',
-    //   image: LockerImage,
-    // },
-    // {
-    //   id: 1,
-    //   lockerId: '003',
-    //   place: 'ECC Building',
-    //   status: 'Available',
-    //   image: LockerImage,
-    // },
-    // {
-    //   id: 2,
-    //   lockerId: '004',
-    //   place: 'HM Building',
-    //   status: 'Available',
-    //   image: LockerImage,
-    // },
-    // {
-    //   id: 1,
-    //   lockerId: '003',
-    //   place: 'ECC Building',
-    //   status: 'Available',
-    //   image: LockerImage,
-    // },
-    // {
-    //   id: 2,
-    //   lockerId: '004',
-    //   place: 'HM Building',
-    //   status: 'Available',
-    //   image: LockerImage,
-    // },
     // Add more locker data items here
   ];
 
   const [showModal, setShowModal] = useState(false);
   const [showSecondModal, setShowSecondModal] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    // Simulate a network request
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
+  const renderRefreshControl = () => {
+    return (
+      <RefreshControl
+        colors={["#E35205"]} // Color of the spinning indicator
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
+    );
+  };
 
   function DataCard({ item }) {
     return (
@@ -159,31 +137,28 @@ export default function ScanQRScreen({ navigation }) {
       return null;
     }
   }
-  
-  
-  
 
   const renderItem = ({ item }) => <DataCard item={item} />;
   const renderLocker = ({ item }) => <LockerCard item={item} />;
 
   if (data.length === 0) {
-  return (
-  <View style={styles.noDataContainer}>
-  <Image source={profileBW} style={styles.noDataImage} />
-  <Text style={styles.noDataText}>No umbrella rented</Text>
-  </View>
-  );
+    return (
+      <View style={styles.noDataContainer}>
+        <Image source={profileBW} style={styles.noDataImage} />
+        <Text style={styles.noDataText}>No umbrella rented</Text>
+      </View>
+    );
   }
   
   // Sort data by date and time in descending order (most recent first)
   const sortedData = data.sort((a, b) => {
-  const dateA = new Date(a.date + 'T' + a.time);
-  const dateB = new Date(b.date + 'T' + b.time);
-  return dateB - dateA;
+    const dateA = new Date(a.date + 'T' + a.time);
+    const dateB = new Date(b.date + 'T' + b.time);
+    return dateB - dateA;
   });
   
   const availableLockers = lockerData.filter(
-  (locker) => locker.status === 'Available'
+    (locker) => locker.status === 'Available'
   );
   
   return (
@@ -192,6 +167,7 @@ export default function ScanQRScreen({ navigation }) {
         data={sortedData}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
+        refreshControl={renderRefreshControl()} // Use custom refresh control
       />
       <Modal animationType="slide" transparent={false} visible={showModal}>
         <View style={styles.modalContainer}>
@@ -232,7 +208,7 @@ export default function ScanQRScreen({ navigation }) {
       </Modal>
     </View>
   );
-  }
+}
   
   const styles = StyleSheet.create({
   container: {
