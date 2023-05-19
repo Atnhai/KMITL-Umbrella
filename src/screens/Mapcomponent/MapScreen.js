@@ -137,7 +137,7 @@ export default function MapScreen({navigation}) {
       })
       .catch(error => console.error(error));
   }, [reloadData]);
-  console.log('data =',data);
+  console.log('data =', data);
   // export function DataDisplay() {
   //   const [data, setData] = useState([]);
 
@@ -573,7 +573,7 @@ export default function MapScreen({navigation}) {
                     longitude: selectedItem.longitude,
                   })
                 : null;
-
+        
             return (
               <View key={index} style={styles.umbrellaBox}>
                 <Image source={LockerImage} style={styles.profileImage} />
@@ -595,7 +595,7 @@ export default function MapScreen({navigation}) {
                   style={{
                     ...styles.rentButton,
                     backgroundColor:
-                      data == [] && isAvailable && isnearBy <= 100
+                      data.length === 0 && isAvailable && isnearBy <= 100
                         ? '#E35205'
                         : 'grey',
                   }}
