@@ -108,7 +108,36 @@ export default function MapScreen({navigation}) {
       price: 20.0,
     },
   ];
+  const [data, setData] = useState([]);
+  const [userId, setUserId] = useState(null);
 
+  useEffect(() => {
+    const email = authentication.currentUser.email;
+
+    axios
+      .get('http://10.66.4.168:8000/api/get_userid/', {params: {email}})
+      .then(response => {
+        setUserId(response.data.id);
+        return axios.get(
+          `http://10.66.4.168:8000/api/user_rentstate/${response.data.id}/`,
+        );
+      })
+      .then(response => {
+        const fetchedRentStateData = response.data.map(item => {
+          return {
+            time: item.rent_start,
+            name: item.renter,
+            date: item.date,
+            umbrellaId: item.umbrella,
+            image: profileImage2,
+          };
+        });
+
+        setData(fetchedRentStateData);
+      })
+      .catch(error => console.error(error));
+  }, [reloadData]);
+  console.log('data =',data);
   // export function DataDisplay() {
   //   const [data, setData] = useState([]);
 
@@ -163,7 +192,7 @@ export default function MapScreen({navigation}) {
           const newUmbrellaData = {
             [lockerData.name]: lockerData.lock_set.map(lock => ({
               lockId: String(lock.id),
-              umbrellaId: lock.umbrella ? String(lock.umbrella.id):"-",
+              umbrellaId: lock.umbrella ? String(lock.umbrella.id) : '-',
               status: lock.umbrella ? 'Available' : 'Unavailable',
               placeId: lockerData.name,
             })),
@@ -566,7 +595,9 @@ export default function MapScreen({navigation}) {
                   style={{
                     ...styles.rentButton,
                     backgroundColor:
-                      isAvailable && isnearBy <= 100 ? '#E35205' : 'grey',
+                      data == [] && isAvailable && isnearBy <= 100
+                        ? '#E35205'
+                        : 'grey',
                   }}
                   onPress={() => showRentModal(umbrella)}
                   disabled={!isAvailable || !isnearBy || isnearBy > 100}>
