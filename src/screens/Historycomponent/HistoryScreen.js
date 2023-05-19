@@ -1,4 +1,6 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect, useState} from 'react';
+import axios from 'axios';
+import {authentication} from '../../../firebase';
 import {
   Text,
   View,
@@ -14,74 +16,20 @@ import {
 import {useNavigation} from '@react-navigation/native';
 
 export default function HistoryScreen({navigation}) {
-  const historyData = [
-    {
-      id: 1,
-      building: 'HM Building',
-      date: '2023-04-01',
-      time: '13:00',
-      lockId: '001',
-      umbrella: '01',
-      price: '฿20',
-      month: 'April 2023',
-      date_end: '2023-05-18',
-      time_end: '12:00',
-      image: require('../../../assets/images/hm.jpg'),
-    },
-    {
-      id: 2,
-      building: 'ECC Building',
-      date: '2023-03-20',
-      time: '14:00',
-      lockId: '001',
-      umbrella: '002',
-      price: '฿20',
-      month: 'March 2023',
-      date_end: '2023-05-18',
-      time_end: '12:00',
-      image: require('../../../assets/images/ecc.jpg'),
-    },
-    {
-      id: 3,
-      building: 'ECC Building',
-      date: '2023-03-21',
-      time: '15:00',
-      lockId: '001',
-      umbrella: '002',
-      price: '฿20',
-      month: 'March 2023',
-      date_end: '2023-05-18',
-      time_end: '12:00',
-      image: require('../../../assets/images/ecc.jpg'),
-    },
-    {
-      id: 4,
-      building: 'ECC Building',
-      date: '2023-04-15',
-      time: '16:00',
-      lockId: '001',
-      umbrella: '002',
-      price: '฿20',
-      month: 'April 2023',
-      date_end: '2023-05-18',
-      time_end: '12:00',
-      image: require('../../../assets/images/ecc.jpg'),
-    },
-    {
-      id: 5,
-      building: 'HM Building',
-      date: '2023-04-01',
-      time: '10:00',
-      lockId: '001',
-      umbrella: '001',
-      price: '฿20',
-      month: 'April 2023',
-      date_end: '2023-05-18',
-      time_end: '12:00',
-      image: require('../../../assets/images/hm.jpg'),
-    },
-    // Add more data here...
-  ];
+
+
+  // id: 1,
+  // building: 'HM Building',
+  // date: '2023-04-01',
+  // time: '13:00',
+  // lockId: '001',
+  // umbrella: '01',
+  // price: '฿20',
+  // month: 'April 2023',
+  // date_end: '2023-05-18',
+  // time_end: '12:00',
+  // image: require('../../../assets/images/hm.jpg'),
+
 
   const [historyData, setHistoryData] = useState([]);
   const [userId, setUserId] = useState([])
@@ -97,11 +45,11 @@ export default function HistoryScreen({navigation}) {
         const fetchedHistoryData = response.data.map(item => {
           return {
             id: item.id,
-            place: item.place,
-            date_start: item.date_start,
-            date_end: item.time,
-            rent_start: item.rent_start,
-            rent_end: item.rent_end,
+            building: item.place,
+            date: item.date_start,
+            date_end: item.date_end,
+            time: item.rent_start,
+            time_end: item.rent_end,
             umbrella: item.umbrella,
             month: item.month,
             image: item.image // this will be a URL string, not an imported image in React
@@ -113,7 +61,6 @@ export default function HistoryScreen({navigation}) {
       .catch(error => console.error(error));
   }, []);
  
-
 
   const sortedHistoryData = historyData.sort((a, b) => {
     const aDateTime = new Date(a.date + 'T' + a.time); // Combine date and time for comparison
