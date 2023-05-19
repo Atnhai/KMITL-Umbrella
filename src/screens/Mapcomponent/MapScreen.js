@@ -80,35 +80,35 @@ export default function MapScreen({navigation}) {
   };
   const [tempVar, settempVar] = useState(null);
   const [umbrellasData, setUmbrellasData] = useState([]);
-  const [item, setItem] = useState([]);
-  // const item = [
-  //   {
-  //     id: 1,
-  //     latitude: 13.729249840361328,
-  //     longitude: 100.77563323749371,
-  //     place: 'ECC Building',
-  //     image: require('../../../assets/images/ecc.jpg'),
-  //     price: 20.0,
-  //     mark: 'near canteen and 70th building',
-  //   },
-  //   {
-  //     id: 2,
-  //     latitude: 13.726573105186487,
-  //     longitude: 100.77497633816488,
-  //     place: 'HM Building',
-  //     image: require('../../../assets/images/hm.jpg'),
-  //     price: 20.0,
-  //     mark: 'near canteen',
-  //   },
-  //   {
-  //     id: 3,
-  //     latitude: 13.726573105186487,
-  //     longitude: 100.75497633816488,
-  //     place: 'Peem Building',
-  //     image: require('../../../assets/images/hm.jpg'),
-  //     price: 20.0,
-  //   },
-  // ];
+
+  const item = [
+    {
+      id: 1,
+      latitude: 13.729249840361328,
+      longitude: 100.77563323749371,
+      place: 'ECC Building',
+      image: require('../../../assets/images/ecc.jpg'),
+      price: 20.0,
+      mark: 'near canteen and 70th building',
+    },
+    {
+      id: 2,
+      latitude: 13.726573105186487,
+      longitude: 100.77497633816488,
+      place: 'HM Building',
+      image: require('../../../assets/images/hm.jpg'),
+      price: 20.0,
+      mark: 'near canteen',
+    },
+    {
+      id: 3,
+      latitude: 13.726573105186487,
+      longitude: 100.75497633816488,
+      place: 'Peem Building',
+      image: require('../../../assets/images/hm.jpg'),
+      price: 20.0,
+    },
+  ];
   const [data, setData] = useState([]);
   const [userId, setUserId] = useState(null);
 
@@ -171,7 +171,6 @@ export default function MapScreen({navigation}) {
     const fetchAllLockersData = async () => {
       let lockerNumber = 1;
       let allUmbrellasData = {}; // Temp object to store all locker data
-      let allItem = [];
 
       while (true) {
         try {
@@ -203,18 +202,6 @@ export default function MapScreen({navigation}) {
           // Add the new data to the allUmbrellasData object
           allUmbrellasData = {...allUmbrellasData, ...newUmbrellaData};
 
-          const newItem = {
-            id: lockerData.id,
-            latitude: lockerData.latitude,
-            longitude: lockerData.longitude,
-            place: lockerData.name,
-            image: lockerData.image, // Make sure the image path is correct
-            price: lockerData.price,
-            mark: lockerData.location || '', // If mark is not available, set it to an empty string
-          };
-
-          allItem = { ...allItem, ...newItem };
-
           lockerNumber++;
         } catch (error) {
           // If the response status is 404, break the loop
@@ -232,7 +219,6 @@ export default function MapScreen({navigation}) {
 
       // Once we've fetched all the data, update the state
       setUmbrellasData(allUmbrellasData);
-      setItem(allItem);
     };
 
     fetchAllLockersData();
@@ -588,7 +574,7 @@ export default function MapScreen({navigation}) {
                     longitude: selectedItem.longitude,
                   })
                 : null;
-        
+
             return (
               <View key={index} style={styles.umbrellaBox}>
                 <Image source={LockerImage} style={styles.profileImage} />
