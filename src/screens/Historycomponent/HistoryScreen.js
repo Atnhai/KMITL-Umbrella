@@ -19,11 +19,12 @@ import {useNavigation} from '@react-navigation/native';
 export default function HistoryScreen({navigation}) {
   // Define your state variable for refreshing
   const [refreshing, setRefreshing] = useState(false);
-
+  const [reloadData, setReloadData] = useState(false);
   // This function will be called when a refresh is triggered
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     // Simulate a network request
+    etReloadData(!reloadData);
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
@@ -41,16 +42,18 @@ export default function HistoryScreen({navigation}) {
   // time_end: '12:00',
   // image: require('../../../assets/images/hm.jpg'),
 
-
   const [historyData, setHistoryData] = useState([]);
-  const [userId, setUserId] = useState([])
+  const [userId, setUserId] = useState([]);
   useEffect(() => {
     const email = authentication.currentUser.email;
-  
-    axios.get('http://10.66.4.168:8000/api/get_userid/', { params: { email } })
+
+    axios
+      .get('http://10.66.4.168:8000/api/get_userid/', {params: {email}})
       .then(response => {
         setUserId(response.data.id);
-        return axios.get(`http://10.66.4.168:8000/api/user_history/${response.data.id}/`);
+        return axios.get(
+          `http://10.66.4.168:8000/api/user_history/${response.data.id}/`,
+        );
       })
       .then(response => {
         const fetchedHistoryData = response.data.map(item => {
@@ -63,15 +66,14 @@ export default function HistoryScreen({navigation}) {
             time_end: item.rent_end,
             umbrella: item.umbrella,
             month: item.month,
-            image: item.image // this will be a URL string, not an imported image in React
-          }
+            image: item.image, // this will be a URL string, not an imported image in React
+          };
         });
         setHistoryData(fetchedHistoryData);
         console.log(fetchedHistoryData);
       })
       .catch(error => console.error(error));
-  }, []);
- 
+  }, [reloadData]);
 
   const sortedHistoryData = historyData.sort((a, b) => {
     const aDateTime = new Date(a.date + 'T' + a.time); // Combine date and time for comparison
@@ -102,7 +104,8 @@ export default function HistoryScreen({navigation}) {
           <Text style={styles.backButtonText}>Back</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView refreshControl={
+      <ScrollView
+        refreshControl={
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
@@ -120,14 +123,20 @@ export default function HistoryScreen({navigation}) {
                 <View style={styles.infoContainer}>
                   <View style={styles.infoBox}>
                     <Text style={styles.building}>{item.building}</Text>
-                    <Text style={styles.umbrella}>Umbrella ID:{item.umbrella}</Text>
+                    <Text style={styles.umbrella}>
+                      Umbrella ID:{item.umbrella}
+                    </Text>
                     <Text style={styles.date}>Date:{item.date}</Text>
                     <Text style={styles.time}>Time:{item.time}</Text>
                     {/* <Text style={styles.lockId}>Lock ID:{item.lockId}</Text> */}
                     {/* <Text style={styles.number}>Umbrella ID:{item.number}</Text> */}
                     <BlackLine />
-                    <Text style={styles.date_end}>Return Date: {item.date_end}</Text>
-                    <Text style={styles.time_end}>Return Time: {item.time_end}</Text>
+                    <Text style={styles.date_end}>
+                      Return Date: {item.date_end}
+                    </Text>
+                    <Text style={styles.time_end}>
+                      Return Time: {item.time_end}
+                    </Text>
                   </View>
                   {/* <View style={styles.infoBox}>
                     <Text style={styles.price}>{item.price}</Text>
@@ -272,10 +281,9 @@ const styles = StyleSheet.create({
     paddingVertical: 9,
     paddingHorizontal: 16,
     borderRadius: 20,
-  },  
+  },
   backButtonText: {
     color: 'black',
     fontSize: 16,
   },
-  
 });
