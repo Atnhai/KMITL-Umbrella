@@ -13,6 +13,7 @@ import {
   TextInput,
   Modal,
   FlatList,
+  RefreshControl,
 } from 'react-native';
 import Logo from '../../../assets/images/search.png';
 import LockerImage from '../../../assets/images/locker.png';
@@ -29,6 +30,28 @@ import secondModalImage from '../../../assets/images/howto2.png';
 export default function ScanQRScreen({navigation}) {
   const [data, setData] = useState([]);
   const [userId, setUserId] = useState(null);
+
+    // Define your state variable for refreshing
+    const [refreshing, setRefreshing] = useState(false);
+
+    // This function will be called when a refresh is triggered
+    const onRefresh = React.useCallback(() => {
+      setRefreshing(true);
+      // Simulate a network request
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 2000);
+    }, []);
+
+    const renderRefreshControl = () => {
+      return (
+        <RefreshControl
+          colors={["#E35205"]} // Color of the spinning indicator
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
+      );
+    };
 
   useEffect(() => {
     const email = authentication.currentUser.email;
@@ -219,6 +242,7 @@ export default function ScanQRScreen({navigation}) {
       <FlatList
         data={sortedData}
         renderItem={renderItem}
+        refreshControl={renderRefreshControl()}
        
       />
       <Modal animationType="slide" transparent={false} visible={showModal}>

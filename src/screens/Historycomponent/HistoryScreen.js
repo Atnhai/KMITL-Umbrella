@@ -12,11 +12,22 @@ import {
   TouchableOpacity,
   Alert,
   TextInput,
+  RefreshControl,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 export default function HistoryScreen({navigation}) {
+  // Define your state variable for refreshing
+  const [refreshing, setRefreshing] = useState(false);
 
+  // This function will be called when a refresh is triggered
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    // Simulate a network request
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   // id: 1,
   // building: 'HM Building',
@@ -91,7 +102,15 @@ export default function HistoryScreen({navigation}) {
           <Text style={styles.backButtonText}>Back</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView>
+      <ScrollView refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor="#E35205" // Change the arrow icon color here
+            title="Refreshing..."
+            titleColor="#E35205" // Change the text color here
+          />
+        }>
         {Object.entries(groupedData).map(([month, items]) => (
           <View key={month}>
             <Text style={styles.month}>{month}</Text>
