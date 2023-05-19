@@ -1,4 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect,useCallback} from 'react';
+import axios from 'axios';
+import {authentication} from '../../../firebase';
 import {
   Text,
   View,
@@ -25,17 +27,19 @@ import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
 import secondModalImage from '../../../assets/images/howto2.png';
 
 export default function ScanQRScreen({navigation}) {
-
-  const [rentStateData, setRentStateData] = useState([]);
+  const [data, setData] = useState([]);
   const [userId, setUserId] = useState(null);
-  
+
   useEffect(() => {
     const email = authentication.currentUser.email;
 
-    axios.get('http://10.66.4.168:8000/api/get_userid/', { params: { email } })
+    axios
+      .get('http://10.66.4.168:8000/api/get_userid/', {params: {email}})
       .then(response => {
         setUserId(response.data.id);
-        return axios.get(`http://10.66.4.168:8000/api/user_rentstate/${response.data.id}/`);
+        return axios.get(
+          `http://10.66.4.168:8000/api/user_rentstate/${response.data.id}/`,
+        );
       })
       .then(response => {
         const fetchedRentStateData = response.data.map(item => {
@@ -44,37 +48,37 @@ export default function ScanQRScreen({navigation}) {
             name: item.renter,
             date: item.date,
             umbrellaId: item.umbrella,
-            image: profileImage2
-          }
+            image: profileImage2,
+          };
         });
 
-        setRentStateData(fetchedRentStateData);
+        setData(fetchedRentStateData);
       })
       .catch(error => console.error(error));
   }, []);
 
   // Sample data
-  const data = [
-    {
-      id: 1,
-      umbrellaId: '01',
-      lockerId: '001',
-      name: 'John Doe',
-      date: '2023-04-28',
-      time: '12:00',
-      image: profileImage2,
-    },
-    {
-      id: 2,
-      umbrellaId: '02',
-      lockerId: '002',
-      name: 'John Doe',
-      date: '2023-04-27',
-      time: '17:00',
-      image: profileImage2,
-    },
-    // Add more data items here
-  ];
+  // const data = [
+  //   {
+  //     id: 1,
+  //     umbrellaId: '01',
+  //     lockerId: '001',
+  //     name: 'John Doe',
+  //     date: '2023-04-28',
+  //     time: '12:00',
+  //     image: profileImage2,
+  //   },
+  //   {
+  //     id: 2,
+  //     umbrellaId: '02',
+  //     lockerId: '002',
+  //     name: 'John Doe',
+  //     date: '2023-04-27',
+  //     time: '17:00',
+  //     image: profileImage2,
+  //   },
+  //   // Add more data items here
+  // ];
 
   const lockerData = [
     {
@@ -215,7 +219,7 @@ export default function ScanQRScreen({navigation}) {
       <FlatList
         data={sortedData}
         renderItem={renderItem}
-        keyExtractor={item => item.id.toString()}
+       
       />
       <Modal animationType="slide" transparent={false} visible={showModal}>
         <View style={styles.modalContainer}>
@@ -235,7 +239,7 @@ export default function ScanQRScreen({navigation}) {
           <FlatList
             data={availableLockers}
             renderItem={renderLocker}
-            keyExtractor={item => item.id.toString()}
+           
             contentContainerStyle={styles.flatListContentContainer}
           />
         </View>
