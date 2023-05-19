@@ -15,6 +15,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  ScrollView,
 } from 'react-native';
 import Logo from '../../../assets/images/Google.png';
 import {authentication, provider} from '../../../firebase';

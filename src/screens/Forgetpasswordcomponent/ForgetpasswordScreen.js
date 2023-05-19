@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Alert,
   TextInput,
+  ScrollView,
 } from 'react-native';
 import {Link, useNavigation} from '@react-navigation/native';
 import {Searchbar} from 'react-native-paper';
@@ -39,9 +40,9 @@ export default function ForgetpasswordScreen({navigation}) {
 
       <TouchableOpacity
         title="<"
-        style={Stylecomponent.buttons_goback}
+        style={Stylecomponent.backButton}
         onPress={() => navigation.goBack()}>
-        <Text style={Stylecomponent.text_black}>{'<'}</Text>
+        <Text style={Stylecomponent.backButtonText}>Back</Text>
       </TouchableOpacity>
       <Text style={Stylecomponent.header_text}>{'\n'}Forgot Password?</Text>
       <Text style={Stylecomponent.text_grey}>

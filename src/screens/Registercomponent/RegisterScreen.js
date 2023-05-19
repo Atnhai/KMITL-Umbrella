@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   TextInput,
   StyleSheet,
+  ScrollView,
 } from 'react-native';
 import React, {Component} from 'react';
 import axios from 'axios';
@@ -57,9 +58,9 @@ export default function RegisterScreen({navigation}) {
       <Text style={Stylecomponent.text_black}></Text>
       <TouchableOpacity
         title="<"
-        style={Stylecomponent.buttons_goback}
+        style={Stylecomponent.backButton}
         onPress={() => navigation.navigate('Login')}>
-        <Text style={Stylecomponent.text_black}>{'<'}</Text>
+        <Text style={Stylecomponent.backButtonText}>Back</Text>
       </TouchableOpacity>
       <Text></Text>
       <Text style={Stylecomponent.header_text}>

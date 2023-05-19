@@ -13,24 +13,18 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {Searchbar} from 'react-native-paper';
 import StyleMaincomponent from '../../StyleSheet/StyleMaincomponent';
+import contact from '../../../assets/images/contact2.png'; 
 
 export default function HelpScreen({navigation}) {
   return (
     <View style={StyleMaincomponent.background_views}>
       <View style={StyleMaincomponent.rectangle_small} />
       <TouchableOpacity
-        style={StyleMaincomponent.button_goback}
-        onPress={() => navigation.goBack()}>
-        <Text style={StyleMaincomponent.text_navigation}>{'<'}</Text>
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}>
+          <Text style={styles.backButtonText}>Back</Text>
       </TouchableOpacity>
-      <Text style={StyleMaincomponent.text_back}>Back</Text>
-      <Text style={styles.text2}>Please Contract Us</Text>
-      <View style={styles.rectangle2}>
-        <Text style={styles.text4}>0917219691</Text>
-      </View>
-      <View style={styles.rectangle3}>
-        <Text style={styles.text4}>62011197@kmitl.ac.th</Text>
-      </View>
+      <Image source={contact} style={styles.contact} />
     </View>
   );
 }
@@ -75,5 +69,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     alignItems: 'center',
+  },
+  contact: {
+    width: '200%',
+    height: '100%',
+    resizeMode: 'contain',
+  },
+  backButton: {
+    position: 'absolute', // set position to absolute
+    top: 15, // adjust as per requirement
+    left: 10, // adjust as per requirement
+    backgroundColor: 'white',
+    paddingVertical: 9,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+  },  
+  backButtonText: {
+    color: 'black',
+    fontSize: 16,
   },
 });

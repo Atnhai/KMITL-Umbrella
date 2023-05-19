@@ -143,7 +143,7 @@ const StyleMaincomponent = StyleSheet.create({
   },
   aboutus: {
     width: '190%',
-    height: '150%',
+    height: '100%',
     resizeMode: 'contain',
   },
   backButton: {

@@ -8,6 +8,7 @@ import {
   Pressable,
   TouchableOpacity,
   Alert,
+  ScrollView,
 } from 'react-native';
 import Logo from '../../../assets/images/Logo_1.png';
 import {useNavigation} from '@react-navigation/native';
@@ -35,24 +36,23 @@ export default function LoginScreen({navigation}) {
     // navigation.navigate('Signin');
   };
   return (
-    <View style={Stylecomponent.root}>
-      <Image source={Logo} style={Stylecomponent.logos_umbrella}></Image>
-      <Text>
-        {'\n'}
-        {'\n'}
-      </Text>
-      <TouchableOpacity
-        title="Login"
-        style={Stylecomponent.button_login}
-        onPress={() => navigation.navigate('Signin')}>
-        <Text style={Stylecomponent.text_white}>Login</Text>
-      </TouchableOpacity>
-      <Text></Text>
-      <TouchableOpacity
-        style={Stylecomponent.button_register}
-        onPress={() => navigation.navigate('Register')}>
-        <Text style={Stylecomponent.text_black}>Register</Text>
-      </TouchableOpacity>
+    <View style={Stylecomponent.container}>
+      <View style={Stylecomponent.logoContainer}>
+        <Image source={Logo} style={Stylecomponent.logos_umbrella}></Image>
+      </View>
+      <View style={Stylecomponent.buttonContainer}>
+        <TouchableOpacity
+          title="Login"
+          style={Stylecomponent.button_login}
+          onPress={() => navigation.navigate('Signin')}>
+          <Text style={Stylecomponent.text_white}>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={Stylecomponent.button_register}
+          onPress={() => navigation.navigate('Register')}>
+          <Text style={Stylecomponent.text_black}>Register</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
