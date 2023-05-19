@@ -163,8 +163,8 @@ export default function MapScreen({navigation}) {
           const newUmbrellaData = {
             [lockerData.name]: lockerData.lock_set.map(lock => ({
               lockId: String(lock.id),
-              umbrellaId: String(lock.umbrella.id),
-              status: lock.availability ? 'Available' : 'Unavailable',
+              umbrellaId: lock.umbrella ? String(lock.umbrella.id):"-",
+              status: lock.umbrella ? 'Available' : 'Unavailable',
               placeId: lockerData.name,
             })),
           };
