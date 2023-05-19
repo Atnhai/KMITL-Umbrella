@@ -55,6 +55,7 @@ export default function MapScreen({navigation}) {
   }
   requestLocationPermission();
 
+  const [reloadData, setReloadData] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [region, setRegion] = useState({
@@ -190,7 +191,7 @@ export default function MapScreen({navigation}) {
     };
 
     fetchAllLockersData();
-  }, []);
+  }, [reloadData]);
 
   // const umbrellasData = {
   //   'ECC Building': [
@@ -356,39 +357,39 @@ export default function MapScreen({navigation}) {
   };
 
   const showSuccessModal = async () => {
-    const rentDate = new Date(selectedUmbrella?.rentDate);
-    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const monthYear = monthNames[rentDate.getMonth()] + ' ' + rentDate.getFullYear();
+    // const rentDate = new Date(selectedUmbrella?.rentDate);
+    // const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    // const monthYear = monthNames[rentDate.getMonth()] + ' ' + rentDate.getFullYear();
     
-    const email = authentication.currentUser.email;
+    // const email = authentication.currentUser.email;
     
-    let userId;
+    // let userId;
 
-    try {
-        const response = await axios.get('http://10.66.4.168:8000/api/get_userid/', { params: { email } })
-        userId = response.data.id;
-    } catch(error) {
-        console.error(error);
-        return; // Return early if the request fails
-    }
+    // try {
+    //     const response = await axios.get('http://10.66.4.168:8000/api/get_userid/', { params: { email } })
+    //     userId = response.data.id;
+    // } catch(error) {
+    //     console.error(error);
+    //     return; // Return early if the request fails
+    // }
 
-    const postData = {
-        user: userId,
-        place: selectedItem?.place,
-        date: selectedUmbrella?.rentDate,
-        time: selectedUmbrella?.rentTime,
-        umbrellaID: selectedUmbrella?.umbrellaId,
-        month: monthYear,
-        image: selectedItem?.image,
-    };
-    console.log(postData)
-    axios.post('http://10.66.4.168:8000/api/histories/', postData)
-    .then(response => {
-        console.log(response.data);
+    // const postData = {
+    //     user: userId,
+    //     place: selectedItem?.place,
+    //     date: selectedUmbrella?.rentDate,
+    //     time: selectedUmbrella?.rentTime,
+    //     umbrellaID: selectedUmbrella?.umbrellaId,
+    //     month: monthYear,
+    //     image: selectedItem?.image,
+    // };
+    // console.log(postData)
+    // axios.post('http://10.66.4.168:8000/api/histories/', postData)
+    // .then(response => {
+    //     console.log(response.data);
         setImageModalVisible(false);
         setSuccessModalVisible(true);
-    })
-    .catch(error => console.error(error));
+    // })
+    // .catch(error => console.error(error));
 };
 
 
@@ -661,11 +662,14 @@ export default function MapScreen({navigation}) {
           setSuccessModalVisible(!successModalVisible);
         }}>
         <View style={styles.modalView}>
-          <TouchableOpacity
-            style={{...styles.modalCloseButton}}
-            onPress={() => setSuccessModalVisible(!successModalVisible)}>
-            <Text style={styles.modalCloseButtonText}>Back</Text>
-          </TouchableOpacity>
+        <TouchableOpacity
+          style={{...styles.modalCloseButton}}
+          onPress={() => {
+            setSuccessModalVisible(!successModalVisible);
+            setReloadData(!reloadData);  // Toggle reloadData state here
+          }}>
+          <Text style={styles.modalCloseButtonText}>Back</Text>
+        </TouchableOpacity>
           <Image source={profileImage2} style={styles.profileImage2} />
           <Text style={styles.successText}>Successfully Rented!</Text>
           <Text style={styles.detailsText}>Place: {selectedItem?.place}</Text>
