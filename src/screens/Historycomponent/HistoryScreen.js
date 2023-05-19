@@ -24,7 +24,7 @@ export default function HistoryScreen({navigation}) {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     // Simulate a network request
-    etReloadData(!reloadData);
+    setReloadData(!reloadData);
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
