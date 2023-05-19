@@ -31,7 +31,7 @@ export default function ScanQRScreen({navigation}) {
   
   useEffect(() => {
     const email = authentication.currentUser.email;
-  
+
     axios.get('http://10.66.4.168:8000/api/get_userid/', { params: { email } })
       .then(response => {
         setUserId(response.data.id);
@@ -39,20 +39,15 @@ export default function ScanQRScreen({navigation}) {
       })
       .then(response => {
         const fetchedRentStateData = response.data.map(item => {
-          // Get the current date and time
-          const now = new Date();
-          // Format the date and time
-          const rentStart = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
-          const date = ("0" + now.getDate()).slice(-2) + '/' + ("0" + (now.getMonth()+1)).slice(-2) + '/' + now.getFullYear();
-  
           return {
-            rent_start: rentStart,
-            renter: userId,
-            date: date,
-            umbrella: item.umbrella,
+            time: item.rent_start,
+            name: item.renter,
+            date: item.date,
+            umbrellaId: item.umbrella,
+            image: profileImage2
           }
         });
-  
+
         setRentStateData(fetchedRentStateData);
       })
       .catch(error => console.error(error));
