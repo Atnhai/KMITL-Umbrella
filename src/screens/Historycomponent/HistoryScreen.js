@@ -16,7 +16,7 @@ import {useNavigation} from '@react-navigation/native';
 export default function HistoryScreen({navigation}) {
 
   const [historyData, setHistoryData] = useState([]);
-  const [userId, setUserID] = useState([])
+  const [userId, setUserId] = useState([])
   useEffect(() => {
     const email = authentication.currentUser.email;
   
@@ -28,11 +28,13 @@ export default function HistoryScreen({navigation}) {
       .then(response => {
         const fetchedHistoryData = response.data.map(item => {
           return {
-            user: item.place,
+            id: item.id,
             place: item.place,
-            date: item.date,
-            time: item.time,
-            umbrellaID: item.umbrellaID,
+            date_start: item.date_start,
+            date_end: item.time,
+            rent_start: item.rent_start,
+            rent_end: item.rent_end,
+            umbrella: item.umbrella,
             month: item.month,
             image: item.image // this will be a URL string, not an imported image in React
           }
