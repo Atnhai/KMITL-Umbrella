@@ -83,6 +83,38 @@ export default function HistoryScreen({navigation}) {
     // Add more data here...
   ];
 
+  const [historyData, setHistoryData] = useState([]);
+  const [userId, setUserId] = useState([])
+  useEffect(() => {
+    const email = authentication.currentUser.email;
+  
+    axios.get('http://10.66.4.168:8000/api/get_userid/', { params: { email } })
+      .then(response => {
+        setUserId(response.data.id);
+        return axios.get(`http://10.66.4.168:8000/api/user_history/${response.data.id}/`);
+      })
+      .then(response => {
+        const fetchedHistoryData = response.data.map(item => {
+          return {
+            id: item.id,
+            place: item.place,
+            date_start: item.date_start,
+            date_end: item.time,
+            rent_start: item.rent_start,
+            rent_end: item.rent_end,
+            umbrella: item.umbrella,
+            month: item.month,
+            image: item.image // this will be a URL string, not an imported image in React
+          }
+        });
+        setHistoryData(fetchedHistoryData);
+        console.log(fetchedHistoryData);
+      })
+      .catch(error => console.error(error));
+  }, []);
+ 
+
+
   const sortedHistoryData = historyData.sort((a, b) => {
     const aDateTime = new Date(a.date + 'T' + a.time); // Combine date and time for comparison
     const bDateTime = new Date(b.date + 'T' + b.time);
