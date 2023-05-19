@@ -177,11 +177,20 @@ const Stylecomponent = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-   
     },
-
-
-    
+    backButton: {
+      position: 'absolute', // set position to absolute
+      top: 15, // adjust as per requirement
+      left: 10, // adjust as per requirement
+      backgroundColor: 'white',
+      paddingVertical: 9,
+      paddingHorizontal: 16,
+      borderRadius: 20,
+    },  
+    backButtonText: {
+      color: 'black',
+      fontSize: 16,
+    },
 });
 
 export default Stylecomponent;

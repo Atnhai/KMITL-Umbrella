@@ -22,12 +22,10 @@ export default function AboutusScreen({navigation}) {
     <View style={StyleMaincomponent.background_views}>
       <View style={StyleMaincomponent.rectangle_small} />
       <TouchableOpacity
-        style={StyleMaincomponent.button_goback}
+        style={StyleMaincomponent.backButton}
         onPress={() => navigation.goBack()}>
-        <Text style={StyleMaincomponent.text_navigation}>{'<'}</Text>
+        <Text style={StyleMaincomponent.backButtonText}>Back</Text>
       </TouchableOpacity>
-
-      <Text style={StyleMaincomponent.text_back}>Back</Text>
       <Image source={aboutus} style={StyleMaincomponent.aboutus} />
     </View>
   );

@@ -10,6 +10,7 @@ import {
   Alert,
   SafeAreaView,
 } from 'react-native';
+import {ScrollView} from 'react-native';
 import {authentication} from '../../../firebase';
 import Logo from '../../../assets/images/HistoryNew.png';
 import editcards from '../../../assets/images/editcards.png';
@@ -26,45 +27,47 @@ import HelpScreen from '../Helpcomponent';
 //import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
 export default function ProfileScreen({navigation}) {
   return (
-    <View style={styles.container}>
-      <View style={styles.rectangle}>
-        <Image source={user} style={styles.logo} />
-        <View style={styles.userInfo}>
-          <Text style={styles.text}>Username: **********</Text>
-          <Text style={styles.text}>
-            Email: {authentication.currentUser.email}
-          </Text>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={styles.container}>
+        <View style={styles.rectangle}>
+          <Image source={user} style={styles.logo} />
+          <View style={styles.userInfo}>
+            <Text style={styles.text}>Username: **********</Text>
+            <Text style={styles.text}>
+              Email: {authentication.currentUser.email}
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.buttonsContainer}>
+          <ButtonWithIcon
+            title="History"
+            image={Logo}
+            onPress={() => navigation.navigate('History')}
+          />
+          <ButtonWithIcon
+            title="Reset Password"
+            image={forgetPassword}
+            onPress={() => navigation.navigate('Forgetpassword')}
+          />
+          <ButtonWithIcon
+            title="Help"
+            image={help}
+            onPress={() => navigation.navigate('Help')}
+          />
+          <ButtonWithIcon
+            title="About us"
+            image={aboutus}
+            onPress={() => navigation.navigate('Aboutus')}
+          />
+          <TouchableOpacity
+            style={styles.button_logout}
+            onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.logoutText}>Logout</Text>
+          </TouchableOpacity>
         </View>
       </View>
-
-      <View style={styles.buttonsContainer}>
-        <ButtonWithIcon
-          title="History"
-          image={Logo}
-          onPress={() => navigation.navigate('History')}
-        />
-        <ButtonWithIcon
-          title="Reset Password"
-          image={forgetPassword}
-          onPress={() => navigation.navigate('Forgetpassword')}
-        />
-        <ButtonWithIcon
-          title="Help"
-          image={help}
-          onPress={() => navigation.navigate('Help')}
-        />
-        <ButtonWithIcon
-          title="About us"
-          image={aboutus}
-          onPress={() => navigation.navigate('Aboutus')}
-        />
-        <TouchableOpacity
-          style={styles.button_logout}
-          onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.logoutText}>Logout</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -155,5 +158,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'white',
     fontWeight: 'bold',  
+  },
+  scrollContainer: {
+    flexGrow: 1,
   },
 });

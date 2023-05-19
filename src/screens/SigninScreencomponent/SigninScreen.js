@@ -42,9 +42,9 @@ export default function SigninScreen({navigation}) {
     <View style={Stylecomponent.root_signin}>
       <Text></Text>
       <TouchableOpacity
-        style={Stylecomponent.buttons_goback}
+        style={Stylecomponent.backButton}
         onPress={() => navigation.goBack()}>
-        <Text style={Stylecomponent.text_black}>{'<'}</Text>
+        <Text style={Stylecomponent.backButtonText}>Back</Text>
       </TouchableOpacity>
 
       <Text style={Stylecomponent.header_text}>

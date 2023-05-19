@@ -109,6 +109,14 @@ export default function MapScreen({navigation}) {
     },
   ];
 
+  const formatDate = (date) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Months are 0 based, so we add 1.
+    const year = date.getFullYear();
+  
+    return day + '/' + month + '/' + year;
+  };
+  
   // useEffect(() => {
   //   setRegion({
   //     latitude: 13.730283,
@@ -121,13 +129,23 @@ export default function MapScreen({navigation}) {
     const rentDate = new Date().toLocaleString('en-US', {
       timeZone: 'Asia/Bangkok',
     });
+  
+    // Create a new Date object
+    let newRentDate = new Date(rentDate);
+  
+    // Format the date in "day/month/year" format
+    let formattedDate = `${newRentDate.getDate()}/${
+      newRentDate.getMonth() + 1
+    }/${newRentDate.getFullYear()}`;
+  
     setSelectedUmbrella({
       ...umbrella,
-      rentDate: new Date(rentDate).toLocaleDateString(),
+      rentDate: formattedDate,
       rentTime: new Date(rentDate).toLocaleTimeString(),
     });
     setRentModalVisible(true);
   };
+  
 
   function measureDistances() {
     // Get the user's current location
@@ -651,12 +669,11 @@ const styles = StyleSheet.create({
   },
   views: {
     alignItems: 'center',
-    paddingTop: 20,
-    padding: 10,
-    paddingLeft: 40,
     justifyContent: 'center',
-    width: 411,
-    height: 130,
+    padding: 20,
+    paddingLeft: 40,
+    width: '100%',
+    height: 140, // you can adjust this based on your need
     borderBottomRightRadius: 25,
     borderBottomLeftRadius: 25,
     backgroundColor: '#FAC983',
