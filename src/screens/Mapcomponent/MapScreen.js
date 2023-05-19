@@ -70,7 +70,7 @@ export default function MapScreen({navigation}) {
     rentDate: null,
     rentTime: null,
   });
-  const [items, setItems] = useState([]);
+
   const [rentModalVisible, setRentModalVisible] = useState(false);
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
@@ -80,8 +80,8 @@ export default function MapScreen({navigation}) {
   };
   const [tempVar, settempVar] = useState(null);
   const [umbrellasData, setUmbrellasData] = useState([]);
-
-  // const item = [
+  const [lockerlocation, setlockerlocation] = useState([]);
+  // const lockerlocation = [
   //   {
   //     id: 1,
   //     latitude: 13.729249840361328,
@@ -171,15 +171,15 @@ export default function MapScreen({navigation}) {
     const fetchAllLockersData = async () => {
       let lockerNumber = 1;
       let allUmbrellasData = {}; // Temp object to store all locker data
-      let lockerItems = {}; // Temp object to store all locker items
-
+      let lockerLocations = []; // Temp array to store all locker locations
+  
       while (true) {
         try {
           const response = await axios.get(
             `http://10.66.4.168:8000/api/locker/${lockerNumber}`,
           );
           const lockerData = response.data;
-
+  
           // If lockerData is undefined or null, break the loop
           if (!lockerData) {
             console.log(
@@ -187,10 +187,10 @@ export default function MapScreen({navigation}) {
             );
             break;
           }
-
+  
           console.log(`Locker name: ${lockerData.name}`);
           console.log(`Locker ID: ${lockerData.lock_set[0].id}`);
-
+  
           const newUmbrellaData = {
             [lockerData.name]: lockerData.lock_set.map(lock => ({
               lockId: String(lock.id),
@@ -199,26 +199,24 @@ export default function MapScreen({navigation}) {
               placeId: lockerData.name,
             })),
           };
-
+  
           // Add the new data to the allUmbrellasData object
           allUmbrellasData = {...allUmbrellasData, ...newUmbrellaData};
-
-          // Build the lockerItems object
-          const lockerItem = {
-            [lockerData.name]: {
-              id: lockerData.id,
-              latitude: lockerData.latitude,
-              longitude: lockerData.longitude,
-              place: lockerData.name,
-              image: lockerData.image,  // add your image source here
-              price: lockerData.price, // add your price here
-              mark: lockerData.location
-            }
+  
+          // Build the lockerLocations array
+          const lockerLocation = {
+            id: lockerData.id,
+            latitude: lockerData.latitude,
+            longitude: lockerData.longitude,
+            place: lockerData.name,
+            image: lockerData.image, // add your image source here
+            price: lockerData.price, // add your price here
+            mark: lockerData.location,
           };
-
-          // Merge lockerItem into lockerItems
-          lockerItems = {...lockerItems, ...lockerItem};
-
+  
+          // Add lockerLocation into lockerLocations
+          lockerLocations.push(lockerLocation);
+  
           lockerNumber++;
         } catch (error) {
           // If the response status is 404, break the loop
@@ -233,15 +231,15 @@ export default function MapScreen({navigation}) {
           }
         }
       }
-
+  
       // Once we've fetched all the data, update the state
       setUmbrellasData(allUmbrellasData);
-      setItems(lockerItems); // update the state
+      setlockerlocation(lockerLocations);
     };
-
+  
     fetchAllLockersData();
   }, [reloadData]);
-
+  
 
   // const umbrellasData = {
   //   'ECC Building': [
@@ -352,7 +350,7 @@ export default function MapScreen({navigation}) {
     Geolocation.getCurrentPosition(
       position => {
         // Loop through each destination marker and measure the distance from the user's current location
-        item.forEach((destination, index) => {
+        lockerlocation.forEach((destination, index) => {
           const distance = geolib.getDistance(
             {
               latitude: position.coords.latitude,
@@ -522,7 +520,7 @@ export default function MapScreen({navigation}) {
           showsUserLocation={true}
           followsUserLocation={true}
           region={region}>
-          {item.map((item, index) => (
+          {lockerlocation.map((item, index) => (
             <Marker
               key={item.id}
               coordinate={{
@@ -547,7 +545,7 @@ export default function MapScreen({navigation}) {
         </View> */}
         <View style={styles.cardBody}>
           <ScrollView horizontal={true} style={styles.scrollContainer}>
-            {item.map((location, index) => (
+            {lockerlocation.map((location, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() => go(location.latitude, location.longitude)}>
