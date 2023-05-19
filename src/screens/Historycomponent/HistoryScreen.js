@@ -23,12 +23,13 @@ export default function HistoryScreen({navigation}) {
   // This function will be called when a refresh is triggered
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
+    setReloadData(!reloadData); // Add this line here
+
     // Simulate a network request
-    setReloadData(!reloadData);
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
-  }, []);
+  }, [reloadData]); 
 
   // id: 1,
   // building: 'HM Building',
