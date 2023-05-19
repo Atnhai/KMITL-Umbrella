@@ -70,7 +70,7 @@ export default function MapScreen({navigation}) {
     rentDate: null,
     rentTime: null,
   });
-  const [items, setItems] = useState([]);
+
   const [rentModalVisible, setRentModalVisible] = useState(false);
   const [imageModalVisible, setImageModalVisible] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
@@ -81,34 +81,34 @@ export default function MapScreen({navigation}) {
   const [tempVar, settempVar] = useState(null);
   const [umbrellasData, setUmbrellasData] = useState([]);
 
-  // const item = [
-  //   {
-  //     id: 1,
-  //     latitude: 13.729249840361328,
-  //     longitude: 100.77563323749371,
-  //     place: 'ECC Building',
-  //     image: require('../../../assets/images/ecc.jpg'),
-  //     price: 20.0,
-  //     mark: 'near canteen and 70th building',
-  //   },
-  //   {
-  //     id: 2,
-  //     latitude: 13.726573105186487,
-  //     longitude: 100.77497633816488,
-  //     place: 'HM Building',
-  //     image: require('../../../assets/images/hm.jpg'),
-  //     price: 20.0,
-  //     mark: 'near canteen',
-  //   },
-  //   {
-  //     id: 3,
-  //     latitude: 13.726573105186487,
-  //     longitude: 100.75497633816488,
-  //     place: 'Peem Building',
-  //     image: require('../../../assets/images/hm.jpg'),
-  //     price: 20.0,
-  //   },
-  // ];
+  const lockerlocation = [
+    {
+      id: 1,
+      latitude: 13.729249840361328,
+      longitude: 100.77563323749371,
+      place: 'ECC Building',
+      image: require('../../../assets/images/ecc.jpg'),
+      price: 20.0,
+      mark: 'near canteen and 70th building',
+    },
+    {
+      id: 2,
+      latitude: 13.726573105186487,
+      longitude: 100.77497633816488,
+      place: 'HM Building',
+      image: require('../../../assets/images/hm.jpg'),
+      price: 20.0,
+      mark: 'near canteen',
+    },
+    {
+      id: 3,
+      latitude: 13.726573105186487,
+      longitude: 100.75497633816488,
+      place: 'Peem Building',
+      image: require('../../../assets/images/hm.jpg'),
+      price: 20.0,
+    },
+  ];
   const [data, setData] = useState([]);
   const [userId, setUserId] = useState(null);
 
@@ -210,10 +210,10 @@ export default function MapScreen({navigation}) {
               latitude: lockerData.latitude,
               longitude: lockerData.longitude,
               place: lockerData.name,
-              image: lockerData.image,  // add your image source here
+              image: lockerData.image, // add your image source here
               price: lockerData.price, // add your price here
-              mark: lockerData.location
-            }
+              mark: lockerData.location,
+            },
           };
 
           // Merge lockerItem into lockerItems
@@ -236,12 +236,10 @@ export default function MapScreen({navigation}) {
 
       // Once we've fetched all the data, update the state
       setUmbrellasData(allUmbrellasData);
-      setItems(lockerItems); // update the state
     };
 
     fetchAllLockersData();
   }, [reloadData]);
-
 
   // const umbrellasData = {
   //   'ECC Building': [
@@ -352,7 +350,7 @@ export default function MapScreen({navigation}) {
     Geolocation.getCurrentPosition(
       position => {
         // Loop through each destination marker and measure the distance from the user's current location
-        item.forEach((destination, index) => {
+        lockerlocation.forEach((destination, index) => {
           const distance = geolib.getDistance(
             {
               latitude: position.coords.latitude,
@@ -522,7 +520,7 @@ export default function MapScreen({navigation}) {
           showsUserLocation={true}
           followsUserLocation={true}
           region={region}>
-          {item.map((item, index) => (
+          {lockerlocation.map((item, index) => (
             <Marker
               key={item.id}
               coordinate={{
@@ -547,7 +545,7 @@ export default function MapScreen({navigation}) {
         </View> */}
         <View style={styles.cardBody}>
           <ScrollView horizontal={true} style={styles.scrollContainer}>
-            {item.map((location, index) => (
+            {lockerlocation.map((location, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() => go(location.latitude, location.longitude)}>
