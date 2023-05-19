@@ -1,4 +1,4 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, {Component} from 'react';
 import {
   Text,
   View,
@@ -12,97 +12,76 @@ import {
   TextInput,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {authentication} from '../../../firebase';
-import axios from 'axios';
-export default function HistoryScreen({navigation}) {
-  const [historyData, setHistoryData] = useState([]);
-  const [userId, setUserID] = useState([])
-  useEffect(() => {
-    const email = authentication.currentUser.email;
 
-    axios
-      .get('http://10.66.4.168:8000/api/get_userid/', {params: {email}})
-      .then(response => {
-        setUserId(response.data.id);
-        return axios.get(
-          `http://10.66.4.168:8000/api/user_history/${response.data.id}/`,
-        );
-      })
-      .then(response => {
-        const fetchedHistoryData = response.data.map(item => {
-          return {
-            user: item.place,
-            place: item.place,
-            date: item.date,
-            time: item.time,
-            number: item.umbrellaID,
-            month: item.month,
-            image: item.image, // this will be a URL string, not an imported image in React
-          };
-        });
-        setHistoryData(fetchedHistoryData);
-        console.log(fetchedHistoryData);
-      })
-      .catch(error => console.error(error));
-  }, []);
-  // const historyData = [
-  //   {
-  //     id: 1,
-  //     place: 'HM Building',
-  //     date: '2023-04-01',
-  //     time: '13:00',
-  //     lockId: '001',
-  //     number: '01',
-  //     price: '฿20',
-  //     month: 'April 2023',
-  //     image: require('../../../assets/images/hm.jpg'),
-  //   },
-  //   {
-  //     id: 2,
-  //     place: 'ECC Building',
-  //     date: '2023-03-20',
-  //     time: '14:00',
-  //     lockId: '001',
-  //     number: '002',
-  //     price: '฿20',
-  //     month: 'March 2023',
-  //     image: require('../../../assets/images/ecc.jpg'),
-  //   },
-  //   {
-  //     id: 3,
-  //     place: 'ECC Building',
-  //     date: '2023-03-21',
-  //     time: '15:00',
-  //     lockId: '001',
-  //     number: '002',
-  //     price: '฿20',
-  //     month: 'March 2023',
-  //     image: require('../../../assets/images/ecc.jpg'),
-  //   },
-  //   {
-  //     id: 4,
-  //     place: 'ECC Building',
-  //     date: '2023-04-15',
-  //     time: '16:00',
-  //     lockId: '001',
-  //     number: '002',
-  //     price: '฿20',
-  //     month: 'April 2023',
-  //     image: require('../../../assets/images/ecc.jpg'),
-  //   },
-  //   {
-  //     id: 5,
-  //     place: 'HM Building',
-  //     date: '2023-04-01',
-  //     time: '10:00',
-  //     lockId: '001',
-  //     number: '001',
-  //     price: '฿20',
-  //     month: 'April 2023',
-  //     image: require('../../../assets/images/hm.jpg'),
-  //   },
-  //   // Add more data here...
-  // ];
+export default function HistoryScreen({navigation}) {
+  const historyData = [
+    {
+      id: 1,
+      building: 'HM Building',
+      date: '2023-04-01',
+      time: '13:00',
+      lockId: '001',
+      umbrella: '01',
+      price: '฿20',
+      month: 'April 2023',
+      date_end: '2023-05-18',
+      time_end: '12:00',
+      image: require('../../../assets/images/hm.jpg'),
+    },
+    {
+      id: 2,
+      building: 'ECC Building',
+      date: '2023-03-20',
+      time: '14:00',
+      lockId: '001',
+      umbrella: '002',
+      price: '฿20',
+      month: 'March 2023',
+      date_end: '2023-05-18',
+      time_end: '12:00',
+      image: require('../../../assets/images/ecc.jpg'),
+    },
+    {
+      id: 3,
+      building: 'ECC Building',
+      date: '2023-03-21',
+      time: '15:00',
+      lockId: '001',
+      umbrella: '002',
+      price: '฿20',
+      month: 'March 2023',
+      date_end: '2023-05-18',
+      time_end: '12:00',
+      image: require('../../../assets/images/ecc.jpg'),
+    },
+    {
+      id: 4,
+      building: 'ECC Building',
+      date: '2023-04-15',
+      time: '16:00',
+      lockId: '001',
+      umbrella: '002',
+      price: '฿20',
+      month: 'April 2023',
+      date_end: '2023-05-18',
+      time_end: '12:00',
+      image: require('../../../assets/images/ecc.jpg'),
+    },
+    {
+      id: 5,
+      building: 'HM Building',
+      date: '2023-04-01',
+      time: '10:00',
+      lockId: '001',
+      umbrella: '001',
+      price: '฿20',
+      month: 'April 2023',
+      date_end: '2023-05-18',
+      time_end: '12:00',
+      image: require('../../../assets/images/hm.jpg'),
+    },
+    // Add more data here...
+  ];
 
   const sortedHistoryData = historyData.sort((a, b) => {
     const aDateTime = new Date(a.date + 'T' + a.time); // Combine date and time for comparison
@@ -119,16 +98,19 @@ export default function HistoryScreen({navigation}) {
     return acc;
   }, {});
 
+  const BlackLine = () => {
+    return <View style={styles.blackLine} />;
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.rectangle} />
         <TouchableOpacity
-          style={styles.buttons}
+          style={styles.backButton}
           onPress={() => navigation.goBack()}>
-          <Text style={styles.text0}>{'<'}</Text>
+          <Text style={styles.backButtonText}>Back</Text>
         </TouchableOpacity>
-        <Text style={styles.text1}>Back</Text>
       </View>
       <ScrollView>
         {Object.entries(groupedData).map(([month, items]) => (
@@ -139,15 +121,19 @@ export default function HistoryScreen({navigation}) {
                 <Image source={item.image} style={styles.image} />
                 <View style={styles.infoContainer}>
                   <View style={styles.infoBox}>
-                    <Text style={styles.place}>{item.place}</Text>
+                    <Text style={styles.building}>{item.building}</Text>
+                    <Text style={styles.umbrella}>Umbrella ID:{item.umbrella}</Text>
                     <Text style={styles.date}>Date:{item.date}</Text>
                     <Text style={styles.time}>Time:{item.time}</Text>
-                    <Text style={styles.lockId}>Lock ID:{item.lockId}</Text>
-                    <Text style={styles.number}>Umbrella ID:{item.number}</Text>
+                    {/* <Text style={styles.lockId}>Lock ID:{item.lockId}</Text> */}
+                    {/* <Text style={styles.number}>Umbrella ID:{item.number}</Text> */}
+                    <BlackLine />
+                    <Text style={styles.date_end}>Return Date: {item.date_end}</Text>
+                    <Text style={styles.time_end}>Return Time: {item.time_end}</Text>
                   </View>
-                  <View style={styles.infoBox}>
+                  {/* <View style={styles.infoBox}>
                     <Text style={styles.price}>{item.price}</Text>
-                  </View>
+                  </View> */}
                 </View>
               </View>
             ))}
@@ -190,11 +176,11 @@ const styles = StyleSheet.create({
     top: 10,
     left: 40,
   },
-
   header: {
+    position: 'relative',
     flexDirection: 'row',
     paddingHorizontal: 10,
-    paddingTop: 40,
+    paddingTop: 50,
     paddingBottom: 20,
     zIndex: 1, // Add this to keep the header text and button above the rectangle
   },
@@ -238,7 +224,7 @@ const styles = StyleSheet.create({
   infoBox: {
     flex: 1,
   },
-  place: {
+  building: {
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -250,7 +236,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 16,
   },
-  number: {
+  umbrella: {
     fontSize: 16,
   },
   price: {
@@ -266,4 +252,32 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 16,
   },
+  date_end: {
+    marginTop: 5,
+    fontSize: 16,
+  },
+  time_end: {
+    marginTop: 5,
+    fontSize: 16,
+  },
+  blackLine: {
+    height: 1,
+    backgroundColor: '#FAC983',
+    marginVertical: 8,
+    width: '100%', // Add this line to set the width
+  },
+  backButton: {
+    position: 'absolute', // set position to absolute
+    top: 15, // adjust as per requirement
+    left: 10, // adjust as per requirement
+    backgroundColor: 'white',
+    paddingVertical: 9,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+  },  
+  backButtonText: {
+    color: 'black',
+    fontSize: 16,
+  },
+  
 });
