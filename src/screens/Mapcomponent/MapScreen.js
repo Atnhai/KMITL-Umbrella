@@ -80,35 +80,35 @@ export default function MapScreen({navigation}) {
   };
   const [tempVar, settempVar] = useState(null);
   const [umbrellasData, setUmbrellasData] = useState([]);
-
-  const lockerlocation = [
-    {
-      id: 1,
-      latitude: 13.729249840361328,
-      longitude: 100.77563323749371,
-      place: 'ECC Building',
-      image: require('../../../assets/images/ecc.jpg'),
-      price: 20.0,
-      mark: 'near canteen and 70th building',
-    },
-    {
-      id: 2,
-      latitude: 13.726573105186487,
-      longitude: 100.77497633816488,
-      place: 'HM Building',
-      image: require('../../../assets/images/hm.jpg'),
-      price: 20.0,
-      mark: 'near canteen',
-    },
-    {
-      id: 3,
-      latitude: 13.726573105186487,
-      longitude: 100.75497633816488,
-      place: 'Peem Building',
-      image: require('../../../assets/images/hm.jpg'),
-      price: 20.0,
-    },
-  ];
+  const [lockerlocation, setlockerlocation] = useState([]);
+  // const lockerlocation = [
+  //   {
+  //     id: 1,
+  //     latitude: 13.729249840361328,
+  //     longitude: 100.77563323749371,
+  //     place: 'ECC Building',
+  //     image: require('../../../assets/images/ecc.jpg'),
+  //     price: 20.0,
+  //     mark: 'near canteen and 70th building',
+  //   },
+  //   {
+  //     id: 2,
+  //     latitude: 13.726573105186487,
+  //     longitude: 100.77497633816488,
+  //     place: 'HM Building',
+  //     image: require('../../../assets/images/hm.jpg'),
+  //     price: 20.0,
+  //     mark: 'near canteen',
+  //   },
+  //   {
+  //     id: 3,
+  //     latitude: 13.726573105186487,
+  //     longitude: 100.75497633816488,
+  //     place: 'Peem Building',
+  //     image: require('../../../assets/images/hm.jpg'),
+  //     price: 20.0,
+  //   },
+  // ];
   const [data, setData] = useState([]);
   const [userId, setUserId] = useState(null);
 
@@ -171,15 +171,15 @@ export default function MapScreen({navigation}) {
     const fetchAllLockersData = async () => {
       let lockerNumber = 1;
       let allUmbrellasData = {}; // Temp object to store all locker data
-      let lockerItems = {}; // Temp object to store all locker items
-
+      let lockerLocations = []; // Temp array to store all locker locations
+  
       while (true) {
         try {
           const response = await axios.get(
             `http://10.66.4.168:8000/api/locker/${lockerNumber}`,
           );
           const lockerData = response.data;
-
+  
           // If lockerData is undefined or null, break the loop
           if (!lockerData) {
             console.log(
@@ -187,10 +187,10 @@ export default function MapScreen({navigation}) {
             );
             break;
           }
-
+  
           console.log(`Locker name: ${lockerData.name}`);
           console.log(`Locker ID: ${lockerData.lock_set[0].id}`);
-
+  
           const newUmbrellaData = {
             [lockerData.name]: lockerData.lock_set.map(lock => ({
               lockId: String(lock.id),
@@ -199,26 +199,24 @@ export default function MapScreen({navigation}) {
               placeId: lockerData.name,
             })),
           };
-
+  
           // Add the new data to the allUmbrellasData object
           allUmbrellasData = {...allUmbrellasData, ...newUmbrellaData};
-
-          // Build the lockerItems object
-          const lockerItem = {
-            [lockerData.name]: {
-              id: lockerData.id,
-              latitude: lockerData.latitude,
-              longitude: lockerData.longitude,
-              place: lockerData.name,
-              image: lockerData.image, // add your image source here
-              price: lockerData.price, // add your price here
-              mark: lockerData.location,
-            },
+  
+          // Build the lockerLocations array
+          const lockerLocation = {
+            id: lockerData.id,
+            latitude: lockerData.latitude,
+            longitude: lockerData.longitude,
+            place: lockerData.name,
+            image: lockerData.image, // add your image source here
+            price: lockerData.price, // add your price here
+            mark: lockerData.location,
           };
-
-          // Merge lockerItem into lockerItems
-          lockerItems = {...lockerItems, ...lockerItem};
-
+  
+          // Add lockerLocation into lockerLocations
+          lockerLocations.push(lockerLocation);
+  
           lockerNumber++;
         } catch (error) {
           // If the response status is 404, break the loop
@@ -233,13 +231,15 @@ export default function MapScreen({navigation}) {
           }
         }
       }
-
+  
       // Once we've fetched all the data, update the state
       setUmbrellasData(allUmbrellasData);
+      setlockerlocation(lockerLocations);
     };
-
+  
     fetchAllLockersData();
   }, [reloadData]);
+  
 
   // const umbrellasData = {
   //   'ECC Building': [
