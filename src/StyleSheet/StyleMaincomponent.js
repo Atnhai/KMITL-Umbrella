@@ -141,6 +141,24 @@ const StyleMaincomponent = StyleSheet.create({
     borderColor: '#000000',
     marginBottom: 100,
   },
+  aboutus: {
+    width: '190%',
+    height: '150%',
+    resizeMode: 'contain',
+  },
+  backButton: {
+    position: 'absolute', // set position to absolute
+    top: 15, // adjust as per requirement
+    left: 10, // adjust as per requirement
+    backgroundColor: 'white',
+    paddingVertical: 9,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+  },  
+  backButtonText: {
+    color: 'black',
+    fontSize: 16,
+  },
 });
 
 export default StyleMaincomponent;

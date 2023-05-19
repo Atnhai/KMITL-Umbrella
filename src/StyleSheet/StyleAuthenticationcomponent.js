@@ -7,16 +7,16 @@ const Stylecomponent = StyleSheet.create({
     padding: 90,
   },
   root_signin: {
+    flex: 1,
     alignItems: 'center',
     backgroundColor: '#FAC983',
-    // flex: 1,
-    // justifyContent: 'flex-end'
-    // padding:100
+    justifyContent: 'space-between',
   },
   root_register: {
+    flex: 1,
     alignItems: 'center',
-
     backgroundColor: '#FAC983',
+    justifyContent: 'space-between',
   },
   logos_umbrella: {
     borderRadius: 20,
@@ -34,7 +34,17 @@ const Stylecomponent = StyleSheet.create({
     paddingVertical: 12,
     backgroundColor: '#E35205',
     width: 300,
+    marginBottom: 10,
   },
+  button_login2: {
+    borderRadius: 12,
+    justifycontent: 'center',
+    alignItems: 'center',
+    paddingVertical: 12,
+    backgroundColor: '#E35205',
+    width: 300,
+    marginBottom: 10,
+    },
   button_register: {
     borderRadius: 12,
     justifycontent: 'center',
@@ -42,18 +52,19 @@ const Stylecomponent = StyleSheet.create({
     paddingVertical: 12,
     backgroundColor: 'white',
     width: 300,
+    marginBottom: 10,
   },
   text_black: {
     fontSize: 17,
     fontWeight: 'bold',
     color: 'black',
-  },
-  text_white: {
-    fontSize: 17,
-    textAlign: 'center',
-    color: 'white',
-    fontWeight: 'bold',
-  },
+    },
+    text_white: {
+      fontSize: 17,
+      textAlign: 'center',
+      color: 'white',
+      fontWeight: 'bold',  
+    },
   text_grey: {
     fontSize: 17,
     color: 'grey',
@@ -83,6 +94,14 @@ const Stylecomponent = StyleSheet.create({
     fontWeight: 'bold',
     paddingLeft: 30,
   },
+  headerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //padding: 50,
+    marginBottom: 20,
+    marginTop: 100,
+    },
   text_forgotpassword: {
     fontWeight: 'bold',
     left: 102,
@@ -100,11 +119,78 @@ const Stylecomponent = StyleSheet.create({
     width: 320,
     height: 50,
     position: 'relative',
-    height: 50,
-    justifycontent: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
   },
+  inputContainer: {
+    flex: 2,
+    justifyContent: 'space-around',
+    width: '80%',
+    //paddingBottom: -70,
+    },
+    input_label: {
+      borderRadius: 5,
+      width: '100%',
+      padding:10,
+      backgroundColor: 'white',
+      
+      },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FAC983',
+    padding: 90,
+  },
+  container2: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#FAC983',
+    justifyContent: 'space-around',
+  },
+  logoContainer: {
+    flex: 1,
+    padding: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 200,
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+   // padding: 10,
+  },
+  linkContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    //paddingTop: -50,
+    },
+    buttonContainer2: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    },
+    registerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    },
+    backButton: {
+      position: 'absolute', // set position to absolute
+      top: 15, // adjust as per requirement
+      left: 10, // adjust as per requirement
+      backgroundColor: 'white',
+      paddingVertical: 9,
+      paddingHorizontal: 16,
+      borderRadius: 20,
+    },  
+    backButtonText: {
+      color: 'black',
+      fontSize: 16,
+    },
 });
 
 export default Stylecomponent;
