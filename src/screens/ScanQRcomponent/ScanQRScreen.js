@@ -1,4 +1,4 @@
-import React, {useState, useEffect,useCallback} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import axios from 'axios';
 import {authentication} from '../../../firebase';
 import {
@@ -30,28 +30,30 @@ import secondModalImage from '../../../assets/images/howto2.png';
 export default function ScanQRScreen({navigation}) {
   const [data, setData] = useState([]);
   const [userId, setUserId] = useState(null);
+  const [reloadData, setReloadData] = useState(false);
+  // Define your state variable for refreshing
+  const [refreshing, setRefreshing] = useState(false);
 
-    // Define your state variable for refreshing
-    const [refreshing, setRefreshing] = useState(false);
+  // This function will be called when a refresh is triggered
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setReloadData(!reloadData); // Add this line here
 
-    // This function will be called when a refresh is triggered
-    const onRefresh = React.useCallback(() => {
-      setRefreshing(true);
-      // Simulate a network request
-      setTimeout(() => {
-        setRefreshing(false);
-      }, 2000);
-    }, []);
+    // Simulate a network request
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, [reloadData]);
 
-    const renderRefreshControl = () => {
-      return (
-        <RefreshControl
-          colors={["#E35205"]} // Color of the spinning indicator
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-        />
-      );
-    };
+  const renderRefreshControl = () => {
+    return (
+      <RefreshControl
+        colors={['#E35205']} // Color of the spinning indicator
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
+    );
+  };
 
   useEffect(() => {
     const email = authentication.currentUser.email;
@@ -78,7 +80,7 @@ export default function ScanQRScreen({navigation}) {
         setData(fetchedRentStateData);
       })
       .catch(error => console.error(error));
-  }, []);
+  }, [reloadData]);
 
   // Sample data
   // const data = [
@@ -243,7 +245,6 @@ export default function ScanQRScreen({navigation}) {
         data={sortedData}
         renderItem={renderItem}
         refreshControl={renderRefreshControl()}
-       
       />
       <Modal animationType="slide" transparent={false} visible={showModal}>
         <View style={styles.modalContainer}>
@@ -263,7 +264,6 @@ export default function ScanQRScreen({navigation}) {
           <FlatList
             data={availableLockers}
             renderItem={renderLocker}
-           
             contentContainerStyle={styles.flatListContentContainer}
           />
         </View>

@@ -29,7 +29,7 @@ export default function HistoryScreen({navigation}) {
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
-  }, [reloadData]); 
+  }, [reloadData]);
 
   // id: 1,
   // building: 'HM Building',

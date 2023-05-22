@@ -616,8 +616,8 @@ export default function MapScreen({navigation}) {
                     longitude: selectedItem.longitude,
                   })
                 : null;
-            if (data.length !== 0 && !isExecuted) {
-              isExecuted = true; // Set the flag to true
+            if (data.length !== 0) {
+              // Set the flag to true
               return (
                 <View>
                   <Text>PTest</Text>
