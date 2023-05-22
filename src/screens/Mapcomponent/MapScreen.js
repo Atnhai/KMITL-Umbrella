@@ -31,6 +31,7 @@ import {Card} from 'react-native-elements';
 import * as geolib from 'geolib';
 import secondModalImage from '../../../assets/images/howtorent5.png';
 import cantRent from '../../../assets/images/cantRent.png';
+import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 
 enableLatestRenderer();
 
@@ -377,25 +378,51 @@ export default function MapScreen({navigation}) {
   const [userLocation, setUserLocation] = useState(null);
 
   useEffect(() => {
-    Geolocation.getCurrentPosition(
-      pos => {
-        const crd = pos.coords;
-        setUserLocation({latitude: crd.latitude, longitude: crd.longitude}); // Add this line
-        setRegion({
-          latitude: crd.latitude,
-          longitude: crd.longitude,
-          latitudeDelta: 1,
-          longitudeDelta: 1,
-        });
-        console.log('Geolocation API response: ', pos);
-        console.log(crd.latitude);
-        console.log(crd.longitude);
-      },
-      error => {
-        console.log(error.message);
-      },
-      {enableHighAccuracy: true, maximumAge: 1000},
-    );
+    const checkLocationPermission = async () => {
+      try {
+        const permissionStatus = await check(
+          PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+        );
+
+        if (permissionStatus === RESULTS.GRANTED) {
+          Geolocation.getCurrentPosition(
+            pos => {
+              const crd = pos.coords;
+              setUserLocation({
+                latitude: crd.latitude,
+                longitude: crd.longitude,
+              });
+              setRegion({
+                latitude: crd.latitude,
+                longitude: crd.longitude,
+                latitudeDelta: 1,
+                longitudeDelta: 1,
+              });
+              console.log('Geolocation API response:', pos);
+              console.log(crd.latitude);
+              console.log(crd.longitude);
+            },
+            error => {
+              console.log(error.message);
+            },
+            {enableHighAccuracy: true, maximumAge: 1000},
+          );
+        } else if (permissionStatus === RESULTS.DENIED) {
+          const requestStatus = await request(
+            PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+          );
+          if (requestStatus === RESULTS.GRANTED) {
+            // Permission granted, retry getting the current position
+            // You can handle this case accordingly based on your requirements
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    checkLocationPermission();
+
     return () => console.log('useEffect cleanup');
   }, []);
 
@@ -492,7 +519,7 @@ export default function MapScreen({navigation}) {
   };
 
   // Add flag variable outside the map loop
-let alreadyShownMessage = false;
+  let alreadyShownMessage = false;
 
   // if (!tempVar) {
   //   return <View><Text>Hi</Text></View>;
@@ -592,91 +619,91 @@ let alreadyShownMessage = false;
         </View>
       </Modal>
       <Modal
-  animationType="slide"
-  transparent={true}
-  visible={modalVisible}
-  onRequestClose={() => {
-    setModalVisible(!modalVisible);
-  }}>
-  <ScrollView contentContainerStyle={styles.modalView}>
-    <Text style={styles.modalText}>{selectedItem?.place}</Text>
-    <Image
-      style={styles.modalImage}
-      source={selectedItem ? {uri: `${selectedItem.image}`} : null}
-    />
-    <Text style={styles.modalText}>
-      Umbrellas available:{' '}
-      {umbrellasData[selectedItem?.place]?.filter(
-        umbrella => umbrella.status === 'Available',
-      ).length || 0}
-    </Text>
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <ScrollView contentContainerStyle={styles.modalView}>
+          <Text style={styles.modalText}>{selectedItem?.place}</Text>
+          <Image
+            style={styles.modalImage}
+            source={selectedItem ? {uri: `${selectedItem.image}`} : null}
+          />
+          <Text style={styles.modalText}>
+            Umbrellas available:{' '}
+            {umbrellasData[selectedItem?.place]?.filter(
+              umbrella => umbrella.status === 'Available',
+            ).length || 0}
+          </Text>
 
-    {data.length !== 0 ? (
-      <View style={styles.warningBox}>
-        <Image source={cantRent} style={styles.warningImage} />
-        <Text style={styles.warningText}>
-          You currently have an umbrella rental in your possession. Please note, our policy only permits one rental at a time per user. To acquire another umbrella, kindly return your existing rental to the designated locker. Thank you for your understanding.
-        </Text>
-      </View>
-    ) : (
-      umbrellasData[selectedItem?.place]?.map((umbrella, index) => {
-        const isAvailable = umbrella.status === 'Available';
-        const isnearBy =
-          userLocation && selectedItem
-            ? geolib.getDistance(userLocation, {
-                latitude: selectedItem.latitude,
-                longitude: selectedItem.longitude,
-              })
-            : null;
-        return (
-          <View key={index} style={styles.umbrellaBox}>
-            <Image source={LockerImage} style={styles.profileImage} />
-            <View style={styles.umbrellaInfo}>
-              <Text style={styles.umbrellaId}>
-                Lock ID: {umbrella.lockId}
-              </Text>
-              <Text style={styles.umbrellaId}>
-                Umbrella ID: {isAvailable ? umbrella.umbrellaId : '-'}
-              </Text>
-              <Text style={styles.umbrellaStatus}>
-                Status:{' '}
-                <Text style={{color: isAvailable ? 'green' : 'red'}}>
-                  {umbrella.status}
-                </Text>
+          {data.length !== 0 ? (
+            <View style={styles.warningBox}>
+              <Image source={cantRent} style={styles.warningImage} />
+              <Text style={styles.warningText}>
+                You currently have an umbrella rental in your possession. Please
+                note, our policy only permits one rental at a time per user. To
+                acquire another umbrella, kindly return your existing rental to
+                the designated locker. Thank you for your understanding.
               </Text>
             </View>
-            <TouchableOpacity
-              style={{
-                ...styles.rentButton,
-                backgroundColor: isAvailable && isnearBy <= 100
-                  ? '#E35205'
-                  : 'grey',
-              }}
-              onPress={() => showRentModal(umbrella)}
-              disabled={!isAvailable || !isnearBy || isnearBy > 100}>
-              <Text style={styles.rentButtonText}>Rent</Text>
-            </TouchableOpacity>
-          </View>
-        );
-      })
-    )}
+          ) : (
+            umbrellasData[selectedItem?.place]?.map((umbrella, index) => {
+              const isAvailable = umbrella.status === 'Available';
+              const isnearBy =
+                userLocation && selectedItem
+                  ? geolib.getDistance(userLocation, {
+                      latitude: selectedItem.latitude,
+                      longitude: selectedItem.longitude,
+                    })
+                  : null;
+              return (
+                <View key={index} style={styles.umbrellaBox}>
+                  <Image source={LockerImage} style={styles.profileImage} />
+                  <View style={styles.umbrellaInfo}>
+                    <Text style={styles.umbrellaId}>
+                      Lock ID: {umbrella.lockId}
+                    </Text>
+                    <Text style={styles.umbrellaId}>
+                      Umbrella ID: {isAvailable ? umbrella.umbrellaId : '-'}
+                    </Text>
+                    <Text style={styles.umbrellaStatus}>
+                      Status:{' '}
+                      <Text style={{color: isAvailable ? 'green' : 'red'}}>
+                        {umbrella.status}
+                      </Text>
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    style={{
+                      ...styles.rentButton,
+                      backgroundColor:
+                        isAvailable && isnearBy <= 100 ? '#E35205' : 'grey',
+                    }}
+                    onPress={() => showRentModal(umbrella)}
+                    disabled={!isAvailable || !isnearBy || isnearBy > 100}>
+                    <Text style={styles.rentButtonText}>Rent</Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            })
+          )}
 
-    <TouchableOpacity
-      style={{...styles.modalCloseButton}}
-      onPress={() => {
-        setModalVisible(!modalVisible);
-        setReloadData(!reloadData);
-      }}>
-      <Text style={styles.modalCloseButtonText}>Back</Text>
-    </TouchableOpacity>
-    <Text style={styles.cardTitle}>
-      *Warning: Umbrellas are available for rental within a 100-meter
-      radius from the locker.*
-    </Text>
-  </ScrollView>
-</Modal>
-
-
+          <TouchableOpacity
+            style={{...styles.modalCloseButton}}
+            onPress={() => {
+              setModalVisible(!modalVisible);
+              setReloadData(!reloadData);
+            }}>
+            <Text style={styles.modalCloseButtonText}>Back</Text>
+          </TouchableOpacity>
+          <Text style={styles.cardTitle}>
+            *Warning: Umbrellas are available for rental within a 100-meter
+            radius from the locker.*
+          </Text>
+        </ScrollView>
+      </Modal>
 
       <Modal
         animationType="slide"
@@ -1139,17 +1166,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 10,
   },
-  
+
   warningImage: {
     width: 100,
     height: 100,
-    marginBottom: 10,  // Add space between the image and the text
+    marginBottom: 10, // Add space between the image and the text
   },
-  
+
   warningText: {
     fontSize: 16,
     textAlign: 'center', // This will center the text
   },
-  
-  
 });
