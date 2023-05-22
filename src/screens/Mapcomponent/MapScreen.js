@@ -595,7 +595,7 @@ export default function MapScreen({navigation}) {
           <Text style={styles.modalText}>{selectedItem?.place}</Text>
           <Image
             style={styles.modalImage}
-            source={selectedItem ? selectedItem.image : null}
+            source={selectedItem ? {uri: `data:image/jpeg;base64,${selectedItem.image}`} : null}
           />
           <Text style={styles.modalText}>
             Umbrellas available:{' '}
