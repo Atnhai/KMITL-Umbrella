@@ -216,7 +216,6 @@ export default function MapScreen({navigation}) {
             price: lockerData.price, // add your price here
             mark: lockerData.location,
           };
-          
 
           // Add lockerLocation into lockerLocations
           lockerLocations.push(lockerLocation);
@@ -490,7 +489,7 @@ export default function MapScreen({navigation}) {
       });
     }
   };
- 
+
   // if (!tempVar) {
   //   return <View><Text>Hi</Text></View>;
   // }
@@ -553,12 +552,15 @@ export default function MapScreen({navigation}) {
         </View> */}
         <View style={styles.cardBody}>
           <ScrollView horizontal={true} style={styles.scrollContainer}>
-          {lockerlocation.map((location, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => go(location.latitude, location.longitude)}>
-              <View style={styles.locationCard}>
-                <Image source={location.image ? {uri: `${location.image}`} : null} style={styles.cardImage} />
+            {lockerlocation.map((location, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() => go(location.latitude, location.longitude)}>
+                <View style={styles.locationCard}>
+                  <Image
+                    source={location.image ? {uri: `${location.image}`} : null}
+                    style={styles.cardImage}
+                  />
                   <View style={styles.cardInfo}>
                     <Text style={styles.cardText}>{location.place}</Text>
                     <Text style={styles.cardText}>
