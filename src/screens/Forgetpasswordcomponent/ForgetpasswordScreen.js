@@ -35,6 +35,7 @@ export default function ForgetpasswordScreen({navigation}) {
     }
   };
   return (
+    <ScrollView style={{flex: 1}}> 
     <View style={Stylecomponent.root_signin}>
       <Text style={Stylecomponent.text_padding}></Text>
 
@@ -70,6 +71,7 @@ export default function ForgetpasswordScreen({navigation}) {
         </Link>
       </Text>
     </View>
+    </ScrollView>
   );
 }
 
