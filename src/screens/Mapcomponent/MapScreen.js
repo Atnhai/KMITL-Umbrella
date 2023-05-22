@@ -132,7 +132,7 @@ export default function MapScreen({navigation}) {
             name: item.renter,
             date: item.date,
             umbrellaId: item.umbrella,
-            image: profileImage2,
+            image: item.image,
           };
         });
 
@@ -174,14 +174,15 @@ export default function MapScreen({navigation}) {
       let lockerNumber = 1;
       let allUmbrellasData = {}; // Temp object to store all locker data
       let lockerLocations = []; // Temp array to store all locker locations
-  
+      let isExecuted = false;
+
       while (true) {
         try {
           const response = await axios.get(
             `http://10.66.4.168:8000/api/locker/${lockerNumber}`,
           );
           const lockerData = response.data;
-  
+
           // If lockerData is undefined or null, break the loop
           if (!lockerData) {
             console.log(
@@ -189,10 +190,10 @@ export default function MapScreen({navigation}) {
             );
             break;
           }
-  
+
           console.log(`Locker name: ${lockerData.name}`);
           console.log(`Locker ID: ${lockerData.lock_set[0].id}`);
-  
+
           const newUmbrellaData = {
             [lockerData.name]: lockerData.lock_set.map(lock => ({
               lockId: String(lock.id),
@@ -201,10 +202,10 @@ export default function MapScreen({navigation}) {
               placeId: lockerData.name,
             })),
           };
-  
+
           // Add the new data to the allUmbrellasData object
           allUmbrellasData = {...allUmbrellasData, ...newUmbrellaData};
-  
+
           // Build the lockerLocations array
           const lockerLocation = {
             id: lockerData.id,
@@ -215,10 +216,10 @@ export default function MapScreen({navigation}) {
             price: lockerData.price, // add your price here
             mark: lockerData.location,
           };
-  
+
           // Add lockerLocation into lockerLocations
           lockerLocations.push(lockerLocation);
-  
+
           lockerNumber++;
         } catch (error) {
           // If the response status is 404, break the loop
@@ -233,15 +234,14 @@ export default function MapScreen({navigation}) {
           }
         }
       }
-  
+
       // Once we've fetched all the data, update the state
       setUmbrellasData(allUmbrellasData);
       setlockerlocation(lockerLocations);
     };
-  
+
     fetchAllLockersData();
   }, [reloadData]);
-  
 
   // const umbrellasData = {
   //   'ECC Building': [
@@ -498,7 +498,7 @@ export default function MapScreen({navigation}) {
     <View style={styles.container}>
       <View style={styles.views}>
         <Text style={styles.header_text}>
-        Please choose the locker location to rent your umbrella
+          Please choose the locker location to rent your umbrella
         </Text>
         <TouchableOpacity
           style={styles.infoButton}
@@ -575,7 +575,7 @@ export default function MapScreen({navigation}) {
         transparent={false}
         visible={showSecondModal}>
         <View style={styles.secondModalContainer}>
-        <View style={styles.rectangle_small} />
+          <View style={styles.rectangle_small} />
           <TouchableOpacity
             style={styles.backButton}
             onPress={() => setShowSecondModal(false)}>
@@ -603,6 +603,7 @@ export default function MapScreen({navigation}) {
               umbrella => umbrella.status === 'Available',
             ).length || 0}
           </Text>
+
           {umbrellasData[selectedItem?.place]?.map((umbrella, index) => {
             const isAvailable = umbrella.status === 'Available';
             const isnearBy =
@@ -612,7 +613,14 @@ export default function MapScreen({navigation}) {
                     longitude: selectedItem.longitude,
                   })
                 : null;
-
+            if (data.length !== 0 && !isExecuted) {
+              isExecuted = true; // Set the flag to true
+              return (
+                <View>
+                  <Text>PTest</Text>
+                </View>
+              );
+            }
             return (
               <View key={index} style={styles.umbrellaBox}>
                 <Image source={LockerImage} style={styles.profileImage} />
