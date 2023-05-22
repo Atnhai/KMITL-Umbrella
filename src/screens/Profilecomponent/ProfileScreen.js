@@ -63,7 +63,7 @@ export default function ProfileScreen({navigation}) {
         <View style={styles.rectangle}>
           <Image source={user} style={styles.logo} />
           <View style={styles.userInfo}>
-            <Text style={styles.text}>Username: **********</Text>
+            <Text style={styles.text}>Username: {username}</Text>
             <Text style={styles.text}>
               Email: {authentication.currentUser.email}
             </Text>
