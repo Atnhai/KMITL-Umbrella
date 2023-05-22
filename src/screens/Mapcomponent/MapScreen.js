@@ -561,7 +561,10 @@ let alreadyShownMessage = false;
                 key={index}
                 onPress={() => go(location.latitude, location.longitude)}>
                 <View style={styles.locationCard}>
-                  <Image source={location.image} style={styles.cardImage} />
+                  <Image
+                    source={location.image ? {uri: `${location.image}`} : null}
+                    style={styles.cardImage}
+                  />
                   <View style={styles.cardInfo}>
                     <Text style={styles.cardText}>{location.place}</Text>
                     <Text style={styles.cardText}>

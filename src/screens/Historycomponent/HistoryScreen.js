@@ -29,7 +29,7 @@ export default function HistoryScreen({navigation}) {
     setTimeout(() => {
       setRefreshing(false);
     }, 2000);
-  }, [reloadData]); 
+  }, [reloadData]);
 
   // id: 1,
   // building: 'HM Building',
@@ -120,7 +120,7 @@ export default function HistoryScreen({navigation}) {
             <Text style={styles.month}>{month}</Text>
             {items.map(item => (
               <View style={styles.historyItem} key={item.id}>
-                <Image source={item.image} style={styles.image} />
+                <Image source={{uri: item.image}} style={styles.image} />
                 <View style={styles.infoContainer}>
                   <View style={styles.infoBox}>
                     <Text style={styles.building}>{item.building}</Text>
