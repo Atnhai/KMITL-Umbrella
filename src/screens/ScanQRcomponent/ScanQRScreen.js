@@ -93,22 +93,23 @@ export default function ScanQRScreen({navigation}) {
           const response = await axios.get(
             `http://10.66.4.168:8000/api/locker/${lockerNumber}`,
           );
-          const alllockerData = response.data;
-
+          const lockerData = response.data;
+  
           // If lockerData is undefined or null, break the loop
-          if (!alllockerData) {
+          if (!lockerData) {
             console.log(
               `Locker data for locker number ${lockerNumber} not available`,
             );
             break;
           }
+  
           // Check if any of the lock is available, if yes add it to the availableLockers array
-          if (alllockerData.lock_set.some(lock => lock.availability)) {
+          if (lockerData.lock_set.some(lock => !lock.availability)) {
             const availableLocker = {
-              id: alllockerData.id,
-              place: alllockerData.name,
+              id: lockerData.id, // assuming this is your lockerId
+              place: lockerData.name,
               status: 'Available',
-              image: LockerImage,
+              image: LockerImage, // add your image source here
             };
             availableLockers.push(availableLocker);
           }
@@ -129,12 +130,12 @@ export default function ScanQRScreen({navigation}) {
       }
 
       // Once we've fetched all the data, update the state
-
-      setLockerData(availableLockers); // Update the state with available lockers
+      setLockerData(availableLockers);  // Update the state with available lockers
     };
 
     fetchAllLockersData();
   }, [reloadData]);
+  
   // Sample data
   // const data = [
   //   {
@@ -158,49 +159,49 @@ export default function ScanQRScreen({navigation}) {
   //   // Add more data items here
   // ];
 
-  // {
-  //   id: 1,
-  //   lockerId: '003',
-  //   place: 'ECC Building',
-  //   status: 'Available',
-  //   image: LockerImage,
-  // },
-  // {
-  //   id: 2,
-  //   lockerId: '004',
-  //   place: 'HM Building',
-  //   status: 'Available',
-  //   image: LockerImage,
-  // },
-  // {
-  //   id: 1,
-  //   lockerId: '003',
-  //   place: 'ECC Building',
-  //   status: 'Available',
-  //   image: LockerImage,
-  // },
-  // {
-  //   id: 2,
-  //   lockerId: '004',
-  //   place: 'HM Building',
-  //   status: 'Available',
-  //   image: LockerImage,
-  // },
-  // {
-  //   id: 1,
-  //   lockerId: '003',
-  //   place: 'ECC Building',
-  //   status: 'Available',
-  //   image: LockerImage,
-  // },
-  // {
-  //   id: 2,
-  //   lockerId: '004',
-  //   place: 'HM Building',
-  //   status: 'Available',
-  //   image: LockerImage,
-  // },
-  // Add more locker data items here
+  // [
+  //   {
+  //     id: 1,
+  //     lockerId: '003',
+  //     place: 'ECC Building',
+  //     status: 'Available',
+  //     image: LockerImage,
+  //   },
+  //   {
+  //     id: 2,
+  //     lockerId: '004',
+  //     place: 'HM Building',
+  //     status: 'Available',
+  //     image: LockerImage,
+  //   },
+  //   {
+  //     id: 1,
+  //     lockerId: '003',
+  //     place: 'ECC Building',
+  //     status: 'Available',
+  //     image: LockerImage,
+  //   },
+  //   {
+  //     id: 2,
+  //     lockerId: '004',
+  //     place: 'HM Building',
+  //     status: 'Available',
+  //     image: LockerImage,
+  //   },
+  //   {
+  //     id: 1,
+  //     lockerId: '003',
+  //     place: 'ECC Building',
+  //     status: 'Available',
+  //     image: LockerImage,
+  //   },
+  //   {
+  //     id: 2,
+  //     lockerId: '004',
+  //     place: 'HM Building',
+  //     status: 'Available',
+  //     image: LockerImage,
+  //   },
   // ];
 
   const [showModal, setShowModal] = useState(false);
