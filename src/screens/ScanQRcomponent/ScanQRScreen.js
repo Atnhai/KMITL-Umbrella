@@ -29,6 +29,7 @@ import secondModalImage from '../../../assets/images/howto2.png';
 
 export default function ScanQRScreen({navigation}) {
   const [data, setData] = useState([]);
+  const [lockerData, setLockerData] = useState(null);
   const [userId, setUserId] = useState(null);
 
     // Define your state variable for refreshing
@@ -80,6 +81,58 @@ export default function ScanQRScreen({navigation}) {
       .catch(error => console.error(error));
   }, []);
 
+  useEffect(() => {
+    const fetchAllLockersData = async () => {
+      let lockerNumber = 1;
+      let availableLockers = []; // Temp array to store available lockers
+  
+      while (true) {
+        try {
+          const response = await axios.get(
+            `http://10.66.4.168:8000/api/locker/${lockerNumber}`,
+          );
+          const alllockerData = response.data;
+  
+          // If lockerData is undefined or null, break the loop
+          if (!alllockerData) {
+            console.log(
+              `Locker data for locker number ${lockerNumber} not available`,
+            );
+            break;
+          }
+          // Check if any of the lock is available, if yes add it to the availableLockers array
+          if (alllockerData.lock_set.some(lock => lock.availability)) {
+            const availableLocker = {
+              id: alllockerData.id,
+              place: alllockerData.name,
+              status: 'Available',
+              image: LockerImage,
+            };
+            availableLockers.push(availableLocker);
+          }
+  
+          lockerNumber++;
+        } catch (error) {
+          // If the response status is 404, break the loop
+          if (error.response && error.response.status === 404) {
+            console.log(
+              `Locker data for locker number ${lockerNumber} not available`,
+            );
+            break;
+          } else {
+            console.error(error);
+            break; // Exit the loop if we get any other error
+          }
+        }
+      }
+  
+      // Once we've fetched all the data, update the state
+
+      setLockerData(availableLockers);  // Update the state with available lockers
+    };
+  
+    fetchAllLockersData();
+  }, [reloadData]);
   // Sample data
   // const data = [
   //   {
