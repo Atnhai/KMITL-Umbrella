@@ -553,13 +553,12 @@ export default function MapScreen({navigation}) {
         </View> */}
         <View style={styles.cardBody}>
           <ScrollView horizontal={true} style={styles.scrollContainer}>
-            {lockerlocation.map((location, index) => (
-              <TouchableOpacity
-                key={index}
-                onPress={() => go(location.latitude, location.longitude)}>
-                <View style={styles.locationCard}>
-                  <Image source={location.image} style={styles.cardImage} />
-                  {/* source={selectedItem ? {uri: `${selectedItem.image}`} : null} */}
+          {lockerlocation.map((location, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => go(location.latitude, location.longitude)}>
+              <View style={styles.locationCard}>
+                <Image source={location.image ? {uri: `${location.image}`} : null} style={styles.cardImage} />
                   <View style={styles.cardInfo}>
                     <Text style={styles.cardText}>{location.place}</Text>
                     <Text style={styles.cardText}>
