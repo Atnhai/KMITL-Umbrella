@@ -289,27 +289,35 @@ export default function ScanQRScreen({navigation}) {
         refreshControl={renderRefreshControl()}
       />
       <Modal animationType="slide" transparent={false} visible={showModal}>
-        <View style={styles.modalContainer}>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => setShowModal(false)}>
-            <Text style={styles.backButtonText}>Back</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.infoButton}
-            onPress={() => setShowSecondModal(true)}>
-            <Text style={styles.infoButtonText}>?</Text>
-          </TouchableOpacity>
-          <Text style={styles.lockerTitle}>
-            Available Lockers: {availableLockers.length}
-          </Text>
-          <FlatList
-            data={availableLockers}
-            renderItem={renderLocker}
-            contentContainerStyle={styles.flatListContentContainer}
-          />
-        </View>
-      </Modal>
+  <View style={styles.modalContainer}>
+    <TouchableOpacity
+      style={styles.backButton}
+      onPress={() => setShowModal(false)}>
+      <Text style={styles.backButtonText}>Back</Text>
+    </TouchableOpacity>
+    <TouchableOpacity
+      style={styles.infoButton}
+      onPress={() => setShowSecondModal(true)}>
+      <Text style={styles.infoButtonText}>?</Text>
+    </TouchableOpacity>
+    <Text style={styles.lockerTitle}>
+      Available Lockers: {availableLockers.length}
+    </Text>
+    <FlatList
+      data={availableLockers}
+      renderItem={renderLocker}
+      contentContainerStyle={styles.flatListContentContainer}
+      refreshControl={
+        <RefreshControl
+          colors={["#E35205"]} // Same color as your other RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
+      }
+    />
+  </View>
+</Modal>
+
       <Modal animationType="slide" transparent={false} visible={showSecondModal}>
         <View style={styles.secondModalContainer}>
         <View style={styles.rectangle_small} />

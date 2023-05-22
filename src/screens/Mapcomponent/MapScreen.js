@@ -602,7 +602,7 @@ let alreadyShownMessage = false;
     <Text style={styles.modalText}>{selectedItem?.place}</Text>
     <Image
       style={styles.modalImage}
-      source={selectedItem ? {uri: `data:image/jpeg;base64,${selectedItem.image}`} : null}
+      source={selectedItem ? {uri: `${selectedItem.image}`} : null}
     />
     <Text style={styles.modalText}>
       Umbrellas available:{' '}
