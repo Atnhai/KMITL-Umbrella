@@ -29,6 +29,7 @@ import secondModalImage from '../../../assets/images/howto2.png';
 
 export default function ScanQRScreen({navigation}) {
   const [data, setData] = useState([]);
+  const [lockerData, setLockerData] = useState(null);
   const [userId, setUserId] = useState(null);
   const [reloadData, setReloadData] = useState(false);
   // Define your state variable for refreshing
@@ -82,6 +83,58 @@ export default function ScanQRScreen({navigation}) {
       .catch(error => console.error(error));
   }, [reloadData]);
 
+  useEffect(() => {
+    const fetchAllLockersData = async () => {
+      let lockerNumber = 1;
+      let availableLockers = []; // Temp array to store available lockers
+  
+      while (true) {
+        try {
+          const response = await axios.get(
+            `http://10.66.4.168:8000/api/locker/${lockerNumber}`,
+          );
+          const alllockerData = response.data;
+  
+          // If lockerData is undefined or null, break the loop
+          if (!alllockerData) {
+            console.log(
+              `Locker data for locker number ${lockerNumber} not available`,
+            );
+            break;
+          }
+          // Check if any of the lock is available, if yes add it to the availableLockers array
+          if (alllockerData.lock_set.some(lock => lock.availability)) {
+            const availableLocker = {
+              id: alllockerData.id,
+              place: alllockerData.name,
+              status: 'Available',
+              image: LockerImage,
+            };
+            availableLockers.push(availableLocker);
+          }
+  
+          lockerNumber++;
+        } catch (error) {
+          // If the response status is 404, break the loop
+          if (error.response && error.response.status === 404) {
+            console.log(
+              `Locker data for locker number ${lockerNumber} not available`,
+            );
+            break;
+          } else {
+            console.error(error);
+            break; // Exit the loop if we get any other error
+          }
+        }
+      }
+  
+      // Once we've fetched all the data, update the state
+
+      setLockerData(availableLockers);  // Update the state with available lockers
+    };
+  
+    fetchAllLockersData();
+  }, [reloadData]);
   // Sample data
   // const data = [
   //   {
@@ -105,28 +158,7 @@ export default function ScanQRScreen({navigation}) {
   //   // Add more data items here
   // ];
 
-  const lockerData = [
-    {
-      id: 1,
-      lockerId: '003',
-      place: 'ECC Building',
-      status: 'Available',
-      image: LockerImage,
-    },
-    {
-      id: 2,
-      lockerId: '004',
-      place: 'HM Building',
-      status: 'Available',
-      image: LockerImage,
-    },
-    {
-      id: 3,
-      lockerId: '005',
-      place: 'HM Building',
-      status: 'Unavailable',
-      image: LockerImage,
-    },
+
     // {
     //   id: 1,
     //   lockerId: '003',
@@ -170,7 +202,7 @@ export default function ScanQRScreen({navigation}) {
     //   image: LockerImage,
     // },
     // Add more locker data items here
-  ];
+  // ];
 
   const [showModal, setShowModal] = useState(false);
   const [showSecondModal, setShowSecondModal] = useState(false);
