@@ -214,7 +214,7 @@ export default function ScanQRScreen({navigation}) {
         <View style={styles.dataContent}>
           <Text>Umbrella ID: {item.umbrellaId}</Text>
           {/* <Text>Locker ID: {item.lockerId}</Text> */}
-          <Text>Name: {item.name}</Text>
+          {/* <Text>Name: {item.name}</Text> */}
           <Text>Date: {item.date}</Text>
           <Text>Time: {item.time}</Text>
           <View style={styles.returnButtonContainer}>
