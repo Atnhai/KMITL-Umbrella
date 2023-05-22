@@ -54,6 +54,7 @@ export default function RegisterScreen({navigation}) {
 
 
   return (
+    <ScrollView style={{flex: 1}}>
     <View style={Stylecomponent.root_register}>
       <Text style={Stylecomponent.text_black}></Text>
       <TouchableOpacity
@@ -104,6 +105,7 @@ export default function RegisterScreen({navigation}) {
         </Link>
       </Text>
     </View>
+    </ScrollView>
   );
 }
 

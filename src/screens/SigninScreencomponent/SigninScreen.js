@@ -40,6 +40,7 @@ export default function SigninScreen({navigation}) {
       });
   };
   return (
+    <ScrollView style={{flex: 1}}>
     <View style={Stylecomponent.root_signin}>
       <Text></Text>
       <TouchableOpacity
@@ -91,6 +92,7 @@ export default function SigninScreen({navigation}) {
         </Link>
       </Text>
     </View>
+    </ScrollView>
   );
 }
 const stylepadding = StyleSheet.create({

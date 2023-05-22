@@ -36,6 +36,7 @@ export default function LoginScreen({navigation}) {
     // navigation.navigate('Signin');
   };
   return (
+    <ScrollView style={{flex: 1}}>
     <View style={Stylecomponent.container}>
       <View style={Stylecomponent.logoContainer}>
         <Image source={Logo} style={Stylecomponent.logos_umbrella}></Image>
@@ -54,5 +55,6 @@ export default function LoginScreen({navigation}) {
         </TouchableOpacity>
       </View>
     </View>
+    </ScrollView>
   );
 }
