@@ -156,28 +156,7 @@ export default function ScanQRScreen({navigation}) {
   //   // Add more data items here
   // ];
 
-  const lockerData = [
-    {
-      id: 1,
-      lockerId: '003',
-      place: 'ECC Building',
-      status: 'Available',
-      image: LockerImage,
-    },
-    {
-      id: 2,
-      lockerId: '004',
-      place: 'HM Building',
-      status: 'Available',
-      image: LockerImage,
-    },
-    {
-      id: 3,
-      lockerId: '005',
-      place: 'HM Building',
-      status: 'Unavailable',
-      image: LockerImage,
-    },
+
     // {
     //   id: 1,
     //   lockerId: '003',
@@ -221,7 +200,7 @@ export default function ScanQRScreen({navigation}) {
     //   image: LockerImage,
     // },
     // Add more locker data items here
-  ];
+  // ];
 
   const [showModal, setShowModal] = useState(false);
   const [showSecondModal, setShowSecondModal] = useState(false);
