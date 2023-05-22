@@ -383,7 +383,7 @@ export default function MapScreen({navigation}) {
         const permissionStatus = await check(
           PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
         );
-
+  
         if (permissionStatus === RESULTS.GRANTED) {
           Geolocation.getCurrentPosition(
             pos => {
@@ -405,7 +405,11 @@ export default function MapScreen({navigation}) {
             error => {
               console.log(error.message);
             },
-            {enableHighAccuracy: true, maximumAge: 1000},
+            {
+              enableHighAccuracy: false, 
+              maximumAge: 5000, 
+              timeout: 20000
+            },
           );
         } else if (permissionStatus === RESULTS.DENIED) {
           const requestStatus = await request(
@@ -420,11 +424,12 @@ export default function MapScreen({navigation}) {
         console.log(error);
       }
     };
-
+  
     checkLocationPermission();
-
+  
     return () => console.log('useEffect cleanup');
   }, []);
+  
 
   useEffect(() => {
     const geoWatchId = Geolocation.watchPosition(
@@ -441,11 +446,12 @@ export default function MapScreen({navigation}) {
       error => {
         console.log(error.message);
       },
-      {enableHighAccuracy: true, distanceFilter: 10},
+      {enableHighAccuracy: true},
     );
 
     return () => Geolocation.clearWatch(geoWatchId);
   }, []);
+
 
   const showImageModal = () => {
     setRentModalVisible(false);
