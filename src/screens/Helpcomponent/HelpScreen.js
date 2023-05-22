@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Alert,
   TextInput,
+  ScrollView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Searchbar} from 'react-native-paper';
@@ -71,7 +72,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   contact: {
-    width: '200%',
+    top: 50,
+    width: '100%',
     height: '100%',
     resizeMode: 'contain',
   },

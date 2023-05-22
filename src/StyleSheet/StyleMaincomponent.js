@@ -2,11 +2,10 @@ import {StyleSheet} from 'react-native';
 
 const StyleMaincomponent = StyleSheet.create({
   background_views: {
-    alignItems: 'center',
-    backgroundColor: '#FAC983',
-    padding: 80,
-    justifyContent: 'center',
     flex: 1,
+    backgroundColor: '#FAC983',
+    paddingTop: 15,
+    paddingHorizontal: 10,
   },
   texts_menu: {
     paddingTop: 10,
@@ -86,7 +85,7 @@ const StyleMaincomponent = StyleSheet.create({
     position: 'absolute',
     top: 0,
     borderBottomRightRadius: 80,
-    width: 410,
+    width: '110%',
     height: 80,
     marginBottom: 20,
     backgroundColor: '#E35205',
@@ -142,9 +141,10 @@ const StyleMaincomponent = StyleSheet.create({
     marginBottom: 100,
   },
   aboutus: {
-    width: '190%',
+    width: '100%',
     height: '100%',
     resizeMode: 'contain',
+    top: 50,
   },
   backButton: {
     position: 'absolute', // set position to absolute

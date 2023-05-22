@@ -30,6 +30,7 @@ import {googleMapIsInstalled} from 'react-native-maps/lib/decorateMapComponent';
 import {Card} from 'react-native-elements';
 import * as geolib from 'geolib';
 import secondModalImage from '../../../assets/images/howtorent5.png';
+import cantRent from '../../../assets/images/cantRent.png';
 
 enableLatestRenderer();
 
@@ -490,6 +491,9 @@ export default function MapScreen({navigation}) {
     }
   };
 
+  // Add flag variable outside the map loop
+let alreadyShownMessage = false;
+
   // if (!tempVar) {
   //   return <View><Text>Hi</Text></View>;
   // }
@@ -585,88 +589,91 @@ export default function MapScreen({navigation}) {
         </View>
       </Modal>
       <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}>
-        <ScrollView contentContainerStyle={styles.modalView}>
-          <Text style={styles.modalText}>{selectedItem?.place}</Text>
-          <Image
-            style={styles.modalImage}
-            source={selectedItem ? {uri: `data:image/jpeg;base64,${selectedItem.image}`} : null}
-          />
-          <Text style={styles.modalText}>
-            Umbrellas available:{' '}
-            {umbrellasData[selectedItem?.place]?.filter(
-              umbrella => umbrella.status === 'Available',
-            ).length || 0}
-          </Text>
+  animationType="slide"
+  transparent={true}
+  visible={modalVisible}
+  onRequestClose={() => {
+    setModalVisible(!modalVisible);
+  }}>
+  <ScrollView contentContainerStyle={styles.modalView}>
+    <Text style={styles.modalText}>{selectedItem?.place}</Text>
+    <Image
+      style={styles.modalImage}
+      source={selectedItem ? {uri: `data:image/jpeg;base64,${selectedItem.image}`} : null}
+    />
+    <Text style={styles.modalText}>
+      Umbrellas available:{' '}
+      {umbrellasData[selectedItem?.place]?.filter(
+        umbrella => umbrella.status === 'Available',
+      ).length || 0}
+    </Text>
 
-          {umbrellasData[selectedItem?.place]?.map((umbrella, index) => {
-            const isAvailable = umbrella.status === 'Available';
-            const isnearBy =
-              userLocation && selectedItem
-                ? geolib.getDistance(userLocation, {
-                    latitude: selectedItem.latitude,
-                    longitude: selectedItem.longitude,
-                  })
-                : null;
-            if (data.length !== 0 && !isExecuted) {
-              isExecuted = true; // Set the flag to true
-              return (
-                <View>
-                  <Text>PTest</Text>
-                </View>
-              );
-            }
-            return (
-              <View key={index} style={styles.umbrellaBox}>
-                <Image source={LockerImage} style={styles.profileImage} />
-                <View style={styles.umbrellaInfo}>
-                  <Text style={styles.umbrellaId}>
-                    Lock ID: {umbrella.lockId}
-                  </Text>
-                  <Text style={styles.umbrellaId}>
-                    Umbrella ID: {isAvailable ? umbrella.umbrellaId : '-'}
-                  </Text>
-                  <Text style={styles.umbrellaStatus}>
-                    Status:{' '}
-                    <Text style={{color: isAvailable ? 'green' : 'red'}}>
-                      {umbrella.status}
-                    </Text>
-                  </Text>
-                </View>
-                <TouchableOpacity
-                  style={{
-                    ...styles.rentButton,
-                    backgroundColor:
-                      data.length === 0 && isAvailable && isnearBy <= 100
-                        ? '#E35205'
-                        : 'grey',
-                  }}
-                  onPress={() => showRentModal(umbrella)}
-                  disabled={!isAvailable || !isnearBy || isnearBy > 100}>
-                  <Text style={styles.rentButtonText}>Rent</Text>
-                </TouchableOpacity>
-              </View>
-            );
-          })}
-          <TouchableOpacity
-            style={{...styles.modalCloseButton}}
-            onPress={() => {
-              setModalVisible(!modalVisible);
-              setReloadData(!reloadData);
-            }}>
-            <Text style={styles.modalCloseButtonText}>Back</Text>
-          </TouchableOpacity>
-          <Text style={styles.cardTitle}>
-            *Warning: Umbrellas are available for rental within a 100-meter
-            radius from the locker.*
-          </Text>
-        </ScrollView>
-      </Modal>
+    {data.length !== 0 ? (
+      <View style={styles.warningBox}>
+        <Image source={cantRent} style={styles.warningImage} />
+        <Text style={styles.warningText}>
+          You currently have an umbrella rental in your possession. Please note, our policy only permits one rental at a time per user. To acquire another umbrella, kindly return your existing rental to the designated locker. Thank you for your understanding.
+        </Text>
+      </View>
+    ) : (
+      umbrellasData[selectedItem?.place]?.map((umbrella, index) => {
+        const isAvailable = umbrella.status === 'Available';
+        const isnearBy =
+          userLocation && selectedItem
+            ? geolib.getDistance(userLocation, {
+                latitude: selectedItem.latitude,
+                longitude: selectedItem.longitude,
+              })
+            : null;
+        return (
+          <View key={index} style={styles.umbrellaBox}>
+            <Image source={LockerImage} style={styles.profileImage} />
+            <View style={styles.umbrellaInfo}>
+              <Text style={styles.umbrellaId}>
+                Lock ID: {umbrella.lockId}
+              </Text>
+              <Text style={styles.umbrellaId}>
+                Umbrella ID: {isAvailable ? umbrella.umbrellaId : '-'}
+              </Text>
+              <Text style={styles.umbrellaStatus}>
+                Status:{' '}
+                <Text style={{color: isAvailable ? 'green' : 'red'}}>
+                  {umbrella.status}
+                </Text>
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={{
+                ...styles.rentButton,
+                backgroundColor: isAvailable && isnearBy <= 100
+                  ? '#E35205'
+                  : 'grey',
+              }}
+              onPress={() => showRentModal(umbrella)}
+              disabled={!isAvailable || !isnearBy || isnearBy > 100}>
+              <Text style={styles.rentButtonText}>Rent</Text>
+            </TouchableOpacity>
+          </View>
+        );
+      })
+    )}
+
+    <TouchableOpacity
+      style={{...styles.modalCloseButton}}
+      onPress={() => {
+        setModalVisible(!modalVisible);
+        setReloadData(!reloadData);
+      }}>
+      <Text style={styles.modalCloseButtonText}>Back</Text>
+    </TouchableOpacity>
+    <Text style={styles.cardTitle}>
+      *Warning: Umbrellas are available for rental within a 100-meter
+      radius from the locker.*
+    </Text>
+  </ScrollView>
+</Modal>
+
+
 
       <Modal
         animationType="slide"
@@ -1118,4 +1125,28 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: '#E35205',
   },
+  warningBox: {
+    flex: 1,
+    alignItems: 'center', // This will align items horizontally
+    justifyContent: 'center', // This will align items vertically
+    backgroundColor: 'white',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: 'black',
+    marginBottom: 10,
+    padding: 10,
+  },
+  
+  warningImage: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,  // Add space between the image and the text
+  },
+  
+  warningText: {
+    fontSize: 16,
+    textAlign: 'center', // This will center the text
+  },
+  
+  
 });

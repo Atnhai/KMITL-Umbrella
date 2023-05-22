@@ -25,7 +25,7 @@ import {useNavigation} from '@react-navigation/native';
 import {FullWindowOverlay} from 'react-native-screens';
 import {ScrollView} from 'react-native';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
-import secondModalImage from '../../../assets/images/howto2.png';
+import secondModalImage from '../../../assets/images/howtoreturn5.png';
 
 export default function ScanQRScreen({navigation}) {
   const [data, setData] = useState([]);
@@ -219,12 +219,22 @@ export default function ScanQRScreen({navigation}) {
 
   if (data.length === 0) {
     return (
-      <View style={styles.noDataContainer}>
+      <ScrollView 
+        contentContainerStyle={styles.noDataContainer}
+        refreshControl={
+          <RefreshControl 
+            colors={["#E35205"]} // Same color as your other RefreshControl
+            refreshing={refreshing} 
+            onRefresh={onRefresh} 
+          />
+        }
+      >
         <Image source={profileBW} style={styles.noDataImage} />
         <Text style={styles.noDataText}>No umbrella rented</Text>
-      </View>
+      </ScrollView>
     );
   }
+  
 
   // Sort data by date and time in descending order (most recent first)
   const sortedData = data.sort((a, b) => {
@@ -268,14 +278,13 @@ export default function ScanQRScreen({navigation}) {
           />
         </View>
       </Modal>
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={showSecondModal}>
+      <Modal animationType="slide" transparent={false} visible={showSecondModal}>
         <View style={styles.secondModalContainer}>
+        <View style={styles.rectangle_small} />
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => setShowSecondModal(false)}>
+            onPress={() => setShowSecondModal(false)}
+          >
             <Text style={styles.backButtonText}>Back</Text>
           </TouchableOpacity>
           <Image source={secondModalImage} style={styles.secondModalImage} />
@@ -287,60 +296,60 @@ export default function ScanQRScreen({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#FAC983',
-    paddingTop: 15,
-    paddingHorizontal: 10,
+  flex: 1,
+  backgroundColor: '#FAC983',
+  paddingTop: 15,
+  paddingHorizontal: 10,
   },
   dataCard: {
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    padding: 15,
-    marginBottom: 15,
-    alignItems: 'center',
-    borderRadius: 10,
+  flexDirection: 'row',
+  backgroundColor: '#fff',
+  padding: 15,
+  marginBottom: 15,
+  alignItems: 'center',
+  borderRadius: 10,
   },
   dataImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 25,
-    marginRight: 10,
+  width: 150,
+  height: 150,
+  borderRadius: 25,
+  marginRight: 10,
   },
   dataContent: {
-    justifyContent: 'space-between',
-    flex: 1,
+  justifyContent: 'space-between',
+  flex: 1,
   },
   returnButtonContainer: {
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    padding: 10,
+  justifyContent: 'center',
+  alignItems: 'flex-start',
+  padding: 10,
   },
   returnButton: {
-    backgroundColor: '#E35205',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 4,
+  backgroundColor: '#E35205',
+  paddingVertical: 8,
+  paddingHorizontal: 16,
+  borderRadius: 4,
   },
   returnButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
+  color: '#FFFFFF',
+  fontSize: 16,
   },
   modalContainer: {
-    flex: 1,
-    backgroundColor: '#FAC983',
-    paddingTop: 15,
-    paddingHorizontal: 10,
+  flex: 1,
+  backgroundColor: '#FAC983',
+  paddingTop: 15,
+  paddingHorizontal: 10,
   },
   backButton: {
-    backgroundColor: '#E35205',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 20,
-    alignSelf: 'flex-start',
+  backgroundColor: 'white',
+  paddingVertical: 8,
+  paddingHorizontal: 16,
+  borderRadius: 20,
+  alignSelf: 'flex-start',
   },
   backButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
+  color: 'black',
+  fontSize: 16,
   },
   infoButton: {
     backgroundColor: 'white',
@@ -355,42 +364,42 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   lockerTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginVertical: 10,
+  fontSize: 18,
+  fontWeight: 'bold',
+  textAlign: 'center',
+  marginVertical: 10,
   },
   lockerCard: {
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    padding: 15,
-    marginBottom: 15,
-    alignItems: 'center',
-    borderRadius: 10,
+  flexDirection: 'row',
+  backgroundColor: '#fff',
+  padding: 15,
+  marginBottom: 15,
+  alignItems: 'center',
+  borderRadius: 10,
   },
   lockerImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 25,
-    marginRight: 10,
+  width: 100,
+  height: 100,
+  borderRadius: 25,
+  marginRight: 10,
   },
   lockerContent: {
-    justifyContent: 'space-between',
-    flex: 1,
+  justifyContent: 'space-between',
+  flex: 1,
   },
   noDataContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
   },
   noDataImage: {
-    width: 200,
-    height: 200,
+  width: 200,
+  height: 200,
   },
   noDataText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginTop: 20,
+  fontSize: 24,
+  fontWeight: 'bold',
+  marginTop: 20,
   },
   flatListContentContainer: {
     flexGrow: 1,
@@ -402,11 +411,20 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     paddingTop: 15,
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
   },
   secondModalImage: {
     width: '100%',
     height: '100%',
-    //resizeMode: 'contain',
+    resizeMode: 'contain',
   },
-});
+  rectangle_small: {
+    position: 'absolute',
+    top: 0,
+    borderBottomRightRadius: 80,
+    width: '100%',
+    height: 80,
+    marginBottom: 20,
+    backgroundColor: '#E35205',
+  },
+  });
