@@ -216,6 +216,7 @@ export default function MapScreen({navigation}) {
             price: lockerData.price, // add your price here
             mark: lockerData.location,
           };
+          
 
           // Add lockerLocation into lockerLocations
           lockerLocations.push(lockerLocation);
@@ -489,7 +490,7 @@ export default function MapScreen({navigation}) {
       });
     }
   };
-
+ 
   // if (!tempVar) {
   //   return <View><Text>Hi</Text></View>;
   // }
@@ -558,6 +559,7 @@ export default function MapScreen({navigation}) {
                 onPress={() => go(location.latitude, location.longitude)}>
                 <View style={styles.locationCard}>
                   <Image source={location.image} style={styles.cardImage} />
+                  {/* source={selectedItem ? {uri: `${selectedItem.image}`} : null} */}
                   <View style={styles.cardInfo}>
                     <Text style={styles.cardText}>{location.place}</Text>
                     <Text style={styles.cardText}>
@@ -595,7 +597,7 @@ export default function MapScreen({navigation}) {
           <Text style={styles.modalText}>{selectedItem?.place}</Text>
           <Image
             style={styles.modalImage}
-            source={selectedItem ? {uri: `data:image/jpeg;base64,${selectedItem.image}`} : null}
+            source={selectedItem ? {uri: `${selectedItem.image}`} : null}
           />
           <Text style={styles.modalText}>
             Umbrellas available:{' '}
