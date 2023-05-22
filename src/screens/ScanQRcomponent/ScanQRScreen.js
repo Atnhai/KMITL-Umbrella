@@ -106,7 +106,7 @@ export default function ScanQRScreen({navigation}) {
           // Check if any of the lock is available, if yes add it to the availableLockers array
           if (lockerData.lock_set.some(lock => !lock.availability)) {
             const availableLocker = {
-              id: lockerData.id, // assuming this is your lockerId
+              lockerId: lockerData.id, // assuming this is your lockerId
               place: lockerData.name,
               status: 'Available',
               image: LockerImage, // add your image source here
@@ -213,7 +213,7 @@ export default function ScanQRScreen({navigation}) {
         <Image source={item.image} style={styles.dataImage} />
         <View style={styles.dataContent}>
           <Text>Umbrella ID: {item.umbrellaId}</Text>
-          <Text>Locker ID: {item.lockerId}</Text>
+          {/* <Text>Locker ID: {item.lockerId}</Text> */}
           <Text>Name: {item.name}</Text>
           <Text>Date: {item.date}</Text>
           <Text>Time: {item.time}</Text>
