@@ -32,6 +32,7 @@ import * as geolib from 'geolib';
 import secondModalImage from '../../../assets/images/howtorent5.png';
 import cantRent from '../../../assets/images/cantRent.png';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
+import axios_path from '../../navigation/axios_path';
 
 enableLatestRenderer();
 
@@ -58,7 +59,6 @@ export default function MapScreen({navigation}) {
     }
   }
   requestLocationPermission();
-
   const [reloadData, setReloadData] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -120,11 +120,11 @@ export default function MapScreen({navigation}) {
     const email = authentication.currentUser.email;
 
     axios
-      .get('http://10.66.4.168:8000/api/get_userid/', {params: {email}})
+      .get(`http://${axios_path}/api/get_userid/`, {params: {email}})
       .then(response => {
         setUserId(response.data.id);
         return axios.get(
-          `http://10.66.4.168:8000/api/user_rentstate/${response.data.id}/`,
+          `http://${axios_path}/api/user_rentstate/${response.data.id}/`,
         );
       })
       .then(response => {
@@ -181,7 +181,7 @@ export default function MapScreen({navigation}) {
       while (true) {
         try {
           const response = await axios.get(
-            `http://10.66.4.168:8000/api/locker/${lockerNumber}`,
+            `http://${axios_path}/api/locker/${lockerNumber}`,
           );
           const lockerData = response.data;
 
@@ -383,7 +383,7 @@ export default function MapScreen({navigation}) {
         const permissionStatus = await check(
           PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
         );
-  
+
         if (permissionStatus === RESULTS.GRANTED) {
           Geolocation.getCurrentPosition(
             pos => {
@@ -406,9 +406,7 @@ export default function MapScreen({navigation}) {
               console.log(error.message);
             },
             {
-              enableHighAccuracy: false, 
-              maximumAge: 5000, 
-              timeout: 20000
+              enableHighAccuracy: false,
             },
           );
         } else if (permissionStatus === RESULTS.DENIED) {
@@ -424,12 +422,11 @@ export default function MapScreen({navigation}) {
         console.log(error);
       }
     };
-  
+
     checkLocationPermission();
-  
+
     return () => console.log('useEffect cleanup');
   }, []);
-  
 
   useEffect(() => {
     const geoWatchId = Geolocation.watchPosition(
@@ -451,7 +448,6 @@ export default function MapScreen({navigation}) {
 
     return () => Geolocation.clearWatch(geoWatchId);
   }, []);
-
 
   const showImageModal = () => {
     setRentModalVisible(false);
@@ -530,7 +526,6 @@ export default function MapScreen({navigation}) {
   // if (!tempVar) {
   //   return <View><Text>Hi</Text></View>;
   // }
-
   return (
     <View style={styles.container}>
       <View style={styles.views}>
@@ -727,7 +722,10 @@ export default function MapScreen({navigation}) {
             }}>
             <Text style={styles.modalCloseButtonText}>Back</Text>
           </TouchableOpacity>
-          <Image source={bill} style={styles.profileImage2} />
+          <Image
+            source={selectedItem ? {uri: `${selectedItem.image}`} : null}
+            style={styles.profileImage2}
+          />
           <View style={{width: '100%'}}>
             <Text style={styles.modalTextLeft}>
               Place: {selectedItem?.place}
