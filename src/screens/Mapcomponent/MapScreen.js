@@ -62,6 +62,10 @@ export default function MapScreen({navigation}) {
   const [reloadData, setReloadData] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [umbrellaImages, setUmbrellaImages] = useState({});
+  const [umbrellaIdToImage, setUmbrellaIdToImage] = useState({});
+
+
   const [region, setRegion] = useState({
     latitude: 13.730283,
     longitude: 100.77945,
@@ -116,6 +120,8 @@ export default function MapScreen({navigation}) {
   const [data, setData] = useState([]);
   const [userId, setUserId] = useState(null);
 
+
+
   useEffect(() => {
     const email = authentication.currentUser.email;
 
@@ -160,16 +166,7 @@ export default function MapScreen({navigation}) {
 
   //   console.log("DATA = ", data);
 
-  //   const markers = data.map((item) => ({
-  //     id: item.id,
-  //     coordinate: {
-  //       latitude: item.latitude,
-  //       longtitude: item.longtitude,
-  //     },
-  //     title: item.name,
-  //     description: "X Available",
-  //     image: item.image,
-  //   }));
+
 
   useEffect(() => {
     const fetchAllLockersData = async () => {
@@ -177,6 +174,7 @@ export default function MapScreen({navigation}) {
       let allUmbrellasData = {}; // Temp object to store all locker data
       let lockerLocations = []; // Temp array to store all locker locations
       let isExecuted = false;
+      let allUmbrellaIdToImage = {};
 
       while (true) {
         try {
@@ -208,6 +206,24 @@ export default function MapScreen({navigation}) {
           // Add the new data to the allUmbrellasData object
           allUmbrellasData = {...allUmbrellasData, ...newUmbrellaData};
 
+          for (const lock of lockerData.lock_set) {
+            if (lock.umbrella) {
+              const umbrellaId = String(lock.umbrella.id);
+              try {
+                const umbrellaResponse = await axios.get(
+                  `http://${axios_path}/api/umbrellas/${umbrellaId}`
+                );
+                if (umbrellaResponse.data) {
+                  allUmbrellaIdToImage[umbrellaId] = umbrellaResponse.data.image;
+                }
+              } catch (umbrellaError) {
+                console.error(umbrellaError);
+              }
+            }
+          }
+
+
+          
           // Build the lockerLocations array
           const lockerLocation = {
             id: lockerData.id,
@@ -240,10 +256,15 @@ export default function MapScreen({navigation}) {
       // Once we've fetched all the data, update the state
       setUmbrellasData(allUmbrellasData);
       setlockerlocation(lockerLocations);
+      setUmbrellaIdToImage(allUmbrellaIdToImage);
     };
 
     fetchAllLockersData();
   }, [reloadData]);
+
+  console.log(umbrellaIdToImage);
+
+  
 
   // const umbrellasData = {
   //   'ECC Building': [
@@ -343,11 +364,17 @@ export default function MapScreen({navigation}) {
 
     setSelectedUmbrella({
       ...umbrella,
+      image: umbrellaIdToImage[umbrella.umbrellaId],
       rentDate: formattedDate,
       rentTime: new Date(rentDate).toLocaleTimeString(),
     });
     setRentModalVisible(true);
   };
+
+  console.log('selectedUmbrella', selectedUmbrella);
+  console.log('selectedUmbrella?.image', selectedUmbrella?.image);
+  console.log('selectedUmbrella?.id', selectedUmbrella?.umbrellaId);
+
 
   function measureDistances() {
     // Get the user's current location
@@ -567,7 +594,8 @@ export default function MapScreen({navigation}) {
                 longitude: item.longitude,
               }}
               title={item.place}
-              onPress={() => showModal(item)}>
+              onPress={() => {showModal(item)
+                setReloadData(!reloadData);}}>
               <Image source={LockerImage} style={styles.profileImage} />
             </Marker>
           ))}
@@ -723,7 +751,8 @@ export default function MapScreen({navigation}) {
             <Text style={styles.modalCloseButtonText}>Back</Text>
           </TouchableOpacity>
           <Image
-            source={selectedItem ? {uri: `${selectedItem.image}`} : null}
+            // source={umbrellaIdToImage[selectedUmbrella.umbrellaId] ? {uri: umbrellaIdToImage[selectedUmbrella.umbrellaId]} : null}
+            source={selectedUmbrella?.image ? {uri: selectedUmbrella.image} : null}
             style={styles.profileImage2}
           />
           <View style={{width: '100%'}}>

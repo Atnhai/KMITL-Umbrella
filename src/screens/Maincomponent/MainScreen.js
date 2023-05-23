@@ -23,7 +23,7 @@ import ProfileScreen from '../Profilecomponent';
 export default function MainScreen({navigation}) {
   //Screen names
   const mapName = 'Map';
-  const scanName = 'Umbrella';
+  const scanName = 'My Umbrella';
   const profileName = 'Profile';
 
   const Tab = createBottomTabNavigator();
@@ -60,7 +60,7 @@ export default function MainScreen({navigation}) {
           options={{headerShown: false}}
         />
         <Tab.Screen
-          name="Umbrella"
+          name="My Umbrella"
           component={ScanQRScreen}
           options={{headerShown: false}}
         />
