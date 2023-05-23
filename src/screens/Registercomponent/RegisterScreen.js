@@ -20,6 +20,8 @@ import {
 import {Link} from '@react-navigation/native';
 import Ionic from 'react-native-vector-icons/Ionicons';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
+import axios_path from '../../navigation/axios_path';
+
 export default function RegisterScreen({navigation}) {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -33,7 +35,7 @@ export default function RegisterScreen({navigation}) {
       .catch(re => {
         console.log(re);
       });
-      axios.post('http://10.66.4.168:8000/api/users/', {
+      axios.post(`http://${axios_path}/api/users/`, {
       email: email,
       username: username,
       })

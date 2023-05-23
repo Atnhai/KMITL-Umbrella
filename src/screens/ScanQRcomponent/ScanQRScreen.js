@@ -26,6 +26,8 @@ import {FullWindowOverlay} from 'react-native-screens';
 import {ScrollView} from 'react-native';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
 import secondModalImage from '../../../assets/images/howtoreturn5.png';
+import axios_path from '../../navigation/axios_path';
+
 
 export default function ScanQRScreen({navigation}) {
   const [data, setData] = useState([]);
@@ -60,11 +62,11 @@ export default function ScanQRScreen({navigation}) {
     const email = authentication.currentUser.email;
 
     axios
-      .get('http://10.66.4.168:8000/api/get_userid/', {params: {email}})
+      .get(`http://${axios_path}/api/get_userid/`, {params: {email}})
       .then(response => {
         setUserId(response.data.id);
         return axios.get(
-          `http://10.66.4.168:8000/api/user_rentstate/${response.data.id}/`,
+          `http://${axios_path}/api/user_rentstate/${response.data.id}/`,
         );
       })
       .then(response => {
@@ -91,7 +93,7 @@ export default function ScanQRScreen({navigation}) {
       while (true) {
         try {
           const response = await axios.get(
-            `http://10.66.4.168:8000/api/locker/${lockerNumber}`,
+            `http://${axios_path}/api/locker/${lockerNumber}`,
           );
           const lockerData = response.data;
   

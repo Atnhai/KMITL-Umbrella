@@ -26,6 +26,9 @@ import {Ionic} from 'react-native-vector-icons/Ionicons';
 import HelpScreen from '../Helpcomponent';
 import StyleMaincomponent from '../../StyleSheet/StyleMaincomponent';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
+import axios_path from '../../navigation/axios_path';
+
+
 export default function ProfileScreen({navigation}) {
   // const rendercheckanonymous = () => {
   //   if (!authentication.currentUser.isAnonymous) {
@@ -48,7 +51,7 @@ export default function ProfileScreen({navigation}) {
 
     console.log(email);
     axios
-      .get('http://10.66.4.168:8000/api/get_username/', {
+      .get(`http://${axios_path}/api/get_username/`, {
         params: {
           email: email, // pass in the email parameter correctly
         },

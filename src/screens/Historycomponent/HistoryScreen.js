@@ -15,6 +15,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import axios_path from '../../navigation/axios_path';
 
 export default function HistoryScreen({navigation}) {
   // Define your state variable for refreshing
@@ -49,11 +50,11 @@ export default function HistoryScreen({navigation}) {
     const email = authentication.currentUser.email;
 
     axios
-      .get('http://10.66.4.168:8000/api/get_userid/', {params: {email}})
+    .get(`http://${axios_path}/api/get_userid/`, {params: {email}})
       .then(response => {
         setUserId(response.data.id);
         return axios.get(
-          `http://10.66.4.168:8000/api/user_history/${response.data.id}/`,
+          `http://${axios_path}/api/user_history/${response.data.id}/`,
         );
       })
       .then(response => {
