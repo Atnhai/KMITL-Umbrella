@@ -11,6 +11,7 @@ import {
   TextInput,
   Modal,
   PermissionsAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import axios from 'axios';
 import Logo from '../../../assets/images/search.png';
@@ -79,6 +80,7 @@ export default function MapScreen({navigation}) {
     setModalVisible(true);
   };
   const [tempVar, settempVar] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const item = [
     {
@@ -615,13 +617,21 @@ export default function MapScreen({navigation}) {
             style={styles.modalImageQR}
             source={require('../../../assets/images/qr.jpg')}
           />
+          {isLoading && <ActivityIndicator size="large" color="#E35205" />}
           <TouchableOpacity
             style={{...styles.modalConfirmButton}}
-            onPress={() => showSuccessModal()}>
-            <Text style={styles.modalConfirmButtonText}>Save QR code</Text>
+            onPress={() => {
+              setIsLoading(true);
+              setTimeout(() => {
+                setIsLoading(false);
+                showSuccessModal();
+              }, 5000); // After 20 seconds, remove the loading spinner and show the success modal
+            }}>
+            <Text style={styles.modalConfirmButtonText}>Next</Text>
           </TouchableOpacity>
         </View>
       </Modal>
+
       <Modal
         animationType="slide"
         transparent={true}
