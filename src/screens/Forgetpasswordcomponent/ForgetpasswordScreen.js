@@ -11,6 +11,7 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
+import Dialog from "react-native-dialog";
 import {Link, useNavigation} from '@react-navigation/native';
 import {Searchbar} from 'react-native-paper';
 import {useState} from 'react';
@@ -20,20 +21,40 @@ import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
 
 export default function ForgetpasswordScreen({navigation}) {
   const [email, setEmail] = useState('');
+  const [dialogVisible, setDialogVisible] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState('');
+
+  const emailIsValid = (email) => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
 
   const resetPassword = () => {
-    if (email != null) {
+    if (email === '') {
+      setDialogMessage('Email was not entered');
+      setDialogVisible(true);
+    } else if (!emailIsValid(email)) {
+      setDialogMessage('Your email format is not correct');
+      setDialogVisible(true);
+    } else {
       sendPasswordResetEmail(authentication, email)
         .then(() => {
-          alert('password have sent to your email');
+          setDialogMessage('Password reset email has been sent to your email');
+          setDialogVisible(true);
         })
         .catch(error => {
-          const errorcode = error.code;
-          const errorMessage = error.message;
-          // alert(errorMessage);
+          if (error.code === 'auth/user-not-found') {
+            setDialogMessage('This email has not been registered');
+            setDialogVisible(true);
+          }
         });
     }
   };
+
+  const handleDialogClose = () => {
+    setDialogVisible(false);
+  };
+
   return (
     <View style={Stylecomponent.root_signin}>
       <Text style={Stylecomponent.text_padding}></Text>
@@ -53,11 +74,11 @@ export default function ForgetpasswordScreen({navigation}) {
         placeholder=" Enter your email "
         style={Stylecomponent.inputsignin_label}
         value={email}
-        onChangeText={text => setEmail(text)}></TextInput>
+        onChangeText={setEmail}></TextInput>
       <Text style={Stylecomponent.text_padding}></Text>
       <TouchableOpacity
         style={Stylecomponent.button_login}
-        onPress={resetPassword()}>
+        onPress={resetPassword}>
         <Text style={Stylecomponent.text_white}>Send Code</Text>
       </TouchableOpacity>
       <Text style={stylepadding.text_padding}></Text>
@@ -69,6 +90,13 @@ export default function ForgetpasswordScreen({navigation}) {
           {'\n'}
         </Link>
       </Text>
+      <Dialog.Container visible={dialogVisible}>
+        <Dialog.Title>Warning</Dialog.Title>
+        <Dialog.Description>
+          {dialogMessage}
+        </Dialog.Description>
+        <Dialog.Button label="OK" color="#E35205" onPress={handleDialogClose} />
+      </Dialog.Container>
     </View>
   );
 }
