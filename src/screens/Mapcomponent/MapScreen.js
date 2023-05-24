@@ -29,7 +29,7 @@ import Geolocation from '@react-native-community/geolocation';
 import {googleMapIsInstalled} from 'react-native-maps/lib/decorateMapComponent';
 import {Card} from 'react-native-elements';
 import * as geolib from 'geolib';
-import secondModalImage from '../../../assets/images/howtorent5.png';
+import secondModalImage from '../../../assets/images/howtorent6.png';
 import cantRent from '../../../assets/images/cantRent.png';
 import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import axios_path from '../../navigation/axios_path';
@@ -1183,7 +1183,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     borderBottomRightRadius: 80,
-    width: '100%',
+    width: '110%',
     height: 80,
     marginBottom: 20,
     backgroundColor: '#E35205',

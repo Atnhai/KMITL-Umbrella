@@ -14,7 +14,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {Searchbar} from 'react-native-paper';
 import StyleMaincomponent from '../../StyleSheet/StyleMaincomponent';
-import contact from '../../../assets/images/contact2.png'; 
+import contact from '../../../assets/images/help6.png'; 
 
 export default function HelpScreen({navigation}) {
   return (

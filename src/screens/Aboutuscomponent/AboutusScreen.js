@@ -15,7 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Searchbar} from 'react-native-paper';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
 import StyleMaincomponent from '../../StyleSheet/StyleMaincomponent';
-import aboutus from '../../../assets/images/aboutus3.png'; 
+import aboutus from '../../../assets/images/aboutus6.png'; 
 
 export default function AboutusScreen({navigation}) {
   return (

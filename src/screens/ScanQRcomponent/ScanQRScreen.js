@@ -25,7 +25,7 @@ import {useNavigation} from '@react-navigation/native';
 import {FullWindowOverlay} from 'react-native-screens';
 import {ScrollView} from 'react-native';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
-import secondModalImage from '../../../assets/images/howtoreturn5.png';
+import secondModalImage from '../../../assets/images/howtoreturn6.png';
 import axios_path from '../../navigation/axios_path';
 
 
@@ -464,7 +464,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     borderBottomRightRadius: 80,
-    width: '100%',
+    width: '110%',
     height: 80,
     marginBottom: 20,
     backgroundColor: '#E35205',
