@@ -191,6 +191,41 @@ const Stylecomponent = StyleSheet.create({
       color: 'black',
       fontSize: 16,
     },
+    dialogContainer: {
+      borderRadius: 20, // Adjust as needed
+    },
+    dialogContent: {
+      alignItems: 'center', // Center items horizontally
+    },
+    dialogTitle: {
+      fontSize: 18, // Adjust as needed
+      fontWeight: 'bold', // Adjust as needed
+      color: 'black',
+    },
+    imageStyle: {
+      width: 70, // Adjust as needed
+      height: 70, // Adjust as needed
+      resizeMode: 'contain', // Or 'cover'
+      marginTop: 10, // Adjust as needed
+    },
+    dialogMessage: {
+      marginTop: 10, // Adjust as needed
+      fontSize: 16,
+      color: 'black',
+    },
+    buttonStyle: {
+      backgroundColor: '#E35205',
+      paddingVertical: 10, // Adjust as needed
+      paddingHorizontal: 20, // Adjust as needed
+      borderRadius: 5, // Adjust as needed
+      marginTop: 10, // Adjust as needed
+      alignSelf: 'flex-end'
+    },
+    buttonText: {
+      color: '#fff', 
+      fontSize: 16, // Adjust as needed
+      fontWeight: 'bold',
+    },
 });
 
 export default Stylecomponent;

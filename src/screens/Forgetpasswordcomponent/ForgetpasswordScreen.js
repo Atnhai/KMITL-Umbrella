@@ -90,12 +90,15 @@ export default function ForgetpasswordScreen({navigation}) {
           {'\n'}
         </Link>
       </Text>
-      <Dialog.Container visible={dialogVisible}>
-        <Dialog.Title>Warning</Dialog.Title>
-        <Dialog.Description>
-          {dialogMessage}
-        </Dialog.Description>
-        <Dialog.Button label="OK" color="#E35205" onPress={handleDialogClose} />
+      <Dialog.Container visible={dialogVisible} contentStyle={Stylecomponent.dialogContainer}>
+        <View style={Stylecomponent.dialogContent}>
+          <Text style={Stylecomponent.dialogTitle}>Warning</Text>
+          <Image source={require('../../../assets/images/warning.png')} style={Stylecomponent.imageStyle} />
+          <Text style={Stylecomponent.dialogMessage}>{dialogMessage}</Text>
+          <TouchableOpacity style={Stylecomponent.buttonStyle} onPress={handleDialogClose}>
+            <Text style={Stylecomponent.buttonText}>OK</Text>
+          </TouchableOpacity>
+        </View>
       </Dialog.Container>
     </View>
   );
