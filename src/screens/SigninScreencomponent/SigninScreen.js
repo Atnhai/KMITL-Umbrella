@@ -37,10 +37,10 @@ export default function SigninScreen({navigation}) {
 
   const handleLogin = () => {
     if (email === '' || password === '') {
-      setDialogMessage('Username or password was not entered');
+      setDialogMessage('Username or password was not entered.');
       setDialogVisible(true);
     } else if (!emailIsValid(email)) {
-      setDialogMessage('Your email format is not correct');
+      setDialogMessage('Your email format is not correct.');
       setDialogVisible(true);
     } else {
       signInWithEmailAndPassword(authentication, email, password)
@@ -51,7 +51,7 @@ export default function SigninScreen({navigation}) {
           navigation.navigate('Main');
         })
         .catch(re => {
-          setDialogMessage('Username or password was not corrected');
+          setDialogMessage('Username or password was not corrected.');
           setDialogVisible(true);
           console.log(re);
         });
