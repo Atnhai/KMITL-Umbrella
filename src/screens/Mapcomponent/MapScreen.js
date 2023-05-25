@@ -13,7 +13,9 @@ import {
   Modal,
   PermissionsAndroid,
   ActivityIndicator,
+  AsyncStorage,
 } from 'react-native';
+import init from 'react_native_mqtt';
 import axios from 'axios';
 import Logo from '../../../assets/images/search.png';
 import LockerImage from '../../../assets/images/locker.png';
@@ -813,20 +815,35 @@ export default function MapScreen({navigation}) {
             style={styles.modalImageQR}
             source={require('../../../assets/images/qr.jpg')}
           />
-          {isLoading && <ActivityIndicator size="large" color="#E35205" />}
-          <TouchableOpacity
-            style={{...styles.modalConfirmButton}}
-            onPress={() => {
-              setIsLoading(true);
-              setTimeout(() => {
-                setIsLoading(false);
-                showSuccessModal();
-              }, 5000); // After 20 seconds, remove the loading spinner and show the success modal
-            }}>
-            <Text style={styles.modalConfirmButtonText}>Next</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
+          {isLoading && 
+      <View style={{
+        position: 'absolute', 
+        backgroundColor: 'white', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        width: '80%', 
+        height: '40%',
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: "#E35205",
+      }}>
+        <ActivityIndicator size="large" color="#E35205" />
+        <Text style={styles.textWait}>Please wait for bank confirmation. Thank you for your patience.</Text>
+      </View>
+    }
+    <TouchableOpacity
+      style={{...styles.modalConfirmButton}}
+      onPress={() => {
+        setIsLoading(true);
+        setTimeout(() => {
+          setIsLoading(false);
+          showSuccessModal();
+        }, 5000); // After 20 seconds, remove the loading spinner and show the success modal
+      }}>
+      <Text style={styles.modalConfirmButtonText}>Next</Text>
+    </TouchableOpacity>
+  </View>
+</Modal>
       <Modal
         animationType="slide"
         transparent={true}
@@ -1207,5 +1224,12 @@ const styles = StyleSheet.create({
   warningText: {
     fontSize: 16,
     textAlign: 'center', // This will center the text
+  },
+  textWait: {
+    paddingTop: 50,
+    fontSize: 18,
+    color: '#666666',
+    textAlign: 'center',
+    //fontWeight: 'bold',
   },
 });
