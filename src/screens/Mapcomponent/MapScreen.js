@@ -66,7 +66,6 @@ export default function MapScreen({navigation}) {
   const [umbrellaImages, setUmbrellaImages] = useState({});
   const [umbrellaIdToImage, setUmbrellaIdToImage] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [distances, setDistances] = useState([]);
 
   const [region, setRegion] = useState({
     latitude: 13.730283,
@@ -257,7 +256,7 @@ export default function MapScreen({navigation}) {
     };
 
     fetchAllLockersData();
-  }, [reloadData]);
+  }, []);
 
   // console.log(umbrellaIdToImage);
 
@@ -375,7 +374,7 @@ export default function MapScreen({navigation}) {
     Geolocation.getCurrentPosition(
       position => {
         // Loop through each destination marker and measure the distance from the user's current location
-        const newDistances = lockerlocation.map(destination => {
+        lockerlocation.forEach((destination, index) => {
           const distance = geolib.getDistance(
             {
               latitude: position.coords.latitude,
@@ -383,23 +382,17 @@ export default function MapScreen({navigation}) {
             },
             {latitude: destination.latitude, longitude: destination.longitude},
           );
-          console.log(
-            `Distance to destination ${destination.place}: ${distance} meters`,
-          );
-          return distance;
-        });
 
-        setDistances(newDistances);
+          console.log(
+            `Distance to destination ${index + 1}: ${distance} meters`,
+          );
+        });
       },
       error => console.log(error),
       {enableHighAccuracy: true},
     );
   }
-
-  useEffect(() => {
-    measureDistances();
-  }, [reloadData]);
-  console.log('distance =', distances);
+  measureDistances();
 
   const [userLocation, setUserLocation] = useState(null);
 
@@ -623,9 +616,6 @@ export default function MapScreen({navigation}) {
                     <Text style={styles.cardText}>{location.place}</Text>
                     <Text style={styles.cardText}>
                       Landmark: {location.mark}
-                    </Text>
-                    <Text style={styles.cardText}>
-                      Distance: {distances[index]} meters
                     </Text>
                   </View>
                 </View>
