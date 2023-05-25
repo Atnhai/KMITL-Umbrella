@@ -669,7 +669,9 @@ export default function MapScreen({navigation}) {
               </Text>
             </View>
           ) : (
-            umbrellasData[selectedItem?.place]?.map((umbrella, index) => {
+            umbrellasData[selectedItem?.place]
+            ?.sort((a, b) => a.lockId - b.lockId)
+            ?.map((umbrella, index) => {
               const isAvailable = umbrella.status === 'Available';
               const isnearBy =
                 userLocation && selectedItem
