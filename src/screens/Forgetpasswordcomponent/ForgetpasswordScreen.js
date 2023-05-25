@@ -12,6 +12,8 @@ import {
   ScrollView,
 } from 'react-native';
 import Dialog from "react-native-dialog";
+import correctImage from '../../../assets/images/correct.png'; // Import your correct image here
+import warningImage from '../../../assets/images/warning.png'; 
 import {Link, useNavigation} from '@react-navigation/native';
 import {Searchbar} from 'react-native-paper';
 import {useState} from 'react';
@@ -23,6 +25,7 @@ export default function ForgetpasswordScreen({navigation}) {
   const [email, setEmail] = useState('');
   const [dialogVisible, setDialogVisible] = useState(false);
   const [dialogMessage, setDialogMessage] = useState('');
+  const [dialogImage, setDialogImage] = useState(warningImage);
 
   const emailIsValid = (email) => {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -31,21 +34,25 @@ export default function ForgetpasswordScreen({navigation}) {
 
   const resetPassword = () => {
     if (email === '') {
-      setDialogMessage('Email was not entered');
+      setDialogMessage('Email was not entered.');
       setDialogVisible(true);
+      setDialogImage(warningImage);  // Add this line
     } else if (!emailIsValid(email)) {
-      setDialogMessage('Your email format is not correct');
+      setDialogMessage('Your email format is not correct.');
       setDialogVisible(true);
+      setDialogImage(warningImage);  // Add this line
     } else {
       sendPasswordResetEmail(authentication, email)
         .then(() => {
-          setDialogMessage('Password reset email has been sent to your email');
+          setDialogMessage('Password reset email has been sent to your email.');
           setDialogVisible(true);
+          setDialogImage(correctImage);  // Add this line
         })
         .catch(error => {
           if (error.code === 'auth/user-not-found') {
-            setDialogMessage('This email has not been registered');
+            setDialogMessage('This email has not been registered.');
             setDialogVisible(true);
+            setDialogImage(warningImage);  // Add this line
           }
         });
     }
@@ -93,7 +100,7 @@ export default function ForgetpasswordScreen({navigation}) {
       <Dialog.Container visible={dialogVisible} contentStyle={Stylecomponent.dialogContainer}>
         <View style={Stylecomponent.dialogContent}>
           <Text style={Stylecomponent.dialogTitle}>Warning</Text>
-          <Image source={require('../../../assets/images/warning.png')} style={Stylecomponent.imageStyle} />
+          <Image source={dialogImage} style={Stylecomponent.imageStyle} />
           <Text style={Stylecomponent.dialogMessage}>{dialogMessage}</Text>
           <TouchableOpacity style={Stylecomponent.buttonStyle} onPress={handleDialogClose}>
             <Text style={Stylecomponent.buttonText}>OK</Text>
