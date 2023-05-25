@@ -116,6 +116,7 @@ const Stylecomponent = StyleSheet.create({
     borderRadius: 5,
     margin: 10,
     padding: 10,
+    paddingRight: 30,
     width: 320,
     height: 50,
     position: 'relative',
@@ -124,11 +125,25 @@ const Stylecomponent = StyleSheet.create({
     backgroundColor: 'white',
   },
   inputContainer: {
-    flex: 2,
-    justifyContent: 'space-around',
-    width: '80%',
-    //paddingBottom: -70,
-    },
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    margin: 10,
+    paddingHorizontal: 10, // use paddingHorizontal instead of padding
+    width: 320,
+    height: 50,
+    backgroundColor: 'white',
+  },
+  input: {
+    flex: 1,
+    height: '100%',
+    paddingVertical: 0, // to ensure text is properly aligned vertically
+  },
+  icon: {
+    position: 'absolute',
+    right: 10,
+  },
     input_label: {
       borderRadius: 5,
       width: '100%',

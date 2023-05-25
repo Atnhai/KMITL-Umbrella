@@ -18,15 +18,18 @@ import {
   ScrollView,
 } from 'react-native';
 import Dialog from 'react-native-dialog';
+import Ionic from 'react-native-vector-icons/Ionicons';
 import Logo from '../../../assets/images/Google.png';
 import {authentication, provider} from '../../../firebase';
-import Ionic from 'react-native-vector-icons/Ionicons';
+// import Ionic from 'react-native-vector-icons/Ionicons';
 import Stylecomponent from '../../StyleSheet/StyleAuthenticationcomponent';
 export default function SigninScreen({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [dialogVisible, setDialogVisible] = useState(false);
   const [dialogMessage, setDialogMessage] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [hidePassword, setHidePassword] = useState(true);
   const anonymous = 'person';
 
   const emailIsValid = email => {
@@ -82,12 +85,21 @@ export default function SigninScreen({navigation}) {
         value={email}
         onChangeText={text => setEmail(text)}></TextInput>
 
-      <TextInput
-        placeholder=" Enter your password "
-        style={Stylecomponent.inputsignin_label}
-        value={password}
-        onChangeText={text => setPassword(text)}
-        secureTextEntry></TextInput>
+      <View style={Stylecomponent.inputContainer}>
+        <TextInput
+          placeholder=" Enter your password "
+          value={password}
+          onChangeText={text => setPassword(text)}
+          secureTextEntry={hidePassword}
+          style={Stylecomponent.input}
+          underlineColorAndroid='transparent' />
+        <Ionic
+          name={hidePassword ? 'eye-off' : 'eye'}
+          size={20}
+          color="grey"
+          style={Stylecomponent.icon}
+          onPress={() => setHidePassword(!hidePassword)} />
+      </View>
 
       <Link
         to={{screen: 'Forgetpassword'}}
