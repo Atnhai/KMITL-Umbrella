@@ -17,7 +17,7 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import Dialog from "react-native-dialog";
+import Dialog from 'react-native-dialog';
 import Logo from '../../../assets/images/Google.png';
 import {authentication, provider} from '../../../firebase';
 import Ionic from 'react-native-vector-icons/Ionicons';
@@ -29,10 +29,11 @@ export default function SigninScreen({navigation}) {
   const [dialogMessage, setDialogMessage] = useState('');
   const anonymous = 'person';
 
-  const emailIsValid = (email) => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const emailIsValid = email => {
+    const re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
-  }
+  };
 
   const handleLogin = () => {
     if (email === '' || password === '') {
@@ -112,12 +113,19 @@ export default function SigninScreen({navigation}) {
           {'\n'}
         </Link>
       </Text>
-      <Dialog.Container visible={dialogVisible} contentStyle={Stylecomponent.dialogContainer}>
+      <Dialog.Container
+        visible={dialogVisible}
+        contentStyle={Stylecomponent.dialogContainer}>
         <View style={Stylecomponent.dialogContent}>
           <Text style={Stylecomponent.dialogTitle}>Warning</Text>
-          <Image source={require('../../../assets/images/warning.png')} style={Stylecomponent.imageStyle} />
+          <Image
+            source={require('../../../assets/images/warning.png')}
+            style={Stylecomponent.imageStyle}
+          />
           <Text style={Stylecomponent.dialogMessage}>{dialogMessage}</Text>
-          <TouchableOpacity style={Stylecomponent.buttonStyle} onPress={handleDialogClose}>
+          <TouchableOpacity
+            style={Stylecomponent.buttonStyle}
+            onPress={handleDialogClose}>
             <Text style={Stylecomponent.buttonText}>OK</Text>
           </TouchableOpacity>
         </View>
