@@ -66,6 +66,7 @@ export default function MapScreen({navigation}) {
   const [umbrellaImages, setUmbrellaImages] = useState({});
   const [umbrellaIdToImage, setUmbrellaIdToImage] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [distances, setDistances] = useState([]);
 
   const [region, setRegion] = useState({
     latitude: 13.730283,
@@ -258,7 +259,7 @@ export default function MapScreen({navigation}) {
     fetchAllLockersData();
   }, [reloadData]);
 
-  console.log(umbrellaIdToImage);
+  // console.log(umbrellaIdToImage);
 
   // const umbrellasData = {
   //   'ECC Building': [
@@ -365,16 +366,16 @@ export default function MapScreen({navigation}) {
     setRentModalVisible(true);
   };
 
-  console.log('selectedUmbrella', selectedUmbrella);
-  console.log('selectedUmbrella?.image', selectedUmbrella?.image);
-  console.log('selectedUmbrella?.id', selectedUmbrella?.umbrellaId);
+  // console.log('selectedUmbrella', selectedUmbrella);
+  // console.log('selectedUmbrella?.image', selectedUmbrella?.image);
+  // console.log('selectedUmbrella?.id', selectedUmbrella?.umbrellaId);
 
   function measureDistances() {
     // Get the user's current location
     Geolocation.getCurrentPosition(
       position => {
         // Loop through each destination marker and measure the distance from the user's current location
-        lockerlocation.forEach((destination, index) => {
+        const newDistances = lockerlocation.map(destination => {
           const distance = geolib.getDistance(
             {
               latitude: position.coords.latitude,
@@ -382,18 +383,23 @@ export default function MapScreen({navigation}) {
             },
             {latitude: destination.latitude, longitude: destination.longitude},
           );
-
           console.log(
-            `Distance to destination ${index + 1}: ${distance} meters`,
+            `Distance to destination ${destination.place}: ${distance} meters`,
           );
+          return distance;
         });
+
+        setDistances(newDistances);
       },
       error => console.log(error),
       {enableHighAccuracy: true},
     );
   }
 
-  measureDistances();
+  useEffect(() => {
+    measureDistances();
+  }, [reloadData]);
+  console.log('distance =', distances);
 
   const [userLocation, setUserLocation] = useState(null);
 
@@ -602,9 +608,6 @@ export default function MapScreen({navigation}) {
             />
           )}
         </MapView>
-        {/* <View>
-          <Text style={styles.cardTitle}>Choose your location here:</Text>
-        </View> */}
         <View style={styles.cardBody}>
           <ScrollView horizontal={true} style={styles.scrollContainer}>
             {lockerlocation.map((location, index) => (
@@ -620,6 +623,9 @@ export default function MapScreen({navigation}) {
                     <Text style={styles.cardText}>{location.place}</Text>
                     <Text style={styles.cardText}>
                       Landmark: {location.mark}
+                    </Text>
+                    <Text style={styles.cardText}>
+                      Distance: {distances[index]} meters
                     </Text>
                   </View>
                 </View>
@@ -746,7 +752,6 @@ export default function MapScreen({navigation}) {
             <Text style={styles.modalCloseButtonText}>Back</Text>
           </TouchableOpacity>
           <Image
-            // source={umbrellaIdToImage[selectedUmbrella.umbrellaId] ? {uri: umbrellaIdToImage[selectedUmbrella.umbrellaId]} : null}
             source={
               selectedUmbrella?.image ? {uri: selectedUmbrella.image} : null
             }
