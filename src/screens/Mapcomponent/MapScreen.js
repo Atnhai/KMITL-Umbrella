@@ -16,6 +16,8 @@ import {
   AsyncStorage,
 } from 'react-native';
 import init from 'react_native_mqtt';
+import CameraRoll from "@react-native-community/cameraroll";
+import RNFetchBlob from 'rn-fetch-blob';
 import axios from 'axios';
 import Logo from '../../../assets/images/search.png';
 import LockerImage from '../../../assets/images/locker.png';
@@ -831,19 +833,53 @@ export default function MapScreen({navigation}) {
         <Text style={styles.textWait}>Please wait for bank confirmation. Thank you for your patience.</Text>
       </View>
     }
-    <TouchableOpacity
-      style={{...styles.modalConfirmButton}}
-      onPress={() => {
-        setIsLoading(true);
-        setTimeout(() => {
+<TouchableOpacity
+  style={{...styles.modalConfirmButton}}
+  onPress={async () => {
+    setIsLoading(true);
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        {
+          title: 'Storage Permission',
+          message: 'App needs access to your storage to download Photos.',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        try {
+          let imageUrl = 'https://drive.google.com/uc?export=download&id=1HuMo6yHo3Oh40hE_K8d2yyux6pz6lgqr';
+
+          await RNFetchBlob.config({
+            fileCache: true,
+            appendExt: 'png',
+          })
+          .fetch('GET', imageUrl, {})
+          .then(async (res) => {
+            let imagePath = res.path();
+            // Before attempting to save the image, ensure you have the necessary permissions
+            await CameraRoll.save(imagePath, { type: 'photo' });
+            setIsLoading(false);
+            showSuccessModal();
+          });
+        } catch (saveError) {
+          console.error('Error saving image:', saveError);
           setIsLoading(false);
-          showSuccessModal();
-        }, 5000); // After 20 seconds, remove the loading spinner and show the success modal
-      }}>
-      <Text style={styles.modalConfirmButtonText}>Next</Text>
-    </TouchableOpacity>
+        }
+      } else {
+        console.log('Storage permission denied');
+        setIsLoading(false);
+      }
+    } catch (permissionError) {
+      console.error('Error requesting permissions:', permissionError);
+      setIsLoading(false);
+    }
+  }}>
+  <Text style={styles.modalConfirmButtonText}>Save</Text>
+</TouchableOpacity>
+
   </View>
 </Modal>
+
       <Modal
         animationType="slide"
         transparent={true}
