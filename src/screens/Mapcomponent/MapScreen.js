@@ -201,6 +201,7 @@ export default function MapScreen({navigation}) {
               umbrellaId: lock.umbrella ? String(lock.umbrella.id) : '-',
               status: lock.umbrella ? 'Available' : 'Unavailable',
               placeId: lockerData.name,
+              lockMqtt: String(lock.MQTT),
             })),
           };
 
@@ -502,11 +503,27 @@ export default function MapScreen({navigation}) {
         renter: userId,
         date: selectedUmbrella?.rentDate,
         umbrella: parseInt(selectedUmbrella?.umbrellaId),
+        lock: parseInt(selectedUmbrella?.lockId)
     };
     console.log(postData)
     axios.post(`http://${axios_path}/api/rentstates/`, postData)
     .then(response => {
       console.log(response.data);
+
+    axios.get(`http://${axios_path}/api/locks/${selectedUmbrella?.lockId}/`)
+      .then(lockResponse => {
+        let lockData = lockResponse.data;
+        lockData.availability = false;
+        lockData.umbrella = null;
+
+        // Post updated lock data back to server
+        axios.put(`http://${axios_path}/api/locks/${selectedUmbrella?.lockId}/`, lockData)
+          .then(updateResponse => {
+            console.log(updateResponse.data);
+          })
+          .catch(updateError => console.error(updateError));
+    })
+    .catch(lockError => console.error(lockError));
 
       setImageModalVisible(false);
       setSuccessModalVisible(true);
