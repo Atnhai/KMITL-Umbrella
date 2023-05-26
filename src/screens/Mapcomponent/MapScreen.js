@@ -15,7 +15,7 @@ import {
   ActivityIndicator,
   AsyncStorage,
 } from 'react-native';
-import init from 'react_native_mqtt';
+
 import CameraRoll from "@react-native-community/cameraroll";
 import RNFetchBlob from 'rn-fetch-blob';
 import axios from 'axios';
@@ -351,15 +351,15 @@ export default function MapScreen({navigation}) {
     const rentDate = new Date().toLocaleString('en-US', {
       timeZone: 'Asia/Bangkok',
     });
-
+  
     // Create a new Date object
     let newRentDate = new Date(rentDate);
-
+  
     // Format the date in "day/month/year" format
-    let formattedDate = `${newRentDate.getDate()}/${
-      newRentDate.getMonth() + 1
-    }/${newRentDate.getFullYear()}`;
-
+    let formattedDate = `${String(newRentDate.getDate()).padStart(2, '0')}/${
+      String(newRentDate.getMonth() + 1).padStart(2, '0')
+    }/${String(newRentDate.getFullYear()).substr(-2)}`;
+  
     setSelectedUmbrella({
       ...umbrella,
       image: umbrellaIdToImage[umbrella.umbrellaId],
@@ -368,6 +368,7 @@ export default function MapScreen({navigation}) {
     });
     setRentModalVisible(true);
   };
+  
 
   // console.log('selectedUmbrella', selectedUmbrella);
   // console.log('selectedUmbrella?.image', selectedUmbrella?.image);
@@ -478,39 +479,39 @@ export default function MapScreen({navigation}) {
   };
 
   const showSuccessModal = async () => {
-    // const rentDate = new Date(selectedUmbrella?.rentDate);
-    // const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    // const monthYear = monthNames[rentDate.getMonth()] + ' ' + rentDate.getFullYear();
+    const rentDate = new Date(selectedUmbrella?.rentDate);
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const monthYear = monthNames[rentDate.getMonth()] + ' ' + rentDate.getFullYear();
 
-    // const email = authentication.currentUser.email;
+    const email = authentication.currentUser.email;
 
-    // let userId;
+    let userId;
 
-    // try {
-    //     const response = await axios.get('http://10.66.4.168:8000/api/get_userid/', { params: { email } })
-    //     userId = response.data.id;
-    // } catch(error) {
-    //     console.error(error);
-    //     return; // Return early if the request fails
-    // }
+    try {
+        const response = await axios.get(`http://${axios_path}/api/get_userid/`, { params: { email } })
+        userId = response.data.id;
+        console.log(userId)
+    } catch(error) {
+        console.error(error);
+        console.log(error.response);
+        return; // Return early if the request fails
+    }
 
-    // const postData = {
-    //     user: userId,
-    //     place: selectedItem?.place,
-    //     date: selectedUmbrella?.rentDate,
-    //     time: selectedUmbrella?.rentTime,
-    //     umbrellaID: selectedUmbrella?.umbrellaId,
-    //     month: monthYear,
-    //     image: selectedItem?.image,
-    // };
-    // console.log(postData)
-    // axios.post('http://10.66.4.168:8000/api/histories/', postData)
-    // .then(response => {
-    //     console.log(response.data);
-    setImageModalVisible(false);
-    setSuccessModalVisible(true);
-    // })
-    // .catch(error => console.error(error));
+    const postData = {
+        rent_start: selectedUmbrella?.rentTime,
+        renter: userId,
+        date: selectedUmbrella?.rentDate,
+        umbrella: parseInt(selectedUmbrella?.umbrellaId),
+    };
+    console.log(postData)
+    axios.post(`http://${axios_path}/api/rentstates/`, postData)
+    .then(response => {
+      console.log(response.data);
+
+      setImageModalVisible(false);
+      setSuccessModalVisible(true);
+    })
+    .catch(error => console.error(error));
   };
 
   const BlackLine = () => {
@@ -1085,8 +1086,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   profileImage2: {
-    width: 150,
-    height: 150,
+    width: 200,
+    height: 200,
     resizeMode: 'contain',
     marginBottom: 15,
   },
