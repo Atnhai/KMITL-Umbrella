@@ -39,7 +39,7 @@ export default function HistoryScreen({navigation}) {
       price: '฿20',
       month: 'March 2023',
       date_end: '2023-05-18',
-      time_end: '12:00',
+      time_end: '13:00',
       image: require('../../../assets/images/ecc.jpg'),
     },
     {
@@ -52,7 +52,7 @@ export default function HistoryScreen({navigation}) {
       price: '฿20',
       month: 'March 2023',
       date_end: '2023-05-18',
-      time_end: '12:00',
+      time_end: '14:00',
       image: require('../../../assets/images/ecc.jpg'),
     },
     {
@@ -64,8 +64,8 @@ export default function HistoryScreen({navigation}) {
       umbrella: '002',
       price: '฿20',
       month: 'April 2023',
-      date_end: '2023-05-18',
-      time_end: '12:00',
+      date_end: '2023-05-17',
+      time_end: '15:00',
       image: require('../../../assets/images/ecc.jpg'),
     },
     {
@@ -78,7 +78,7 @@ export default function HistoryScreen({navigation}) {
       price: '฿20',
       month: 'April 2023',
       date_end: '2023-05-18',
-      time_end: '12:00',
+      time_end: '16:00',
       image: require('../../../assets/images/hm.jpg'),
     },
     // Add more data here...
@@ -106,8 +106,8 @@ export default function HistoryScreen({navigation}) {
   };
 
   const sortedHistoryData = historyData.sort((a, b) => {
-    const aDateTime = new Date(a.date + 'T' + a.time); // Combine date and time for comparison
-    const bDateTime = new Date(b.date + 'T' + b.time);
+    const aDateTime = new Date(a.date_end + 'T' + a.time_end); // Combine return date and time for comparison
+    const bDateTime = new Date(b.date_end + 'T' + b.time_end);
 
     return bDateTime - aDateTime; // Sort in descending order
   });

@@ -59,6 +59,17 @@ export default function MapScreen({navigation}) {
   }
   requestLocationPermission();
 
+//   // Function to show the picture saved modal
+// const showPictureSavedModal = () => {
+//   Alert.alert(
+//     "Image Saved!",
+//     "The image has been saved to your device.",
+//     [
+//       { text: "OK", onPress: () => console.log("OK Pressed") }
+//     ]
+//   );
+// };
+
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [region, setRegion] = useState({
@@ -77,6 +88,8 @@ export default function MapScreen({navigation}) {
   const [successModalVisible, setSuccessModalVisible] = useState(false);
   const [showSecondModal, setShowSecondModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [pictureSavedModalVisible, setPictureSavedModalVisible] = useState(false);
+
 
   const showModal = item => {
     setSelectedItem(item);
@@ -233,6 +246,11 @@ export default function MapScreen({navigation}) {
     setImageModalVisible(false);
     setSuccessModalVisible(true);
   };
+
+  const showPictureSavedModal = () => {
+    setPictureSavedModalVisible(true);
+  };
+
   const umbrellasData = {
     'ECC Building': [
       {
@@ -376,6 +394,8 @@ export default function MapScreen({navigation}) {
       });
     }
   };
+
+
 
   // if (!tempVar) {
   //   return <View><Text>Hi</Text></View>;
@@ -601,26 +621,100 @@ export default function MapScreen({navigation}) {
       </Modal>
 
       <Modal
-        animationType="slide"
-        transparent={true}
-        visible={imageModalVisible}
-        onRequestClose={() => {
-          setImageModalVisible(!imageModalVisible);
-        }}>
-        <View style={styles.modalView}>
-          <TouchableOpacity
-            style={{...styles.modalCloseButton}}
-            onPress={() => setImageModalVisible(!imageModalVisible)}>
-            <Text style={styles.modalCloseButtonText}>Back</Text>
-          </TouchableOpacity>
-          <Text style={styles.modalText}>
-            Please save the image below to pay
-          </Text>
-          <Image
-            style={styles.modalImageQR}
-            source={require('../../../assets/images/qr.jpg')}
-          />
-          {isLoading && 
+  animationType="slide"
+  transparent={true}
+  visible={pictureSavedModalVisible}
+  onRequestClose={() => {
+    setPictureSavedModalVisible(!pictureSavedModalVisible);
+  }}>
+  <View style={{
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: '50%',
+    borderWidth: 2,
+    borderColor: "#E35205",
+  }}>
+    <Text style={{marginBottom: 15, textAlign: 'center'}}>Image Saved!</Text>
+    <TouchableOpacity
+      style={{backgroundColor: "#E35205", padding: 10, borderRadius: 10}}
+      onPress={() => setPictureSavedModalVisible(!pictureSavedModalVisible)}>
+      <Text style={{color: 'white', fontSize: 16, fontWeight: 'bold',}}>OK</Text>
+    </TouchableOpacity>
+  </View>
+</Modal>
+
+
+      <Modal
+  animationType="slide"
+  transparent={true}
+  visible={imageModalVisible}
+  onRequestClose={() => {
+    setImageModalVisible(!imageModalVisible);
+  }}>
+  <View style={styles.modalView}>
+    <TouchableOpacity
+      style={{...styles.modalCloseButton}}
+      onPress={() => setImageModalVisible(!imageModalVisible)}>
+      <Text style={styles.modalCloseButtonText}>Back</Text>
+    </TouchableOpacity>
+    <Text style={styles.modalText}>
+      Please save the image below to pay
+    </Text>
+    <Image
+      style={styles.modalImageQR}
+      source={require('../../../assets/images/qr.jpg')}
+    />
+    <TouchableOpacity
+      style={{...styles.modalSaveButton}}
+      onPress={async () => {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+            {
+              title: 'Storage Permission',
+              message: 'App needs access to your storage to download Photos.',
+            },
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            try {
+              let imageUrl = 'https://drive.google.com/uc?export=download&id=1HuMo6yHo3Oh40hE_K8d2yyux6pz6lgqr';
+              await RNFetchBlob.config({
+                fileCache: true,
+                appendExt: 'png',
+              })
+              .fetch('GET', imageUrl, {})
+              .then(async (res) => {
+                let imagePath = res.path();
+                await CameraRoll.save(imagePath, { type: 'photo' });
+                showPictureSavedModal();
+              });
+            } catch (saveError) {
+              console.error('Error saving image:', saveError);
+            }
+          } else {
+            console.log('Storage permission denied');
+          }
+        } catch (permissionError) {
+          console.error('Error requesting permissions:', permissionError);
+        }
+      }}>
+      <Text style={styles.modalSaveButtonText}>Save</Text>
+    </TouchableOpacity>
+    <TouchableOpacity
+      style={{...styles.modalConfirmButton}}
+      onPress={async () => {
+        setIsLoading(true);
+        await new Promise(r => setTimeout(r, 2000)); // simulate waiting for bank confirmation
+        setIsLoading(false);
+        setSuccessModalVisible(true);
+      }}>
+      <Text style={styles.modalConfirmButtonText}>Confirm</Text>
+    </TouchableOpacity>
+    {isLoading && 
       <View style={{
         position: 'absolute', 
         backgroundColor: 'white', 
@@ -636,50 +730,6 @@ export default function MapScreen({navigation}) {
         <Text style={styles.textWait}>Please wait for bank confirmation. Thank you for your patience.</Text>
       </View>
     }
-<TouchableOpacity
-  style={{...styles.modalConfirmButton}}
-  onPress={async () => {
-    setIsLoading(true);
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-        {
-          title: 'Storage Permission',
-          message: 'App needs access to your storage to download Photos.',
-        },
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        try {
-          let imageUrl = 'https://drive.google.com/uc?export=download&id=1HuMo6yHo3Oh40hE_K8d2yyux6pz6lgqr';
-
-          await RNFetchBlob.config({
-            fileCache: true,
-            appendExt: 'png',
-          })
-          .fetch('GET', imageUrl, {})
-          .then(async (res) => {
-            let imagePath = res.path();
-            // Before attempting to save the image, ensure you have the necessary permissions
-            await CameraRoll.save(imagePath, { type: 'photo' });
-            setIsLoading(false);
-            showSuccessModal();
-          });
-        } catch (saveError) {
-          console.error('Error saving image:', saveError);
-          setIsLoading(false);
-        }
-      } else {
-        console.log('Storage permission denied');
-        setIsLoading(false);
-      }
-    } catch (permissionError) {
-      console.error('Error requesting permissions:', permissionError);
-      setIsLoading(false);
-    }
-  }}>
-  <Text style={styles.modalConfirmButtonText}>Save</Text>
-</TouchableOpacity>
-
   </View>
 </Modal>
 
@@ -1038,5 +1088,18 @@ const styles = StyleSheet.create({
     height: 80,
     marginBottom: 20,
     backgroundColor: '#E35205',
+  },
+  modalSaveButton: {
+    backgroundColor: '#666666',
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    marginTop: 15,
+    paddingHorizontal: 30,
+  },
+  modalSaveButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
