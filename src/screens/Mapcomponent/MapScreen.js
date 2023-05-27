@@ -894,8 +894,8 @@ export default function MapScreen({navigation}) {
   }}>
   <Text style={styles.modalConfirmButtonText}>Save</Text>
 </TouchableOpacity>
-
   </View>
+  
 </Modal>
 
       <Modal
