@@ -70,6 +70,9 @@ export default function MapScreen({navigation}) {
   const [umbrellaImages, setUmbrellaImages] = useState({});
   const [umbrellaIdToImage, setUmbrellaIdToImage] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [pictureSavedModalVisible, setPictureSavedModalVisible] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
 
   const [region, setRegion] = useState({
     latitude: 13.730283,
@@ -261,7 +264,7 @@ export default function MapScreen({navigation}) {
     };
 
     fetchAllLockersData();
-  }, []);
+  }, [reloadData]);
 
   // console.log(umbrellaIdToImage);
 
@@ -368,6 +371,10 @@ export default function MapScreen({navigation}) {
       rentTime: new Date(rentDate).toLocaleTimeString(),
     });
     setRentModalVisible(true);
+  };
+
+  const showPictureSavedModal = () => {
+    setPictureSavedModalVisible(true);
   };
   
 
@@ -816,6 +823,56 @@ export default function MapScreen({navigation}) {
       </Modal>
 
       <Modal
+  animationType="slide"
+  transparent={true}
+  visible={isSaving}
+  onRequestClose={() => {
+    setIsSaving(false);
+  }}>
+  <View style={{
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: '50%',
+    borderWidth: 2,
+    borderColor: "#E35205",
+  }}>
+    <Text style={{marginBottom: 15, textAlign: 'center'}}>Image is saving...</Text>
+    <ActivityIndicator size="large" color="#E35205" />
+  </View>
+</Modal>
+
+      <Modal
+  animationType="slide"
+  transparent={true}
+  visible={pictureSavedModalVisible}
+  onRequestClose={() => {
+    setPictureSavedModalVisible(!pictureSavedModalVisible);
+  }}>
+  <View style={{
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: '50%',
+    borderWidth: 2,
+    borderColor: "#E35205",
+  }}>
+    <Text style={{marginBottom: 15, textAlign: 'center'}}>Image Saved!</Text>
+    <TouchableOpacity
+      style={{backgroundColor: "#E35205", padding: 10, borderRadius: 10}}
+      onPress={() => setPictureSavedModalVisible(!pictureSavedModalVisible)}>
+      <Text style={{color: 'white', fontSize: 16, fontWeight: 'bold',}}>Ok</Text>
+    </TouchableOpacity>
+  </View>
+</Modal>
+
+      <Modal
         animationType="slide"
         transparent={true}
         visible={imageModalVisible}
@@ -852,9 +909,8 @@ export default function MapScreen({navigation}) {
       </View>
     }
 <TouchableOpacity
-  style={{...styles.modalConfirmButton}}
+  style={{...styles.modalSaveButton}}
   onPress={async () => {
-    setIsLoading(true);
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
@@ -866,7 +922,7 @@ export default function MapScreen({navigation}) {
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         try {
           let imageUrl = 'https://drive.google.com/uc?export=download&id=1HuMo6yHo3Oh40hE_K8d2yyux6pz6lgqr';
-
+          setIsSaving(true);
           await RNFetchBlob.config({
             fileCache: true,
             appendExt: 'png',
@@ -874,28 +930,34 @@ export default function MapScreen({navigation}) {
           .fetch('GET', imageUrl, {})
           .then(async (res) => {
             let imagePath = res.path();
-            // Before attempting to save the image, ensure you have the necessary permissions
             await CameraRoll.save(imagePath, { type: 'photo' });
-            setIsLoading(false);
-            showSuccessModal();
+            setTimeout(() => {
+              setIsSaving(false);
+              showPictureSavedModal();
+            }, 1000);
           });
         } catch (saveError) {
+          setIsSaving(false);
           console.error('Error saving image:', saveError);
-          setIsLoading(false);
         }
       } else {
         console.log('Storage permission denied');
-        setIsLoading(false);
       }
     } catch (permissionError) {
       console.error('Error requesting permissions:', permissionError);
-      setIsLoading(false);
     }
   }}>
-  <Text style={styles.modalConfirmButtonText}>Save</Text>
+  <Text style={styles.modalSaveButtonText}>Save</Text>
+</TouchableOpacity>
+<TouchableOpacity
+  style={{...styles.modalConfirmButton}}
+  onPress={async () => {
+    setIsLoading(true);     
+    showSuccessModal();
+  }}>
+  <Text style={styles.modalConfirmButtonText}>Confirm</Text>
 </TouchableOpacity>
   </View>
-  
 </Modal>
 
       <Modal
@@ -1285,5 +1347,18 @@ const styles = StyleSheet.create({
     color: '#666666',
     textAlign: 'center',
     //fontWeight: 'bold',
+  },
+  modalSaveButton: {
+    backgroundColor: '#666666',
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    marginTop: 15,
+    paddingHorizontal: 30,
+  },
+  modalSaveButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
