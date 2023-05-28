@@ -33,6 +33,8 @@ export default function RegisterScreen({navigation}) {
   const [dialogVisible, setDialogVisible] = useState(false);
   const [dialogMessage, setDialogMessage] = useState('');
   const [dialogImage, setDialogImage] = useState(warningImage);
+  const [hidePassword, setHidePassword] = useState(true);
+  const [hidePassword2, setHidePassword2] = useState(true);
   const phone = 'call-outline';
 
   const emailIsValid = (email) => {
@@ -121,15 +123,38 @@ const handleDialogClose = () => {
         style={Stylecomponent.inputsignin_label}
         value={email}
         onChangeText={text => setEmail(text)}></TextInput>
-      <TextInput
-        placeholder=" Password "
-        style={Stylecomponent.inputsignin_label}
-        value={password}
-        onChangeText={text => setPassword(text)}></TextInput>
-      <TextInput
-        placeholder=" Confirm password "
-        style={Stylecomponent.inputsignin_label}
-        onChangeText={text => setConfirmPassword(text)}></TextInput>
+
+      <View style={Stylecomponent.inputContainer}>
+        <TextInput
+          placeholder=" Password "
+          value={password}
+          onChangeText={text => setPassword(text)}
+          secureTextEntry={hidePassword}
+          style={Stylecomponent.input}
+          underlineColorAndroid='transparent' />
+        <Ionic
+          name={hidePassword ? 'eye-off' : 'eye'}
+          size={20}
+          color="grey"
+          style={Stylecomponent.icon}
+          onPress={() => setHidePassword(!hidePassword)} />
+      </View>
+      
+      <View style={Stylecomponent.inputContainer}>
+        <TextInput
+          placeholder=" Confirm password "
+          // value={password}
+          onChangeText={text => setConfirmPassword(text)}
+          secureTextEntry={hidePassword2}
+          style={Stylecomponent.input}
+          underlineColorAndroid='transparent' />
+        <Ionic
+          name={hidePassword2 ? 'eye-off' : 'eye'}
+          size={20}
+          color="grey"
+          style={Stylecomponent.icon}
+          onPress={() => setHidePassword2(!hidePassword2)} />
+      </View>
       <Text></Text>
       <TouchableOpacity
         style={Stylecomponent.button_login}
