@@ -105,7 +105,7 @@ export default function ScanQRScreen({navigation}) {
         const unavailableLockers = lockerData.filter(lock => !lock.availability)
           .map(lock => ({
             lockerId: lock.id,
-            placeId: lock.locker,
+            placeId: lock.place,
             place: lock.mqtt,
             status: 'Available',
             image: LockerImage,
@@ -216,19 +216,19 @@ export default function ScanQRScreen({navigation}) {
   }
 
   function LockerCard({ item }) {
-    let placeName = "";
-    if (item.placeId === 1) {
-      placeName = "ECC Building";
-    } else if (item.placeId === 2) {
-      placeName = "HM Building";
-    }
+    // let placeName = "";
+    // if (item.placeId === 1) {
+    //   placeName = "ECC Building";
+    // } else if (item.placeId === 2) {
+    //   placeName = "HM Building";
+    // }
   
     if (item.status === "Available") {
       return (
         <View style={styles.lockerCard}>
           <Image source={item.image} style={styles.lockerImage} />
           <View style={styles.lockerContent}>
-            <Text>Place: {placeName}</Text>
+            <Text>Place: {item.placeId}</Text>
             <Text>Locker ID: {item.lockerId}</Text>
             <Text>
               Status: <Text style={styles.availableStatus}>{item.status}</Text>
