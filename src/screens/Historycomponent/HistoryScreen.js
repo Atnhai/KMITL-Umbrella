@@ -48,6 +48,16 @@ export default function HistoryScreen({navigation}) {
 
   const [historyData, setHistoryData] = useState([]);
   const [userId, setUserId] = useState([]);
+
+  const convertToDate = (dateStr, timeStr) => {
+    // Convert dd/mm/yyyy to yyyy-mm-dd
+    const [day, month, year] = dateStr.split('/');
+    const formattedDate = [year, month, day].join('-');
+  
+    // Combine date and time
+    return new Date(`${formattedDate}T${timeStr}`);
+  };
+
   useEffect(() => {
     const email = authentication.currentUser.email;
 
@@ -60,40 +70,39 @@ export default function HistoryScreen({navigation}) {
         );
       })
       .then(response => {
-        const fetchedHistoryData = response.data.map(item => {
-          return {
-            id: item.id,
-            building: item.place,
-            date: item.date_start,
-            date_end: item.date_end,
-            time: item.rent_start,
-            time_end: item.rent_end,
-            umbrella: item.umbrella,
-            month: item.month,
-            image: item.image, // this will be a URL string, not an imported image in React
-          };
-        });
+          const fetchedHistoryData = response.data
+    .map(item => {
+      return {
+        id: item.id,
+        building: item.place,
+        date: item.date_start,
+        date_end: item.date_end,
+        time: item.rent_start,
+        time_end: item.rent_end,
+        umbrella: item.umbrella,
+        month: item.month,
+        image: item.image,
+      };
+    })
+    .sort((a, b) => {
+      const aDateTime = convertToDate(a.date_end, a.time_end);
+      const bDateTime = convertToDate(b.date_end, b.time_end);
+      return bDateTime - aDateTime; // Sort in descending order
+    });
         setHistoryData(fetchedHistoryData);
         console.log(fetchedHistoryData);
       })
       .catch(error => console.error(error));
   }, [reloadData]);
 
-  const sortedHistoryData = historyData.sort((a, b) => {
-    const aDateTime = new Date(a.date_end + 'T' + a.time_end); // Combine return date and time for comparison
-    const bDateTime = new Date(b.date_end + 'T' + b.time_end);
-  
-    return bDateTime - aDateTime; // Sort in descending order
-  });
-  
-
-  const groupedData = sortedHistoryData.reduce((acc, cur) => {
+  const groupedData = historyData.reduce((acc, cur) => {
     if (!acc[cur.month]) {
       acc[cur.month] = [];
     }
     acc[cur.month].push(cur);
     return acc;
   }, {});
+  
 
   const BlackLine = () => {
     return <View style={styles.blackLine} />;
