@@ -89,57 +89,39 @@ export default function ScanQRScreen({navigation}) {
 
   useEffect(() => {
     const fetchAllLockersData = async () => {
-      let lockerNumber = 1;
-      let availableLockers = []; // Temp array to store available lockers
-
-      while (true) {
-        try {
-          const response = await axios.get(
-            `http://${axios_path}/api/locker/${lockerNumber}`,
-          );
-          const lockerData = response.data;
+      try {
+        const response = await axios.get(`http://${axios_path}/api/locks/`);
+        const lockerData = response.data;
   
-          // If lockerData is undefined or null, break the loop
-          if (!lockerData) {
-            console.log(
-              `Locker data for locker number ${lockerNumber} not available`,
-            );
-            break;
-          }
-  
-          // Check if any of the lock is available, if yes add it to the availableLockers array
-          if (lockerData.lock_set.some(lock => !lock.availability)) {
-            const availableLocker = {
-              lockerId: lockerData.id, // assuming this is your lockerId
-              place: lockerData.name,
-              status: 'Available',
-              image: LockerImage, // add your image source here
-            };
-            availableLockers.push(availableLocker);
-          }
-
-          lockerNumber++;
-        } catch (error) {
-          // If the response status is 404, break the loop
-          if (error.response && error.response.status === 404) {
-            console.log(
-              `Locker data for locker number ${lockerNumber} not available`,
-            );
-            break;
-          } else {
-            console.error(error);
-            break; // Exit the loop if we get any other error
-          }
+        // Check if lockerData is undefined or null
+        if (!lockerData) {
+          console.log(`Locker data not available`);
+          return;
         }
+        
+        console.log(lockerData);
+  
+        // Filter out available lockers and create new locker object with the locker's data
+        const unavailableLockers = lockerData.filter(lock => !lock.availability)
+          .map(lock => ({
+            lockerId: lock.id,
+            placeId: lock.locker,
+            place: lock.mqtt,
+            status: 'Available',
+            image: LockerImage,
+          }));
+  
+        // Once we've fetched all the data, update the state
+        setLockerData(unavailableLockers);  // Update the state with available lockers
+      } catch (error) {
+        console.error(error);
       }
-
-      // Once we've fetched all the data, update the state
-      setLockerData(availableLockers);  // Update the state with available lockers
     };
-
+    // console.log(lockerData);
     fetchAllLockersData();
   }, [reloadData]);
   
+  // console.log("Lockerdata",lockerData);
   // Sample data
   // const data = [
   //   {
@@ -233,13 +215,20 @@ export default function ScanQRScreen({navigation}) {
     );
   }
 
-  function LockerCard({item}) {
-    if (item.status === 'Available') {
+  function LockerCard({ item }) {
+    let placeName = "";
+    if (item.placeId === 1) {
+      placeName = "ECC Building";
+    } else if (item.placeId === 2) {
+      placeName = "HM Building";
+    }
+  
+    if (item.status === "Available") {
       return (
         <View style={styles.lockerCard}>
           <Image source={item.image} style={styles.lockerImage} />
           <View style={styles.lockerContent}>
-            <Text>Place: {item.place}</Text>
+            <Text>Place: {placeName}</Text>
             <Text>Locker ID: {item.lockerId}</Text>
             <Text>
               Status: <Text style={styles.availableStatus}>{item.status}</Text>
@@ -251,6 +240,8 @@ export default function ScanQRScreen({navigation}) {
       return null;
     }
   }
+  
+  
 
   const renderItem = ({item}) => <DataCard item={item} />;
   const renderLocker = ({item}) => <LockerCard item={item} />;
@@ -280,10 +271,14 @@ export default function ScanQRScreen({navigation}) {
     const dateB = new Date(b.date + 'T' + b.time);
     return dateB - dateA;
   });
-  console.log(lockerData);
+  
+
+  console.log("lockerData === ",lockerData);
   const availableLockers = lockerData.filter(
-    locker => locker.status === 'Available',
+    locker => locker.status === "Available",
   );
+  console.log("AvailabilityLocker === ",availableLockers);
+  
 
   return (
     <View style={styles.container}>
@@ -308,17 +303,17 @@ export default function ScanQRScreen({navigation}) {
       Available Lockers: {availableLockers.length}
     </Text>
     <FlatList
-      data={availableLockers}
-      renderItem={renderLocker}
-      contentContainerStyle={styles.flatListContentContainer}
-      refreshControl={
-        <RefreshControl
-          colors={["#E35205"]} // Same color as your other RefreshControl
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-        />
-      }
+  data={availableLockers}
+  renderItem={renderLocker}
+  contentContainerStyle={styles.flatListContentContainer}
+  refreshControl={
+    <RefreshControl
+      colors={["#E35205"]} // Same color as your other RefreshControl
+      refreshing={refreshing}
+      onRefresh={onRefresh}
     />
+  }
+/>
   </View>
 </Modal>
 
