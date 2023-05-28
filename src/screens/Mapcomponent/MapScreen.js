@@ -461,6 +461,13 @@ export default function MapScreen({navigation}) {
   }, []);
 
   useEffect(() => {
+    if (imageModalVisible) {
+      // reset isLoading whenever the modal becomes visible
+      setIsLoading(false);
+    }
+  }, [imageModalVisible]);
+
+  useEffect(() => {
     const geoWatchId = Geolocation.watchPosition(
       position => {
         const crd = position.coords;
@@ -878,6 +885,7 @@ export default function MapScreen({navigation}) {
         visible={imageModalVisible}
         onRequestClose={() => {
           setImageModalVisible(!imageModalVisible);
+          setIsLoading(false); // reset loading state when closing the modal
         }}>
         <View style={styles.modalView}>
           <TouchableOpacity
@@ -895,6 +903,7 @@ export default function MapScreen({navigation}) {
           {isLoading && 
       <View style={{
         position: 'absolute', 
+        zIndex: 2,
         backgroundColor: 'white', 
         justifyContent: 'center', 
         alignItems: 'center', 
@@ -954,6 +963,7 @@ export default function MapScreen({navigation}) {
   onPress={async () => {
     setIsLoading(true);     
     showSuccessModal();
+    //setIsLoading(false);
   }}>
   <Text style={styles.modalConfirmButtonText}>Confirm</Text>
 </TouchableOpacity>
